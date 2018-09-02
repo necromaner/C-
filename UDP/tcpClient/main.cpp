@@ -6,11 +6,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <sys/shm.h>
 
-#define MYPORT  7000
-//#define BUFF_LEN 1024
+#define PORT  8888
 int main()
 {
     /*1.socket()*/
@@ -19,7 +16,7 @@ int main()
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(MYPORT);  ///服务器端口
+    server_addr.sin_port = htons(PORT);  ///服务器端口
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");  ///服务器ip
 
     /*2.connect()*/

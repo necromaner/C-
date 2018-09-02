@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/necromaner/program/C-/UDP/tcpServer/main.cpp
+/Users/necromaner/program/C-/UDP/tcpClient/main.cpp
 sys/types.h
 -
 sys/socket.h
@@ -19,6 +19,12 @@ arpa/inet.h
 -
 unistd.h
 -
+string.h
+-
 stdlib.h
+-
+fcntl.h
+-
+sys/shm.h
 -
 

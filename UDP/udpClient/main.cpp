@@ -18,7 +18,6 @@ int main(){
     server_addr.sin_port = htons(PORT);
     
 
-    struct sockaddr_in src;
     while (1){
         char buf[BUFSIZ] = "测试发送!";
 //        scanf("%s",buf);
@@ -32,7 +31,7 @@ int main(){
         printf("send:%s\n",buf);
 
         /*3.recvfrom()*/
-        recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr*)&src, &len);
+        recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr*)&server_addr, &len);
         printf("server:%s\n",buf);
         sleep(1);
     }

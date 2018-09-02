@@ -3,10 +3,8 @@
 #include <netinet/in.h>
 #include <cstdlib>
 #include <zconf.h>
-#include <cstring>
 
 #define PORT 8888
-#define BUFF_LEN 1024
 int main(){
     /*1.socket()*/
     int ss=socket(AF_INET,SOCK_DGRAM,0);
@@ -24,16 +22,14 @@ int main(){
         printf("2.bind()\n");
     
     
-    struct sockaddr_in clent_addr;
-    
     
     char buf[BUFSIZ];
     int count=0;
     while(1)
     {
-        socklen_t len = sizeof(clent_addr);
+        socklen_t len = sizeof(server_addr);
         /*3.recvfrom()*/
-        if(recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr*)&clent_addr, &len) == -1)
+        if(recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr*)&server_addr, &len) <=0)
         {
             printf("接收数据失败!\n");
             exit(1);
@@ -44,7 +40,7 @@ int main(){
         count++;
     
         /*4.sendto()*/
-        sendto(ss,buf, BUFSIZ, 0, (struct sockaddr*)&clent_addr, len);
+        sendto(ss,buf, BUFSIZ, 0, (struct sockaddr*)&server_addr, len);
         printf("send:%s\n",buf);
     }
     

@@ -6,19 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/Users/necromaner/program/C-/UDP/tcpServer/main.cpp
-sys/types.h
+/Users/necromaner/program/C-/UDP/udpServer/main.cpp
+stdio.h
 -
 sys/socket.h
 -
-stdio.h
--
 netinet/in.h
 -
-arpa/inet.h
+cstdlib
 -
-unistd.h
--
-stdlib.h
+zconf.h
 -
 
