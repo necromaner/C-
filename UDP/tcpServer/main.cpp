@@ -53,7 +53,7 @@ int main(){
             printf("接收数据失败!\n");
             return 1;
         }
-        printf("client: %s",buf);
+        printf("client: %s\n",buf);
         
         
 //        fgets(buf, sizeof(buf), stdin);
