@@ -45,7 +45,6 @@ int main(){
         exit(1);
     } else
         printf("4.accept()\n");
-    int sin_size;
     
     
     char buf[BUFSIZ];

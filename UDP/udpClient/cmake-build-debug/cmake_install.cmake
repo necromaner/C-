@@ -1,4 +1,4 @@
-# Install script for directory: /Users/necromaner/program/c++/UDP/udpClient
+# Install script for directory: /Users/necromaner/program/C-/UDP/udpClient
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/necromaner/program/c++/UDP/udpClient/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/necromaner/program/C-/UDP/udpClient/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -10,13 +10,9 @@
 #include <sys/shm.h>
 
 #define MYPORT  7000
-#define BUFF_LEN 1024
+//#define BUFF_LEN 1024
 int main()
 {
-    fd_set rfds;
-    struct timeval tv;
-    int retval, maxfd;
-    
     /*1.socket()*/
     int sc = socket(AF_INET,SOCK_STREAM, 0);
     printf("1.socket()\n");
@@ -36,7 +32,7 @@ int main()
     
     while(1)
     {
-        char buf[BUFF_LEN] = "测试发送!\n";
+        char buf[BUFSIZ] = "测试发送!\n";
 //        scanf("%s",buf);
 //        if(!strcmp(buf,"quit"))
 //            break;

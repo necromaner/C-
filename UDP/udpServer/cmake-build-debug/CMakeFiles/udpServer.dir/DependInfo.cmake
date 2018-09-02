@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/necromaner/program/c++/UDP/udpServer/main.cpp" "/Users/necromaner/program/c++/UDP/udpServer/cmake-build-debug/CMakeFiles/udpServer.dir/main.cpp.o"
+  "/Users/necromaner/program/C-/UDP/udpServer/main.cpp" "/Users/necromaner/program/C-/UDP/udpServer/cmake-build-debug/CMakeFiles/udpServer.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

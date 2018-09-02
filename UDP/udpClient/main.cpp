@@ -6,7 +6,6 @@
 #include <zconf.h>
 
 #define PORT 8888
-#define BUFF_LEN 100
 
 
 int main(){
@@ -21,7 +20,7 @@ int main(){
 
     struct sockaddr_in src;
     while (1){
-        char buf[BUFF_LEN] = "测试发送!";
+        char buf[BUFSIZ] = "测试发送!";
 //        scanf("%s",buf);
 //        if(!strcmp(buf,"quit"))
 //            break;
@@ -29,11 +28,11 @@ int main(){
         socklen_t len = sizeof(*(struct sockaddr*)&server_addr);
 
         /*2.sendto()*/
-        sendto(sc, buf, BUFF_LEN, 0, (struct sockaddr*)&server_addr, len);
+        sendto(sc, buf, BUFSIZ, 0, (struct sockaddr*)&server_addr, len);
         printf("send:%s\n",buf);
 
         /*3.recvfrom()*/
-        recvfrom(sc, buf, BUFF_LEN, 0, (struct sockaddr*)&src, &len);
+        recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr*)&src, &len);
         printf("server:%s\n",buf);
         sleep(1);
     }
