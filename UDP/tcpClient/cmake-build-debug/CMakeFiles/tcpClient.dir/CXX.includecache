@@ -23,8 +23,4 @@ string.h
 -
 stdlib.h
 -
-fcntl.h
--
-sys/shm.h
--
 
