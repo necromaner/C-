@@ -58,7 +58,7 @@ int main(){
         
 //        fgets(buf, sizeof(buf), stdin);
     
-        sprintf(buf, "已收到%d\n",count);  //回复client
+        sprintf(buf, "已收到%d条\n",count);  //回复client
         count++;
         
         /*6.send()*/

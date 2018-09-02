@@ -36,7 +36,7 @@ int main(){
         }
         printf("client:%s\n",buf);
         
-        sprintf(buf, "已收到%d\n",count);  //回复client
+        sprintf(buf, "已收到%d条\n",count);  //回复client
         count++;
     
         /*4.sendto()*/
