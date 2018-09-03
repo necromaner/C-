@@ -23,43 +23,61 @@ int main() {
     if (connect(sc, (struct sockaddr *) &server_addr, sizeof(struct sockaddr)) < 0) {
         printf("2.connect()-UDP连接\n");
         sc = socket(AF_INET, SOCK_DGRAM, 0);
-    } else {
+        if (connect(sc, (struct sockaddr *)&server_addr, sizeof(struct sockaddr))<0) {
+            perror("Connect socket failed!\n");
+            exit(0);
+        }
+    } else{
         printf("2.connect()-TCP连接\n");
     }
     
-    FILE *fp;
+    FILE *fq;
     while (1) {
-        char buf[BUFSIZ] = "send";
+        char buf[BUFSIZ] = "测试发送!";
         scanf("%s", buf);
-        if (!strcmp(buf, "exit")) {
+        if (!strcmp(buf, "exit")){
             close(sc);
             exit(1);
         }
-    
+        
         socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
-    
+        
         /*2.send()*/
         sendto(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, len);
         printf("send:%s\n", buf);
     
     
-        /*3.recv()*/
-        if (!strcmp(buf, "send")) {
-            recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
-            printf("收到:%s\n", buf);
-            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive.txt.zip", "w")) == NULL) {
-                perror("新建文件失败");
+
+        if (!strcmp(buf, "send")){
+    
+            if ((fq = fopen("/Users/necromaner/program/C-/UDP/test/send/receive.txt", "w")) == NULL) {
+                perror("创建文件失败");
                 exit(0);
-            } else{
-                printf("新建文件成功\n");
             }
-            if (fwrite(buf, sizeof(char), sizeof(buf), fp)) {
-                printf("文件写入成功\n");
-                break;
-            } else{
-                printf("文件写入失败\n");
+    
+            int recv_len;
+            while (1) {
+                socklen_t len = sizeof(server_addr);
+                recv_len = recvfrom(sc, buf, BUFSIZ, 0,(struct sockaddr *)&server_addr, &len);
+                if(recv_len < 0) {
+                    printf("接收数据失败!\n");
+                    break;
+                }
+                printf("#");
+                if ( strstr(buf, FINISH_FLAG) != NULL ) {
+                    printf("\n完成接收\n");
+                    break;
+                }
+                int write_length = fwrite(buf, sizeof(char), recv_len, fq);
+                if (write_length < recv_len) {
+                    printf("文件写入失败\n");
+                    break;
+                }
+                bzero(buf, BUFSIZ);
             }
-        } else{
+        }
+        else{
+            /*3.recv()*/
             recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
             printf("server:%s\n", buf);
         }
