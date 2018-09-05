@@ -30,7 +30,7 @@ int main() {
     FILE *fp;
     while (1) {
         char buf[BUFSIZ] = "send";
-        scanf("%s", buf);
+//        scanf("%s", buf);
         if (!strcmp(buf, "exit")) {
             close(sc);
             exit(1);
@@ -40,20 +40,34 @@ int main() {
     
         /*2.send()*/
         sendto(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, len);
-        printf("send:%s\n", buf);
-    
+        printf("3.send():%s\n", buf);
     
         /*3.recv()*/
         if (!strcmp(buf, "send")) {
+            bzero(buf, BUFSIZ);
             recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
-            printf("收到:%s\n", buf);
+            int x=atoi(buf);
+            bzero(buf, BUFSIZ);
+            printf("文件大小：%d字节\n",x);
+            recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+            printf("4.recv():%s\n", buf);
+            int min=0,sizeMax=0,sizeNow=0;
+            char* name;
+    
             if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive.txt.zip", "w")) == NULL) {
                 perror("新建文件失败");
                 exit(0);
             } else{
                 printf("新建文件成功\n");
             }
-            if (fwrite(buf, sizeof(char), sizeof(buf), fp)) {
+            int num=0;
+            for(int i=sizeof(buf);i>=0 ;i--){
+                if(buf[i]==0)
+                    num=i;
+            }
+            printf("buf有效长度：%d\n",num);
+            printf("传输大小:%d字节\n", num);
+            if (fwrite(buf, sizeof(char), x, fp)) {
                 printf("文件写入成功\n");
                 break;
             } else{
