@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/necromaner/program/C-/leetcode/QQ/T1/T1/main.cpp
+vector
+-
+map
+-
+vector
+-
+algorithm
+-
+
