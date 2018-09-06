@@ -16,7 +16,8 @@ int file_size2(char* filename)
 }
 
 #define    FINISH_FLAG    "FILE_TRANSPORT_FINISH"
-#define PORT 8888
+#define    MAXLINE        1024
+#define    PORT           8888
 int main() {
     /*1.socket()*/
     int ss = socket(AF_INET, SOCK_DGRAM, 0);
@@ -32,63 +33,65 @@ int main() {
         exit(1);
     } else
         printf("2.bind()\n");
-    
-//    char buf[BUFSIZ];
+//--------------------------------------------------------------------------------
     char buf[BUFSIZ];
-    int count = 0;
     FILE *fp;
+    int count = 1;
+    
     while (1) {
-        socklen_t len = sizeof(server_addr);
-        /*3.recvfrom()*/
         bzero(buf, BUFSIZ);
+        /*3.recvfrom()*/
+        socklen_t len = sizeof(server_addr);
         if (recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
             printf("接收数据失败!\n");
             exit(1);
         }
+        printf("3.recvfrom()\n");
         
         if (!strcmp(buf, "exit")) {
-            close(ss);
-            exit(1);
+            break;
         }
-        char* filename="/Users/necromaner/program/C-/UDP/test/send/send.txt.zip";
-        char* name="send.txt";
-        
         printf("client:%s\n", buf);
         if (!strcmp(buf, "send")) {
-            if ((fp = fopen(filename, "r")) == NULL) {
-                perror("打开文件失败\n");
+            printf("-|开始发送文件\n");
+            int send_len;
+            //1。打开文件
+            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/123.zip", "r")) == NULL) {
+                perror("打不开文件\n");
                 exit(0);
-            } else{
-                printf("打开文件成功!\n");
+            } else
+                printf("-|1.打开文件\n");
+            bzero(buf, MAXLINE);
+            //2。读取并发送
+            printf("-|2.读取并发送");
+            int num=0;
+            while ((fread(buf, sizeof(char), MAXLINE, fp)) > 0) {
+                num++;
+                send_len = sendto(ss, buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                if (send_len < 0) {
+                    perror("发送失败\n");
+                    exit(0);
+                }
+                bzero(buf, MAXLINE);
             }
-            bzero(buf, BUFSIZ);
-//            buf[0]=;
-            fread(buf, sizeof(char), sizeof(buf), fp);
-            count++;
-            printf("文件内容：%s\n",buf);
-            /*4.sendto()*/
-            char x[BUFSIZ];
-            sprintf(x, "%d", file_size2(filename));
-            printf("文件大小：：%s字节\n",x);
-            sendto(ss,x,sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
-            sendto(ss,buf,sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
-            printf("send:%s\n\n", buf);
+            printf("%d次\n",num);
+            bzero(buf, MAXLINE);
+            //3。发送结束命令
+            strcpy(buf, FINISH_FLAG);
+            buf[strlen(buf)] = '\0';
+            sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
+            printf("-|3.发送结束命令：%s\n",buf);
+            
+            printf("-|发送完成\n\n");
         } else {
-            sprintf(buf, "已收到%d条\n", count);  //回复client
+            sprintf(buf, "已收到%d条文字信息\n", count);
             count++;
 
             /*4.sendto()*/
             sendto(ss, buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
             printf("send:%s\n", buf);
         }
-//        sprintf(buf, "已收到%d条\n", count);  //回复client
-//        count++;
-//
-//        /*4.sendto()*/
-//        sendto(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, len);
-//        printf("send:%s\n", buf);
-        
-        
+
     }
     
     /*5.close()*/

@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cstdlib>
+#include <zconf.h>
+#include <cstring>
+
+#define    FINISH_FLAG    "FILE_TRANSPORT_FINISH"
+#define PORT 8888
+int main() {
+    /*1.socket()*/
+    int ss = socket(AF_INET, SOCK_DGRAM, 0);
+    printf("1.socket()\n");
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_addr.sin_port = htons(PORT);
+    
+    /*2.bind()*/
+    if (bind(ss, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
+        printf("创建套接字失败!\n");
+        exit(1);
+    } else
+        printf("2.bind()\n");
+    
+    char buf[BUFSIZ];
+    int count = 0;
+    FILE *fp;
+    while (1) {
+        socklen_t len = sizeof(server_addr);
+        /*3.recvfrom()*/
+        if (recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
+            printf("接收数据失败!\n");
+            exit(1);
+        }
+        
+        if (!strcmp(buf, "exit")) {
+            close(ss);
+            exit(1);
+        }
+        printf("client:%s\n", buf);
+        if (!strcmp(buf, "send")) {
+            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/send.txt", "r")) == NULL) {
+                perror("打开文件失败\n");
+                exit(0);
+            }
+    
+            int read_len;
+            int send_len;
+            int i;
+            bzero(buf, BUFSIZ);
+            while ( (read_len = fread(buf, sizeof(char), BUFSIZ, fp)) > 0 ) {
+                send_len = send(ss, buf, read_len, 0);
+                if ( send_len < 0 ) {
+                    perror("发送失败\n");
+                    exit(0);
+                }
+                bzero(buf, BUFSIZ);
+            }
+            fclose(fp);
+            /* send the end_flag commented by guoqingbo*/
+            bzero(buf, BUFSIZ);
+            strcpy(buf, FINISH_FLAG);
+            buf[strlen(buf)] = '\0';
+            for (i = 1000; i>0; i--) {
+                send_len = send(ss, buf, strlen(buf)+1, 0);
+                if ( send_len < 0 ) {
+                    printf("完成发送\n");
+                    break;
+                }
+            }
+        } else {
+            sprintf(buf, "已收到%d条\n", count);  //回复client
+            count++;
+            
+            /*4.sendto()*/
+            sendto(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, len);
+            printf("send:%s\n", buf);
+        }
+        
+        
+    }
+    
+    /*5.close()*/
+    close(ss);
+    printf("5.close()\n");
+    
+}
