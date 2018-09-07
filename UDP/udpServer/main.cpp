@@ -78,7 +78,7 @@ int main() {
             bzero(buf, MAXLINE);
             //3。发送结束命令
             strcpy(buf, FINISH_FLAG);
-            buf[strlen(buf)] = '\0';
+            buf[strlen(buf)] = '\0';//strlen()用来计算字符串的长度
             sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
             printf("-|3.发送结束命令：%s\n",buf);
             
