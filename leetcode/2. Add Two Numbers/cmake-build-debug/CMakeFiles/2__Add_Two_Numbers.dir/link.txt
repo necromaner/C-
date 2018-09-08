@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/2__Add_Two_Numbers.dir/main.cpp.o  -o 2__Add_Two_Numbers 

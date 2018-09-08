@@ -1,0 +1,10 @@
+sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
+
+
+绝对值：
+abs( )主要用于对求整数的绝对值，在“stdlib.h”(或 <cstdlib>)头文件里面。
+而fabs( )主要是求精度要求更高的double ，float 型的绝对值，在<cmath>头文件里。
+两者在只#include<cmath>时都可以使用。 
+
+
+s1.erase(i, 2);	//删除string s1从第i后面两个字符

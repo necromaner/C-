@@ -94,9 +94,6 @@ int main() {
                 }
                 
             }
-            
-            
-            
             //1。打开文件
             if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive2.txt.zip", "w")) == NULL) {
                 perror("打不开文件\n");

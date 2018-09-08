@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/necromaner/program/C-/leetcode/tencent/Output.cpp
+vector
+-
+string
+-
+iostream
+-
+
+/Users/necromaner/program/C-/leetcode/tencent/T1/T5.cpp
+vector
+-
+string
+-
+iostream
+-
+vector
+-
+algorithm
+-
+

@@ -1,0 +1,4 @@
+/Users/necromaner/program/C-/QQ/T8/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/necromaner/program/C-/QQ/T8/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/necromaner/program/C-/QQ/T8/cmake-build-debug/CMakeFiles/T9.dir
+/Users/necromaner/program/C-/QQ/T8/cmake-build-debug/CMakeFiles/T8.dir

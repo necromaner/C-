@@ -1,0 +1,49 @@
+string word
+vector<string> text;
+text.push_back(word)		//把word添加到text后面
+
+ctrl+D
+
+if (!s.empty())			//确保s[0]位置确实有字符
+s[0]=toupper(s[0]);		//为s的第一个字符赋一个新值
+
+Continue 			//终止循环的当前一次迭代
+
+try{
+				//可能抛出异常的语句
+}catch{
+				//处理代码抛出的异常
+}
+
+switch(){
+case 1:				//整数常量,值不能相同
+break;
+default:
+break
+}
+
+do{
+				//先循环体
+}while();			//再判断条件
+
+static size_t cc = bb;			//局部静态变量
+
+string::size_type			//用以保存任意string对象或vector对象的长度
+
+.empty():字符串是空的话返回是true
+
+c = tolower(c)			//把字符转化为小写
+isupper(j)			//判断大小写
+
+cout << boolalpha << inspect(word) << endl;		//boolalpha把bool值显示为true或false
+
+int *&				//一个整数型指针的别名
+
+int factorisl(int vol){		//递归：函数调用了它自身
+	if(vsl>1)
+		return factorial(val-1)*val;
+	return 1;
+}
+
+默认实参				//一但某个行参被赋予了默认值，它后面的所有行参都必须有默认值。
+
