@@ -6,10 +6,34 @@
 #include <unistd.h>
 #include <cstring>
 #include <cstdlib>
+#include <string>
+using namespace std;
+#include "Md5.hpp"
 
 #define     FINISH_FLAG     "FILE_TRANSPORT_FINISH"
 #define     MAXLINE          1024
 #define     PORT             8888
+
+
+string MD5(char* buf){
+    string answer="";
+    unsigned char encrypt[]="";
+    unsigned char decrypt[16];
+    sprintf(reinterpret_cast<char *>(encrypt),buf);
+    MD5_CTX md5;
+    
+    MD5Init(&md5);
+    MD5Update(&md5, encrypt, (int)strlen((char *)encrypt));//只是个中间步骤
+    MD5Final(&md5, decrypt);//32位
+    for (int i = 0; i<16; i++){
+        
+        char firstNum[32] = {0};
+        sprintf(firstNum, "%02x", decrypt[i]);
+        answer.push_back(firstNum[0]);
+        answer.push_back(firstNum[1]);
+    }
+    return answer;
+}
 
 int main() {
     /*1.socket()*/
@@ -31,9 +55,9 @@ int main() {
     char buf[BUFSIZ];
     FILE *fp;
     while (1) {
-        printf("发送消息：");
+//        printf("发送消息：");
         sprintf(buf, "send");
-        scanf("%s", buf);
+//        scanf("%s", buf);
         
         /*3.send()*/
         socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
@@ -45,8 +69,34 @@ int main() {
     
         /*4.recv()*/
         if (!strcmp(buf, "send")) {
-            printf("-|开始接收文件\n");
             int recv_len;
+            printf("-|开始接收文件\n");
+            
+            //1.接收文件信息
+            while(1){
+                if (recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
+                    printf("接收数据失败!\n");
+                    exit(1);
+                }
+                printf("接收传输信息：%s\n",buf);
+                string md5=MD5(buf);
+                printf("解析 MD5 为：%s\n",md5.c_str());
+                if (recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
+                    printf("接收数据失败!\n");
+                    exit(1);
+                }
+                printf("接收 MD5 为：%s\n",buf);
+                if(buf==md5){
+                    sendto(sc, "相同", sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                    break;
+                } else{
+                    sendto(sc, "不一样", sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                }
+                
+            }
+            
+            
+            
             //1。打开文件
             if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive2.txt.zip", "w")) == NULL) {
                 perror("打不开文件\n");
@@ -80,6 +130,7 @@ int main() {
             }
             fclose(fp);
             printf("-|接收完成\n\n");
+            break;
         } else{
             recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
             printf("server:%s\n", buf);

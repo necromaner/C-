@@ -3,4 +3,4 @@ project(udpServer)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(udpServer main.cpp)
+add_executable(udpServer main.cpp Md5.cpp)

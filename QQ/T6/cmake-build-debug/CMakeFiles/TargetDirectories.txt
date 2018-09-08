@@ -1,0 +1,3 @@
+/Users/necromaner/program/C-/QQ/T6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/necromaner/program/C-/QQ/T6/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/necromaner/program/C-/QQ/T6/cmake-build-debug/CMakeFiles/T6.dir

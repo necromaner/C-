@@ -82,6 +82,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/necromaner/program/C-/UDP/udpServer/Md5.cpp">
+			<Option target="udpServer"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/UDP/udpServer/Md5.hpp">
+			<Option target="udpServer"/>
+		</Unit>
 		<Unit filename="/Users/necromaner/program/C-/UDP/udpServer/main.cpp">
 			<Option target="udpServer"/>
 		</Unit>

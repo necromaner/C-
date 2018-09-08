@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/Users/necromaner/program/C-/UDP/Client/Md5.cpp
+Md5.hpp
+/Users/necromaner/program/C-/UDP/Client/Md5.hpp
+
+/Users/necromaner/program/C-/UDP/Client/Md5.hpp
+cstdio
+-
+cstring
+-
+algorithm
+-
+
 /Users/necromaner/program/C-/UDP/Client/main.cpp
 sys/types.h
 -
@@ -23,4 +35,8 @@ cstring
 -
 cstdlib
 -
+string
+-
+Md5.hpp
+/Users/necromaner/program/C-/UDP/Client/Md5.hpp
 

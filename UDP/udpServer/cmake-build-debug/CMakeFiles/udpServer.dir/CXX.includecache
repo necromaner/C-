@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/Users/necromaner/program/C-/UDP/udpServer/Md5.cpp
+Md5.hpp
+/Users/necromaner/program/C-/UDP/udpServer/Md5.hpp
+
+/Users/necromaner/program/C-/UDP/udpServer/Md5.hpp
+cstdio
+-
+cstring
+-
+algorithm
+-
+
 /Users/necromaner/program/C-/UDP/udpServer/main.cpp
 stdio.h
 -
@@ -19,6 +31,10 @@ zconf.h
 -
 cstring
 -
+string
+-
 sys/stat.h
 -
+Md5.hpp
+/Users/necromaner/program/C-/UDP/udpServer/Md5.hpp
 
