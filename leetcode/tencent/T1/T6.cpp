@@ -66,7 +66,7 @@ public:
         for(int i = 0; i < num_size-2; i++) {
             sum = 0 - nums[i];
             for(int j = i+1, k = num_size-1; j < k;) {
-                printf("i=%d,j=%d,k=%d\n",i,j,k);
+//                printf("i=%d,j=%d,k=%d\n",i,j,k);
                 if(nums[j] + nums[k] == sum) {
                     answer.push_back({nums[i],nums[j++],nums[k--]});
                     
@@ -113,15 +113,15 @@ public:
     }
 };
 int main() {
-    printf("三数之和\n"
+    printf("T6.三数之和\n"
                    "给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。\n"
                    "注意：答案中不可以包含重复的三元组。");
     printf("\n\n");
     Solution solution;
-    vector<int> strs={-1,0,1,2,-1,-4,0,0,0,0,0,2,2,2,2,1,1,1,1,1};
-    printf(" 输 入 :");
+    vector<int> strs={-1,0,1,2,-1,-400,10,-10,0,0,0,2,2,2,2,1,1,1,1,1,400};
+    printf("输入:");
     outPut(strs);
-    printf("排序后为:");
+    printf("排序:");
     sort(strs.begin(), strs.end());
     outPut(strs);//排序);
     

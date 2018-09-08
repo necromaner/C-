@@ -1,5 +1,4 @@
 #include "../Output.h"
-
 /*
 有效的括号
 
@@ -19,7 +18,7 @@ public:
 
 
 int main() {
-    printf("有效的括号\n"
+    printf("T8.有效的括号\n"
                    "给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。\n");
     printf("\n\n");
     Solution solution;

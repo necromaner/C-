@@ -51,7 +51,7 @@ public:
     }
 };
 int main() {
-    printf("两个排序数组的中位数\n"
+    printf("T2.两个排序数组的中位数\n"
                    "给定两个大小为 m 和 n 的有序数组 nums1 和 nums2 。\n"
                    "请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log (m+n)) 。\n"
                    "你可以假设 nums1 和 nums2 不同时为空。");
@@ -59,24 +59,10 @@ int main() {
     Solution solution;
     vector<int> nums1={1,2};
     vector<int> nums2={4,3};
-    for (int i = 0; i < nums1.size(); ++i) {
-        if(i==0)
-            printf("nums=[");
-        printf("%d",nums1[i]);
-        if(i<nums1.size()-1)
-            printf(",");
-        if(i==nums1.size()-1)
-            printf("]\n");
-    }
-    for (int i = 0; i < nums2.size(); ++i) {
-        if(i==0)
-            printf("nums=[");
-        printf("%d",nums2[i]);
-        if(i<nums2.size()-1)
-            printf(",");
-        if(i==nums2.size()-1)
-            printf("]\n");
-    }
+    printf("nums1:");
+    outPut(nums1);
+    printf("nums2:");
+    outPut(nums2);
     printf("中位数是:%f\n",solution.findMedianSortedArrays(nums1,nums2));
     
     return 0;

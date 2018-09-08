@@ -62,12 +62,14 @@ public:
     }
 };
 int main() {
-    printf("最长回文子串\n"
+    printf("T3.最长回文子串\n"
                    "给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。");
     printf("\n\n");
     Solution solution;
     string s="cbbdbbbc";
-    cout<<"输入："<<s<<endl;
-    cout<<"输出："<<solution.longestPalindrome(s)<<endl;
+    printf("输入：");
+    outPut(s);
+    printf("输出：");
+    outPut(solution.longestPalindrome(s));
     return 0;
 }

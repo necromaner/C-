@@ -12,10 +12,12 @@
 using namespace std;
 
 void outPut(vector<int> strs);
+void outPut(vector<string> strs);
 void outPut(vector<vector<int>> strs);
 void outPut(int strs);
 void outPut(bool s);
 void outPut(string s);
+
 
 
 #endif //TENCENT_OUTPUT_H

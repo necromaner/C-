@@ -98,7 +98,7 @@ public:
     }
 };
 int main() {
-    printf("字符串转整数 (atoi)\n"
+    printf("T4.字符串转整数 (atoi)\n"
                    "实现 atoi，将字符串转为整数。\n"
                    "在找到第一个非空字符之前，需要移除掉字符串中的空格字符。如果第一个非空字符是正号或负号，选取该符号，并将其与后面尽可能多的连续的数字组合起来，这部分字符即为整数的值。如果第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。\n"
                    "字符串可以在形成整数的字符后面包括多余的字符，这些字符可以被忽略，它们对于函数没有影响。\n"
@@ -107,8 +107,8 @@ int main() {
     printf("\n\n");
     Solution solution;
     string str="- 0041 2";
-    cout<<"输入:="<<str<<endl;
-    printf("输出:=%d\n",solution.myAtoi(str));
+    printf("输入:%d\n",str.c_str());
+    printf("输出:%d\n",solution.myAtoi(str));
 
     return 0;
 }
