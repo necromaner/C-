@@ -12,6 +12,8 @@
 #include <stack>
 using namespace std;
 
+void outPut();
+
 void outPut(vector<int> strs);
 void outPut(int output,vector<int> strs);
 void outPut(string output,vector<int> strs);
@@ -40,6 +42,6 @@ void outPut(double s);
 void outPut(int output,double s);
 void outPut(string output,double s);
 
-
+void problem(string filepath,string s);
 
 #endif //TENCENT_OUTPUT_H

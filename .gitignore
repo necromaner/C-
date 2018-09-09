@@ -1,6 +1,7 @@
 .idea/
 .DS_Store
 out/
+cmake-build-debug/
 
 
 # 此为注释 – 将被 Git 忽略

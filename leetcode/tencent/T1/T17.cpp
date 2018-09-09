@@ -4,27 +4,14 @@
  */
 class Solution {
 public:
-    
+
 };
 int main() {
-    printf("");
-    printf("\n\n");
+    problem(__FILE__,"");
     Solution solution;
     
-    printf("输入:");
     outPut();
-    printf("输出:");
+    
     outPut();
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -3,6 +3,10 @@
 //printf("%s",output.c_str());
 //int output,
 //output?printf("输出："):printf("输入：");
+void outPut(){
+    printf("未输入！\n");
+}
+
 void outPut(vector<int> strs){
     int max_length=0;
     for (int k = 0; k < strs.size(); ++k) {
@@ -282,4 +286,17 @@ void outPut(string output, double s) {
 void outPut(int output,double s) {
     output?printf("输出:"):printf("输入:");
     printf("%f\n",s);
+}
+
+void problem(string filepath,string s) {
+    if (!filepath.empty())
+    {
+        int locpoint = filepath.find_last_of('.');
+        int locfilename = filepath.find_last_of('/');
+        printf("%s.",filepath.substr(locfilename + 1, locpoint - locfilename-1).c_str());
+    }
+    if(s.size()>0)
+        printf("%s\n\n",s.c_str());
+    else
+        printf("还没有开始编写\n\n");
 }

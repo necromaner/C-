@@ -29,9 +29,8 @@ public:
     }
 };
 int main() {
-    printf("T11.字符串相乘\n"
-                   "给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。");
-    printf("\n\n");
+    problem(__FILE__,"字符串相乘\n"
+            "给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。");
     Solution solution;
     string num1="1000";
     string num2="1000";
