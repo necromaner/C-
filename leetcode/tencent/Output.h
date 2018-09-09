@@ -9,6 +9,7 @@
 #include<string>
 #include <iostream>
 #include<map>
+#include <stack>
 using namespace std;
 
 void outPut(vector<int> strs);

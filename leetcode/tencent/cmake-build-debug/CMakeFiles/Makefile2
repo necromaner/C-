@@ -60,6 +60,191 @@ CMAKE_SOURCE_DIR = /Users/necromaner/program/C-/leetcode/tencent
 CMAKE_BINARY_DIR = /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug
 
 #=============================================================================
+# Target rules for target CMakeFiles/T14.dir
+
+# All Build rule for target.
+CMakeFiles/T14.dir/all:
+	$(MAKE) -f CMakeFiles/T14.dir/build.make CMakeFiles/T14.dir/depend
+	$(MAKE) -f CMakeFiles/T14.dir/build.make CMakeFiles/T14.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=40,41,42 "Built target T14"
+.PHONY : CMakeFiles/T14.dir/all
+
+# Include target in all.
+all: CMakeFiles/T14.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T14.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T14.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T14.dir/rule
+
+# Convenience name for target.
+T14: CMakeFiles/T14.dir/rule
+
+.PHONY : T14
+
+# clean rule for target.
+CMakeFiles/T14.dir/clean:
+	$(MAKE) -f CMakeFiles/T14.dir/build.make CMakeFiles/T14.dir/clean
+.PHONY : CMakeFiles/T14.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T14.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T16.dir
+
+# All Build rule for target.
+CMakeFiles/T16.dir/all:
+	$(MAKE) -f CMakeFiles/T16.dir/build.make CMakeFiles/T16.dir/depend
+	$(MAKE) -f CMakeFiles/T16.dir/build.make CMakeFiles/T16.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=46,47,48 "Built target T16"
+.PHONY : CMakeFiles/T16.dir/all
+
+# Include target in all.
+all: CMakeFiles/T16.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T16.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T16.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T16.dir/rule
+
+# Convenience name for target.
+T16: CMakeFiles/T16.dir/rule
+
+.PHONY : T16
+
+# clean rule for target.
+CMakeFiles/T16.dir/clean:
+	$(MAKE) -f CMakeFiles/T16.dir/build.make CMakeFiles/T16.dir/clean
+.PHONY : CMakeFiles/T16.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T16.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T12.dir
+
+# All Build rule for target.
+CMakeFiles/T12.dir/all:
+	$(MAKE) -f CMakeFiles/T12.dir/build.make CMakeFiles/T12.dir/depend
+	$(MAKE) -f CMakeFiles/T12.dir/build.make CMakeFiles/T12.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=34,35,36 "Built target T12"
+.PHONY : CMakeFiles/T12.dir/all
+
+# Include target in all.
+all: CMakeFiles/T12.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T12.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T12.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T12.dir/rule
+
+# Convenience name for target.
+T12: CMakeFiles/T12.dir/rule
+
+.PHONY : T12
+
+# clean rule for target.
+CMakeFiles/T12.dir/clean:
+	$(MAKE) -f CMakeFiles/T12.dir/build.make CMakeFiles/T12.dir/clean
+.PHONY : CMakeFiles/T12.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T12.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T18.dir
+
+# All Build rule for target.
+CMakeFiles/T18.dir/all:
+	$(MAKE) -f CMakeFiles/T18.dir/build.make CMakeFiles/T18.dir/depend
+	$(MAKE) -f CMakeFiles/T18.dir/build.make CMakeFiles/T18.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=52,53,54 "Built target T18"
+.PHONY : CMakeFiles/T18.dir/all
+
+# Include target in all.
+all: CMakeFiles/T18.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T18.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T18.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T18.dir/rule
+
+# Convenience name for target.
+T18: CMakeFiles/T18.dir/rule
+
+.PHONY : T18
+
+# clean rule for target.
+CMakeFiles/T18.dir/clean:
+	$(MAKE) -f CMakeFiles/T18.dir/build.make CMakeFiles/T18.dir/clean
+.PHONY : CMakeFiles/T18.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T18.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T11.dir
+
+# All Build rule for target.
+CMakeFiles/T11.dir/all:
+	$(MAKE) -f CMakeFiles/T11.dir/build.make CMakeFiles/T11.dir/depend
+	$(MAKE) -f CMakeFiles/T11.dir/build.make CMakeFiles/T11.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=31,32,33 "Built target T11"
+.PHONY : CMakeFiles/T11.dir/all
+
+# Include target in all.
+all: CMakeFiles/T11.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T11.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T11.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T11.dir/rule
+
+# Convenience name for target.
+T11: CMakeFiles/T11.dir/rule
+
+.PHONY : T11
+
+# clean rule for target.
+CMakeFiles/T11.dir/clean:
+	$(MAKE) -f CMakeFiles/T11.dir/build.make CMakeFiles/T11.dir/clean
+.PHONY : CMakeFiles/T11.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T11.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/T05.dir
 
 # All Build rule for target.
@@ -130,6 +315,43 @@ CMakeFiles/T10.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/T10.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T17.dir
+
+# All Build rule for target.
+CMakeFiles/T17.dir/all:
+	$(MAKE) -f CMakeFiles/T17.dir/build.make CMakeFiles/T17.dir/depend
+	$(MAKE) -f CMakeFiles/T17.dir/build.make CMakeFiles/T17.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=49,50,51 "Built target T17"
+.PHONY : CMakeFiles/T17.dir/all
+
+# Include target in all.
+all: CMakeFiles/T17.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T17.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T17.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T17.dir/rule
+
+# Convenience name for target.
+T17: CMakeFiles/T17.dir/rule
+
+.PHONY : T17
+
+# clean rule for target.
+CMakeFiles/T17.dir/clean:
+	$(MAKE) -f CMakeFiles/T17.dir/build.make CMakeFiles/T17.dir/clean
+.PHONY : CMakeFiles/T17.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T17.dir/clean
 
 .PHONY : clean
 
@@ -245,6 +467,43 @@ clean: CMakeFiles/T07.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/T13.dir
+
+# All Build rule for target.
+CMakeFiles/T13.dir/all:
+	$(MAKE) -f CMakeFiles/T13.dir/build.make CMakeFiles/T13.dir/depend
+	$(MAKE) -f CMakeFiles/T13.dir/build.make CMakeFiles/T13.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=37,38,39 "Built target T13"
+.PHONY : CMakeFiles/T13.dir/all
+
+# Include target in all.
+all: CMakeFiles/T13.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T13.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T13.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T13.dir/rule
+
+# Convenience name for target.
+T13: CMakeFiles/T13.dir/rule
+
+.PHONY : T13
+
+# clean rule for target.
+CMakeFiles/T13.dir/clean:
+	$(MAKE) -f CMakeFiles/T13.dir/build.make CMakeFiles/T13.dir/clean
+.PHONY : CMakeFiles/T13.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T13.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/T04.dir
 
 # All Build rule for target.
@@ -278,6 +537,43 @@ CMakeFiles/T04.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/T04.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/T15.dir
+
+# All Build rule for target.
+CMakeFiles/T15.dir/all:
+	$(MAKE) -f CMakeFiles/T15.dir/build.make CMakeFiles/T15.dir/depend
+	$(MAKE) -f CMakeFiles/T15.dir/build.make CMakeFiles/T15.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=43,44,45 "Built target T15"
+.PHONY : CMakeFiles/T15.dir/all
+
+# Include target in all.
+all: CMakeFiles/T15.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/T15.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/T15.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/T15.dir/rule
+
+# Convenience name for target.
+T15: CMakeFiles/T15.dir/rule
+
+.PHONY : T15
+
+# clean rule for target.
+CMakeFiles/T15.dir/clean:
+	$(MAKE) -f CMakeFiles/T15.dir/build.make CMakeFiles/T15.dir/clean
+.PHONY : CMakeFiles/T15.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/T15.dir/clean
 
 .PHONY : clean
 
@@ -436,7 +732,7 @@ clean: CMakeFiles/T06.dir/clean
 CMakeFiles/untitled.dir/all:
 	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/depend
 	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=31,32 "Built target untitled"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/CMakeFiles --progress-num=55,56 "Built target untitled"
 .PHONY : CMakeFiles/untitled.dir/all
 
 # Include target in all.

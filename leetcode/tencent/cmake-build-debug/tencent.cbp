@@ -37,6 +37,226 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="T14">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T14" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T14"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T14/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T14" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T14/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T16">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T16" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T16"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T16/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T16" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T16/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T12">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T12" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T12"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T12/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T12" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T12/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T18">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T18" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T18"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T18/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T18" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T18/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T11">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T11" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T11"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T11/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T11" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T11/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="T05">
 				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T05" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
@@ -120,6 +340,50 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T10/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T17">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T17" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T17"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T17/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T17" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T17/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -257,6 +521,50 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="T13">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T13" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T13"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T13/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T13" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T13/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="T04">
 				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T04" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
@@ -296,6 +604,50 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T04/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T15">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T15" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T15"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="T15/fast">
+				<Option output="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/T15" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 T15/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/necromaner/program/C-/leetcode/tencent/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -523,24 +875,40 @@
 			</Target>
 		</Build>
 		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/Output.cpp">
+			<Option target="T14"/>
+			<Option target="T16"/>
+			<Option target="T12"/>
+			<Option target="T18"/>
+			<Option target="T11"/>
 			<Option target="T05"/>
 			<Option target="T10"/>
+			<Option target="T17"/>
 			<Option target="T02"/>
 			<Option target="T09"/>
 			<Option target="T07"/>
+			<Option target="T13"/>
 			<Option target="T04"/>
+			<Option target="T15"/>
 			<Option target="T03"/>
 			<Option target="T01"/>
 			<Option target="T08"/>
 			<Option target="T06"/>
 		</Unit>
 		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/Output.h">
+			<Option target="T14"/>
+			<Option target="T16"/>
+			<Option target="T12"/>
+			<Option target="T18"/>
+			<Option target="T11"/>
 			<Option target="T05"/>
 			<Option target="T10"/>
+			<Option target="T17"/>
 			<Option target="T02"/>
 			<Option target="T09"/>
 			<Option target="T07"/>
+			<Option target="T13"/>
 			<Option target="T04"/>
+			<Option target="T15"/>
 			<Option target="T03"/>
 			<Option target="T01"/>
 			<Option target="T08"/>
@@ -551,6 +919,30 @@
 		</Unit>
 		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T10.cpp">
 			<Option target="T10"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T11.cpp">
+			<Option target="T11"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T12.cpp">
+			<Option target="T12"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T13.cpp">
+			<Option target="T13"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T14.cpp">
+			<Option target="T14"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T15.cpp">
+			<Option target="T15"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T16.cpp">
+			<Option target="T16"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T17.cpp">
+			<Option target="T17"/>
+		</Unit>
+		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T18.cpp">
+			<Option target="T18"/>
 		</Unit>
 		<Unit filename="/Users/necromaner/program/C-/leetcode/tencent/T1/T2.cpp">
 			<Option target="T02"/>
