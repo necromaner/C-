@@ -65,12 +65,10 @@ int main() {
     Solution solution;
     vector<int> nums={1,1,2};
     
-    printf("输入:");
-    outPut(nums);
+    outPut(0,nums);
     printf("输出:");
-    outPut(solution.removeDuplicates(nums));
-    printf("输出:");
-    outPut(nums);
+    outPut(1,solution.removeDuplicates(nums));
+    outPut("nums",nums);
     return 0;
 }
 

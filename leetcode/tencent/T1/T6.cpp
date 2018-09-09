@@ -119,15 +119,11 @@ int main() {
     printf("\n\n");
     Solution solution;
     vector<int> strs={-1,0,1,2,-1,-400,10,-10,0,0,0,2,2,2,2,1,1,1,1,1,400};
-    printf("输入:");
-    outPut(strs);
-    printf("排序:");
+    outPut(0,strs);
     sort(strs.begin(), strs.end());
-    outPut(strs);//排序);
+    outPut("排序",strs);//排序);
     
-    
-    printf("输出:\n");
-    outPut(solution.threeSum(strs));
+    outPut(1,solution.threeSum(strs));
     return 0;
 }
 

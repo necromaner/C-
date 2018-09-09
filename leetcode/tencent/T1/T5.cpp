@@ -42,9 +42,7 @@ int main() {
     printf("\n\n");
     Solution solution;
     vector<string> strs={"flower","flow","flight"};
-    printf("输入:");
-    outPut(strs);
-    
-    printf("输出：%s\n",solution.longestCommonPrefix(strs).c_str());
+    outPut(0,strs);
+    outPut(1,solution.longestCommonPrefix(strs));
     return 0;
 }

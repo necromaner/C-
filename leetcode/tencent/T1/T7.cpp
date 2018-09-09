@@ -55,17 +55,13 @@ int main() {
     vector<int> strs={0,2,1,-3};
     int target=1;
     
-    printf("输入:");
-    outPut(strs);
-    printf("输入:");
-    outPut(target);
+    outPut(0,strs);
+    outPut(0,target);
     
-    printf("排序:");
     sort(strs.begin(), strs.end());//排序
-    outPut(strs);
+    outPut("排序",strs);
     
-    printf("输出:");
-    outPut(solution.threeSumClosest(strs,target));
+    outPut(1,solution.threeSumClosest(strs,target));
     return 0;
 }
 

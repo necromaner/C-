@@ -45,12 +45,9 @@ int main() {
     int target = 9;
     
     
-    printf("nums=");
-    outPut(nums);
-    printf("target=");
-    outPut(target);
+    outPut("nums  ",nums);
+    outPut("target",target);
     
-    printf("输出：");
-    outPut(solution.twoSum(nums, target));
+    outPut(1,solution.twoSum(nums, target));
     return 0;
 }

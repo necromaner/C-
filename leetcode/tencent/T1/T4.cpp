@@ -107,8 +107,7 @@ int main() {
     printf("\n\n");
     Solution solution;
     string str="- 0041 2";
-    printf("输入:%d\n",str.c_str());
-    printf("输出:%d\n",solution.myAtoi(str));
-
+    outPut(0,str);
+    outPut(1,solution.myAtoi(str));
     return 0;
 }

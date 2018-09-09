@@ -59,11 +59,9 @@ int main() {
     Solution solution;
     vector<int> nums1={1,2};
     vector<int> nums2={4,3};
-    printf("nums1:");
-    outPut(nums1);
-    printf("nums2:");
-    outPut(nums2);
-    printf("中位数是:%f\n",solution.findMedianSortedArrays(nums1,nums2));
+    outPut("nums1",nums1);
+    outPut("nums2",nums2);
+    outPut(1,solution.findMedianSortedArrays(nums1,nums2));
     
     return 0;
 }

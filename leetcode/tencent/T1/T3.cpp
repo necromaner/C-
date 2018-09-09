@@ -67,9 +67,7 @@ int main() {
     printf("\n\n");
     Solution solution;
     string s="cbbdbbbc";
-    printf("输入：");
-    outPut(s);
-    printf("输出：");
-    outPut(solution.longestPalindrome(s));
+    outPut(0,s);
+    outPut(1,solution.longestPalindrome(s));
     return 0;
 }

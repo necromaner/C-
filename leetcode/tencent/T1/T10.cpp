@@ -59,10 +59,8 @@ int main() {
     printf("\n\n");
     Solution solution;
     vector<int> height={1,8,6,2,5,4,8,3,7};
-    printf("输入:");
-    outPut(height);
-    printf("输出:");
-    outPut(solution.maxArea(height));
+    outPut(0,height);
+    outPut(1,solution.maxArea(height));
     return 0;
 }
 

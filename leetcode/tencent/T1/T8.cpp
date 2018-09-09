@@ -47,11 +47,9 @@ int main() {
     Solution solution;
     string s=")";
 
-    printf("输入:");
-    outPut(s);
+    outPut(0,s);
 
-    printf("输出:");
-    outPut(solution.isValid(s));
+    outPut(1,solution.isValid(s));
     return 0;
 }
 
