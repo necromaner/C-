@@ -13,9 +13,9 @@ void executable(string folder,int file,vector<string> other){
     }
 }
 int main() {
-    string folder="T2";
-    int file=2;
-    vector<string> other={"Output"};
+    string folder="T1";
+    int file=18;
+    vector<string> other={"Output","TestCase"};
     executable(folder,file,other);
     return 0;
 }

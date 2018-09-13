@@ -7,6 +7,7 @@ void outPut(){
     printf("未输入！\n");
 }
 
+
 void outPut(vector<int> strs){
     int max_length=0;
     for (int k = 0; k < strs.size(); ++k) {

@@ -44,4 +44,11 @@ void outPut(string output,double s);
 
 void problem(string filepath,string s);
 
+void testCase(bool output,bool answer,int& num,bool& yes);
+void testCase(int output,int answer,int& num,bool& yes);
+void testCase(string output,string answer,int& num,bool& yes);
+
+
+
+
 #endif //TENCENT_OUTPUT_H
