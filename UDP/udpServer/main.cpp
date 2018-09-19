@@ -95,7 +95,7 @@ int main() {
             printf("-|开始发送文件\n");
             int send_len;
             //1。打开文件
-            string file="/Users/necromaner/program/C-/UDP/test/send/123.zip";
+            string file="/Users/necromaner/program/C-/UDP/test/send/send.txt.zip";
             if ((fp = fopen(file.c_str(), "r")) == NULL) {
                 perror("打不开文件\n");
                 exit(0);
@@ -110,12 +110,11 @@ int main() {
             while (1){
                 char md5[32];
                 bzero(buf, MAXLINE);
-                sprintf(buf, "%s/%d/%d", parseFilepath(file).c_str(),file_size(file),MAXLINE);
+                char buf1[BUFSIZ];
+                sprintf(buf1, "%s/%d/%d", parseFilepath(file).c_str(),file_size(file),MAXLINE);
+                sprintf(buf,"%s/%s",MD5(buf).c_str(),buf1);
                 sendto(ss, buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
                 printf("发送传输信息：%s\n",buf);
-                sprintf(buf,"%s",MD5(buf).c_str());
-                sendto(ss, buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
-                printf("发送 MD5 为：%s\n",buf);
                 sprintf(md5,"%s",buf);
                 bzero(buf, MAXLINE);
                 if (recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
@@ -133,11 +132,19 @@ int main() {
             
             //2。读取并发送
             printf("-|3.读取并发送");
-            int num=0;
-            while ((fread(buf, sizeof(char), MAXLINE, fp)) > 0) {
+            int num=0;;
+            bzero(buf, MAXLINE);
+            while ((fread(buf, sizeof(char), MAXLINE-40, fp)) > 0) {
                 num++;
-//                printf("大小：%d\n",sizeof(buf));
-                send_len = sendto(ss, buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                string xxx=to_string(num);
+                for (int i = 0; i < 10-xxx.size(); ++i) {
+                    xxx="0"+xxx;
+                }
+                printf("发送数据为：%s\n",buf);
+                char md5[32];
+                char buf1[BUFSIZ];
+                sprintf(buf1,"%s/%s/%s","d41d8cd98f00b204e9800998ecf8427e",xxx.c_str(),buf);
+                send_len = sendto(ss, buf1, sizeof(buf1), 0, (struct sockaddr *) &server_addr, len);
                 if (send_len < 0) {
                     perror("发送失败\n");
                     exit(0);

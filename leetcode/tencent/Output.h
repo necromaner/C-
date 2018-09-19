@@ -12,6 +12,13 @@
 #include <stack>
 using namespace std;
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+
 void outPut();
 
 void outPut(vector<int> strs);
@@ -42,11 +49,16 @@ void outPut(double s);
 void outPut(int output,double s);
 void outPut(string output,double s);
 
-void problem(string filepath,string s);
+void outPut(ListNode *s);
+void outPut(int output,ListNode *s);
+void outPut(string output,ListNode *s);
 
-void testCase(bool output,bool answer,int& num,bool& yes);
-void testCase(int output,int answer,int& num,bool& yes);
-void testCase(string output,string answer,int& num,bool& yes);
+
+ListNode* inPut();
+ListNode* inPut(vector<int> s);
+
+
+void problem(string filepath,string s);
 
 
 

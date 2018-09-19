@@ -4,7 +4,7 @@
 //int output,
 //output?printf("输出："):printf("输入：");
 void outPut(){
-    printf("未输入！\n");
+    printf("没有输出内容！\n");
 }
 
 
@@ -16,9 +16,8 @@ void outPut(vector<int> strs){
             max_length = max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=to_string(strs[i]).size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -26,9 +25,8 @@ void outPut(vector<int> strs){
         printf("%d",strs[i]);
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 void outPut(string output,vector<int> strs){
     printf("%s:",output.c_str());
@@ -39,9 +37,8 @@ void outPut(string output,vector<int> strs){
             max_length = max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=to_string(strs[i]).size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -49,9 +46,8 @@ void outPut(string output,vector<int> strs){
         printf("%d",strs[i]);
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 void outPut(int output,vector<int> strs){
     output?printf("输出:"):printf("输入:");
@@ -62,9 +58,8 @@ void outPut(int output,vector<int> strs){
             max_length = max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=to_string(strs[i]).size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -72,9 +67,8 @@ void outPut(int output,vector<int> strs){
         printf("%d",strs[i]);
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 
 void outPut(vector<string> strs){
@@ -85,9 +79,8 @@ void outPut(vector<string> strs){
             max_length=max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=strs[i].size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -95,9 +88,8 @@ void outPut(vector<string> strs){
         printf("%s",strs[i].c_str());
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 void outPut(string output, vector<string> strs){
     printf("%s:",output.c_str());
@@ -108,9 +100,8 @@ void outPut(string output, vector<string> strs){
             max_length=max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=strs[i].size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -118,9 +109,8 @@ void outPut(string output, vector<string> strs){
         printf("%s",strs[i].c_str());
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 void outPut(int output,vector<string> strs){
     output?printf("输出:"):printf("输入:");
@@ -131,9 +121,8 @@ void outPut(int output,vector<string> strs){
             max_length=max;
         }
     }
+    printf("[");
     for (int i = 0; i < strs.size(); ++i) {
-        if(i==0)
-            printf("[");
         int max=strs[i].size();
         for (int k = 0; k < max_length-max; ++k) {
             printf(" ");
@@ -141,9 +130,8 @@ void outPut(int output,vector<string> strs){
         printf("%s",strs[i].c_str());
         if(i<strs.size()-1)
             printf(",");
-        if(i==strs.size()-1)
-            printf("]\n");
     }
+    printf("]\n");
 }
 
 
@@ -161,17 +149,20 @@ void outPut(vector<vector<int>> strs){
         for (int i = 0; i < strs[j].size(); ++i) {
             if (i == 0)
                 printf("[");
-            int max=to_string(strs[j][i]).size();
-            for (int k = 0; k < max_length-max; ++k) {
+            int max = to_string(strs[j][i]).size();
+            for (int k = 0; k < max_length - max; ++k) {
                 printf(" ");
             }
             printf("%d", strs[j][i]);
             if (i < strs[j].size() - 1)
                 printf(",");
             else if (i == strs[j].size() - 1)
-                printf("]\n");
+                printf("]");
         }
+        if (j < strs.size() - 1)
+            printf("\n");
     }
+    printf("\n");
 }
 void outPut(string output, vector<vector<int>> strs){
     printf("%s:\n",output.c_str());
@@ -200,9 +191,12 @@ void outPut(string output, vector<vector<int>> strs){
             if (i < strs[j].size() - 1)
                 printf(",");
             else if (i == strs[j].size() - 1)
-                printf("]\n");
+                printf("]");
         }
+        if (j < strs.size() - 1)
+            printf("\n");
     }
+    printf("\n");
 }
 void outPut(int output,vector<vector<int>> strs){
     output?printf("输出:\n"):printf("输入:\n");
@@ -227,9 +221,12 @@ void outPut(int output,vector<vector<int>> strs){
             if (i < strs[j].size() - 1)
                 printf(",");
             else if (i == strs[j].size() - 1)
-                printf("]\n");
+                printf("]");
         }
+        if (j < strs.size() - 1)
+            printf("\n");
     }
+    printf("\n");
 }
 
 void outPut(int strs){
@@ -288,6 +285,50 @@ void outPut(int output,double s) {
     output?printf("输出:"):printf("输入:");
     printf("%f\n",s);
 }
+
+void outPut(ListNode *s) {
+    while(s){
+        printf("%d->",*s);
+        s=s->next;
+    }
+    printf("NULL\n");
+}
+void outPut(string output, ListNode *s) {
+    printf("%s:",output.c_str());
+    while(s){
+        printf("%d->",*s);
+        s=s->next;
+    }
+    printf("NULL\n");
+}
+void outPut(int output,ListNode *s) {
+    output?printf("输出:"):printf("输入:");
+    while(s){
+        printf("%d->",*s);
+        s=s->next;
+    }
+    printf("NULL\n");
+}
+
+
+ListNode* inPut(){
+    return NULL;
+}
+ListNode* inPut(vector<int> s){
+    if(s.size()<1)
+        return NULL;
+    ListNode *p=new ListNode(s[0]);
+    ListNode *q=p;
+    for (int i = 1; i < s.size(); ++i) {
+        q->next=new ListNode(s[i]);
+        q=q->next;
+    }
+    return  p;
+}
+
+
+
+
 
 void problem(string filepath,string s) {
     if (!filepath.empty())

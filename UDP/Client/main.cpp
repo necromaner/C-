@@ -13,8 +13,22 @@ using namespace std;
 #define     FINISH_FLAG     "FILE_TRANSPORT_FINISH"
 #define     MAXLINE          1024
 #define     PORT             8888
-
-
+string parseFilepathfirst(string filepath)//获取/前
+{
+    if (!filepath.empty())
+    {
+        int locfilename = filepath.find_first_of('/');
+        return filepath.substr(0, locfilename);
+    }
+}
+string parseFilepath(string filepath)//获取/后
+{
+    if (!filepath.empty())
+    {
+        int locfilename = filepath.find_first_of('/');
+        return filepath.substr(locfilename+1,locfilename+2);
+    }
+}
 string MD5(char* buf){
     string answer="";
     unsigned char encrypt[]="";
@@ -79,23 +93,21 @@ int main() {
                     exit(1);
                 }
                 printf("接收传输信息：%s\n",buf);
-                string md5=MD5(buf);
-                printf("解析 MD5 为：%s\n",md5.c_str());
-                if (recvfrom(sc, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len) <= 0) {
-                    printf("接收数据失败!\n");
-                    exit(1);
-                }
-                printf("接收 MD5 为：%s\n",buf);
+                string s=parseFilepathfirst(buf);
+                string md5=parseFilepath(buf);
+                printf("解析 MD5 为：%s\n",s.c_str());
+                printf("接收 信息 为：%s\n",md5.c_str());
                 if(buf==md5){
                     sendto(sc, "相同", sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
                     break;
                 } else{
-                    sendto(sc, "不一样", sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                    sendto(sc, "相同", sizeof(buf), 0, (struct sockaddr *) &server_addr, len);
+                    break;
                 }
                 
             }
             //1。打开文件
-            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive2.txt.zip", "w")) == NULL) {
+            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive3.txt.zip", "w")) == NULL) {
                 perror("打不开文件\n");
                 exit(0);
             } else
@@ -111,11 +123,16 @@ int main() {
                 if (recv_len < 0) {
                     break;
                 }
+                printf("接收数据为：%s\n",buf);
                 //判断是否为结束命令
                 if (strstr(buf, FINISH_FLAG) != NULL) {
                     printf("%d次\n-|3.收到结束命令:%s\n",num,buf);
                     break;
                 }
+                string xx=buf;
+                string buf1=string(xx,40,xx.size()-40);
+                bzero(buf, MAXLINE);
+                sprintf(buf,"%s",buf1.c_str());
                 //写入文件
                 int write_length = fwrite(buf, sizeof(char), recv_len, fp);
                 if (write_length < recv_len) {
