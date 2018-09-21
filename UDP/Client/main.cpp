@@ -107,7 +107,7 @@ int main() {
                 
             }
             //1。打开文件
-            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive3.txt.zip", "w")) == NULL) {
+            if ((fp = fopen("/Users/necromaner/program/C-/UDP/test/send/receive3.txt", "w")) == NULL) {
                 perror("打不开文件\n");
                 exit(0);
             } else
@@ -123,6 +123,7 @@ int main() {
                 if (recv_len < 0) {
                     break;
                 }
+                printf("接收长度为：%d\n",recv_len);
                 printf("接收数据为：%s\n",buf);
                 //判断是否为结束命令
                 if (strstr(buf, FINISH_FLAG) != NULL) {

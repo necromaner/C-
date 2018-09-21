@@ -39,3 +39,111 @@ void  Solution::reversePrintListNode(ListNode* head)
     cout << head->val; //逆序输出
 
 }
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+typedef struct LNode{
+        int data;
+        struct LNode* next;
+}LNode, *Linklist;
+
+//-------------------头插法建立单链表--------------------------
+Linklist CreatList1(Linklist L)
+{
+    LNode* s;
+    int x;
+    L= (Linklist)malloc(sizeof(LNode));
+    L->next=NULL;
+    for(x=1;x<=20;x++)
+    {
+        s=(LNode*)malloc(sizeof(LNode));
+        s->data=x;
+        s->next=L->next;
+        L->next=s;
+    }
+
+    return L;
+}
+//------------------返回第i个位置上的结点元素----------
+LNode* GetElem(Linklist LL,int i)
+{
+    LNode* s=LL;
+    while(i)
+    {
+        s=s->next;
+        i--;
+    }
+    return s;
+
+}
+//------------------按值查找结点-----------------------
+LNode* LocalElem(Linklist LL,int xx)
+{
+    LNode* s=LL->next;
+    while(s)
+    {
+        if(s->data==xx)
+            return s;
+        s=s->next;
+    }
+
+}
+//--------------------插入结点---------------------
+void InsertNode(Linklist LL,int i,LNode* ss)
+{
+    LNode* s=(LNode*)malloc(sizeof(LNode));
+    s=ss;
+    LNode* p=LL;
+    p=GetElem(LL,i-1);
+    s->next=p->next;
+    p->next=s;
+}
+//------------------删除结点---------------------
+void DeleteNode(Linklist LL,int i)
+{
+    LNode* p=LL;
+    LNode* q=NULL;
+    p=GetElem(LL,i-1);
+    q=p->next;
+    p->next=q->next;
+    free(q);
+
+}
+void printLinkList(Linklist LL)
+{
+    LNode* s=LL->next;
+    int i=1;
+    do
+    {
+        printf("%d ",s->data);
+        s=s->next;
+        i++;
+    }while(s);
+    printf("\n\n\n");
+}
+
+int main()
+{
+//--------------------创建单链表----------------------------------
+    Linklist LL;
+    LL=CreatList1(LL);
+    printLinkList(LL);
+
+//--------------------查找值为3的结点-----------------------------
+    LNode* ss;
+    ss=LocalElem(LL,3);
+    printf("查找到值为%d的结点\n",ss->data);
+    printf("\n\n\n");
+
+//-------------在链表第三个位置插入结点sss--------------------
+    LNode* sss=(LNode*)malloc(sizeof(LNode));
+    sss->data=0;
+    sss->next=NULL;
+    InsertNode(LL,3,sss);
+    printLinkList(LL);
+//-------------删除第四个结点------------------------------------
+    DeleteNode(LL,4);
+    printLinkList(LL);
+
+}

@@ -8,16 +8,8 @@
 #include <sys/stat.h>
 using namespace std;
 #include "Md5.hpp"
-int file_size2(char* filename)
-{
-    struct stat statbuf;
-    stat(filename,&statbuf);
-    int size=statbuf.st_size;
-    
-    return size;
-}
-int file_size(string filename)
-{
+
+int file_size(string filename) {
     FILE *fp=fopen(filename.c_str(),"r");
     if(!fp) return -1;
     fseek(fp,0L,SEEK_END);
@@ -26,8 +18,7 @@ int file_size(string filename)
     
     return size;
 }
-string parseFilepath(string filepath)//获取文件名
-{
+string parseFilepath(string filepath){//获取文件名
     if (!filepath.empty())
     {
         int locfilename = filepath.find_last_of('/');
@@ -53,6 +44,12 @@ string MD5(char* buf){
     }
     return answer;
 }
+
+struct Data{
+    char buf[BUFSIZ];
+    int num;
+    string md5;
+};
 #define    FINISH_FLAG    "FILE_TRANSPORT_FINISH"
 #define    MAXLINE        1024
 #define    PORT           8888
@@ -95,7 +92,7 @@ int main() {
             printf("-|开始发送文件\n");
             int send_len;
             //1。打开文件
-            string file="/Users/necromaner/program/C-/UDP/test/send/send.txt.zip";
+            string file="/Users/necromaner/program/C-/UDP/test/send/send.txt";
             if ((fp = fopen(file.c_str(), "r")) == NULL) {
                 perror("打不开文件\n");
                 exit(0);
@@ -106,7 +103,8 @@ int main() {
             printf("    文件名：%s，每次发送大小%d字节\n",parseFilepath(file).c_str(),MAXLINE);
             printf("    大小：%d字节,需要发送%d次\n",file_size(file),file_size(file)/MAXLINE+1);
     
-            
+//--------------------------------------------------------------------------------
+    
             while (1){
                 char md5[32];
                 bzero(buf, MAXLINE);
@@ -127,9 +125,10 @@ int main() {
                 } else
                     printf("传输不正确，开始发送文件\n");
             }
-            
-            
-            
+
+
+//--------------------------------------------------------------------------------
+    
             //2。读取并发送
             printf("-|3.读取并发送");
             int num=0;;
@@ -143,14 +142,18 @@ int main() {
                 printf("发送数据为：%s\n",buf);
                 char md5[32];
                 char buf1[BUFSIZ];
-                sprintf(buf1,"%s/%s/%s","d41d8cd98f00b204e9800998ecf8427e",xxx.c_str(),buf);
+                sprintf(buf1,"%s/%s/%s",buf,xxx.c_str(),"d41d8cd98f00b204e9800998ecf8427e");
                 send_len = sendto(ss, buf1, sizeof(buf1), 0, (struct sockaddr *) &server_addr, len);
+        
+                printf("发送长度为：%d\n",send_len);
                 if (send_len < 0) {
                     perror("发送失败\n");
                     exit(0);
                 }
                 bzero(buf, MAXLINE);
             }
+            
+            
             printf("%d次\n",num);
             bzero(buf, MAXLINE);
             //3。发送结束命令
