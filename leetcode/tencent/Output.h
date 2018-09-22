@@ -21,21 +21,26 @@ struct ListNode {
 
 void outPut();
 
-void outPut(vector<int> strs);
-void outPut(int output,vector<int> strs);
-void outPut(string output,vector<int> strs);
+void outPut(vector<int> s);
+void outPut(int output,vector<int> s);
+void outPut(string output,vector<int> s);
 
-void outPut(vector<string> strs);
-void outPut(int output,vector<string> strs);
-void outPut(string output,vector<string> strs);
+void outPut(vector<string> s);
+void outPut(int output,vector<string> s);
+void outPut(string output,vector<string> s);
 
-void outPut(vector<vector<int>> strs);
-void outPut(int output,vector<vector<int>> strs);
-void outPut(string output,vector<vector<int>> strs);
+void outPut(vector<ListNode*>& s);
+void outPut(int output,vector<ListNode*>& s);
+void outPut(string output,vector<ListNode*>& s);
 
-void outPut(int strs);
-void outPut(int output,int strs);
-void outPut(string output,int strs);
+
+void outPut(vector<vector<int>> s);
+void outPut(int output,vector<vector<int>> s);
+void outPut(string output,vector<vector<int>> s);
+
+void outPut(int s);
+void outPut(int output,int s);
+void outPut(string output,int s);
 
 void outPut(bool s);
 void outPut(int output,bool s);
@@ -56,7 +61,7 @@ void outPut(string output,ListNode *s);
 
 ListNode* inPut();
 ListNode* inPut(vector<int> s);
-
+vector<ListNode*> inPut(vector<vector<int>> s);
 
 void problem(string filepath,string s);
 

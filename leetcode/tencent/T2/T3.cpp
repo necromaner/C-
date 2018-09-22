@@ -10,24 +10,31 @@
 
 
  */
+
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode* l3=l1;
-        ListNode* l4=l3;
-        while (l1||l2){
-            if(l1&&l2){
-                if(l1->val>l2->val){
-                
+        ListNode *head = new ListNode(0);
+        ListNode *ptr = head;
+        while (l1 || l2) {
+            if(l1==NULL){
+                ptr->next = new ListNode(l2->val);
+                l2 = l2->next;
+            } else if(l2==NULL){
+                ptr->next = new ListNode(l1->val);
+                l1 = l1->next;
+            } else{
+                if (l1->val <= l2->val) {
+                    ptr->next = new ListNode(l1->val);
+                    l1 = l1->next;
+                } else {
+                    ptr->next = new ListNode(l2->val);
+                    l2 = l2->next;
                 }
             }
-            int x = (l1 != NULL) ? l1->val : 0;
-            int y = (l2 != NULL) ? l2->val : 0;
-            printf("%d---%d\n",x,y);
-            l1=l1->next;
-            l2=l2->next;
+            ptr = ptr->next;
         }
-        return l3;
+        return head->next;
     }
 };
 int main() {
@@ -41,5 +48,7 @@ int main() {
     outPut("l2",l2);
     
     outPut(1,solution.mergeTwoLists(l1,l2));
+    outPut("l1",l1);
+    outPut("l2",l2);
     return 0;
 }
