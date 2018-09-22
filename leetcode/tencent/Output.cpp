@@ -7,7 +7,7 @@ void outPut(){
     printf("没有输出内容！\n");
 }
 
-//------------------------------------vector一维----------------------------------------//
+//----------------------------------vector一维--------------------------------------//
 void outPut(vector<int> s){
     int max_length=0;
     for (int k = 0; k < s.size(); ++k) {
@@ -50,7 +50,7 @@ void outPut(vector<string> s){
     printf("]\n");
 }
 
-//------------------------------------vector二维----------------------------------------//
+//----------------------------------vector二维--------------------------------------//
 void outPut(vector<vector<int>> s){
     int max_length=0;
     for (int k = 0; k < s.size(); ++k) {
@@ -84,7 +84,7 @@ void outPut(vector<vector<int>> s){
 void outPut(vector<ListNode*>& s){
     printf("[\n");
     for (int i = 0; i < s.size(); ++i) {
-        printf("   ");
+        printf("    ");
         outPut(s[i]);
     }
     printf("]\n");
@@ -151,9 +151,7 @@ void outPut(int output,double s) {outPut1(output);outPut(s);}
 void outPut(string output, ListNode *s) {outPut1(output);outPut(s);}
 void outPut(int output,ListNode *s) {outPut1(output);outPut(s);}
 
-
-
-
+//--------------------------------input---------------------------------------------//
 
 ListNode* inPut(){
     return NULL;
