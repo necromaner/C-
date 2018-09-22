@@ -28,10 +28,10 @@ int main()
     
     while(1)
     {
-        char buf[BUFSIZ] = "测试发送!\n";
-//        scanf("%s",buf);
-//        if(!strcmp(buf,"quit"))
-//            break;
+        char buf[BUFSIZ] = "";
+        scanf("%s\n",buf);
+        if(!strcmp(buf,"quit"))
+            break;
     
         /*3.send()*/
         send(sc,buf,strlen(buf),0);
@@ -40,7 +40,6 @@ int main()
         /*4.recv()*/
         recv(sc,buf,BUFSIZ,0);
         printf("server: %s",buf);
-        sleep(1);
     }
     
     /*5.close()*/
