@@ -61,10 +61,10 @@ void outPut(vector<vector<int>> s){
             }
         }
     }
+    printf("[\n");
     for (int j = 0; j < s.size(); ++j) {
+        printf("    [");
         for (int i = 0; i < s[j].size(); ++i) {
-            if (i == 0)
-                printf("[");
             int max = to_string(s[j][i]).size();
             for (int k = 0; k < max_length - max; ++k) {
                 printf(" ");
@@ -72,13 +72,16 @@ void outPut(vector<vector<int>> s){
             printf("%d", s[j][i]);
             if (i < s[j].size() - 1)
                 printf(",");
-            else if (i == s[j].size() - 1)
-                printf("]");
         }
+        if(s[j].size()==0)
+            for (int l = 0; l < max_length; ++l) {
+                printf(" ");
+            }
+        printf("]");
         if (j < s.size() - 1)
             printf("\n");
     }
-    printf("\n");
+    printf("\n]\n");
 }
 
 void outPut(vector<ListNode*>& s){
