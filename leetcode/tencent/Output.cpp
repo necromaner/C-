@@ -159,7 +159,7 @@ void outPut(int output,ListNode *s) {outPut1(output);outPut(s);}
 ListNode* inPut(){
     return NULL;
 }
-ListNode* inPut(vector<int> s) {
+ListNode* inPut(vector<int> s) {//单链表
     if (s.size() < 1)
         return NULL;
     ListNode *p = new ListNode(s[0]);
@@ -168,6 +168,19 @@ ListNode* inPut(vector<int> s) {
         q->next = new ListNode(s[i]);
         q = q->next;
     }
+    return p;
+}
+ListNode* inPut(int x,vector<int> s) {//循环链表
+    
+    if (s.size() < 1)
+        return NULL;
+    ListNode *p = new ListNode(s[0]);
+    ListNode *q = p;
+    for (int i = 1; i < s.size(); ++i) {
+        q->next = new ListNode(s[i]);
+        q = q->next;
+    }
+    q->next=p;
     return p;
 }
 vector<ListNode*> inPut(vector<vector<int>> s) {

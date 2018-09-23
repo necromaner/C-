@@ -67,6 +67,7 @@ void outPut(string output,ListNode *s);
 
 ListNode* inPut();
 ListNode* inPut(vector<int> s);
+ListNode* inPut(int x,vector<int> s);
 vector<ListNode*> inPut(vector<vector<int>> s);
 
 void problem(string filepath,string s);
