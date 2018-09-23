@@ -3,8 +3,8 @@ project(tencent)
 
 set(CMAKE_CXX_STANDARD 11)
 add_executable(main main.cpp)
-add_executable(OtherTDD OtherTDD.cpp)
 add_executable(testCase testCase.cpp Output.cpp)
+add_executable(Create Create.cpp Output.cpp)
 
 
 add_executable(T1_01 T1/T1.cpp Output.cpp)
@@ -35,3 +35,35 @@ add_executable(T2_06 T2/T6.cpp Output.cpp)
 add_executable(T2_07 T2/T7.cpp Output.cpp)
 add_executable(T2_08 T2/T8.cpp Output.cpp)
 add_executable(T2_09 T2/T9.cpp Output.cpp)
+
+add_executable(T3_01 T3/T1.cpp Output.cpp)
+add_executable(T3_02 T3/T2.cpp Output.cpp)
+add_executable(T3_03 T3/T3.cpp Output.cpp)
+add_executable(T3_04 T3/T4.cpp Output.cpp)
+add_executable(T3_05 T3/T5.cpp Output.cpp)
+
+add_executable(T4_01 T4/T1.cpp Output.cpp)
+add_executable(T4_02 T4/T2.cpp Output.cpp)
+add_executable(T4_03 T4/T3.cpp Output.cpp)
+add_executable(T4_04 T4/T4.cpp Output.cpp)
+add_executable(T4_05 T4/T5.cpp Output.cpp)
+add_executable(T4_06 T4/T6.cpp Output.cpp)
+add_executable(T4_07 T4/T7.cpp Output.cpp)
+add_executable(T4_08 T4/T8.cpp Output.cpp)
+
+add_executable(T5_01 T5/T1.cpp Output.cpp)
+add_executable(T5_02 T5/T2.cpp Output.cpp)
+add_executable(T5_03 T5/T3.cpp Output.cpp)
+add_executable(T5_04 T5/T4.cpp Output.cpp)
+
+add_executable(T6_01 T6/T1.cpp Output.cpp)
+add_executable(T6_02 T6/T2.cpp Output.cpp)
+add_executable(T6_03 T6/T3.cpp Output.cpp)
+add_executable(T6_04 T6/T4.cpp Output.cpp)
+add_executable(T6_05 T6/T5.cpp Output.cpp)
+add_executable(T6_06 T6/T6.cpp Output.cpp)
+
+add_executable(T7_01 T7/T1.cpp Output.cpp)
+add_executable(T7_02 T7/T2.cpp Output.cpp)
+
+add_executable(T8_01 T8/T1.cpp Output.cpp)
