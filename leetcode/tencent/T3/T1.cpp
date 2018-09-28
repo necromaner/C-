@@ -1,7 +1,6 @@
 #include "../Output.h"
 /*
- 反转整数
-
+反转整数
 给定一个 32 位有符号整数，将整数中的数字进行反转。
 
 示例 1:
@@ -27,15 +26,34 @@
 class Solution {
 public:
     int reverse(int x) {
-    
+        int sum = 0;
+        while (x != 0) {
+            int num = sum * 10;
+            if (num / 10 != sum) return 0;
+            sum = num + x % 10;
+            x /= 10;
+        }
+        return sum;
+    }
+    int reverse1(int x) {
+        long long x1 = 0;
+        while (x != 0) {
+            int x2 = x % 10;
+            x1 = x1 * 10 + x2;
+            x /= 10;
+        }
+        if (x1 > INT_MAX||x1<INT_MIN)
+            return 0;
+        return x1;
     }
 };
 int main() {
-    problem(__FILE__,"");
+    problem(__FILE__,"反转整数\n"
+            "给定一个 32 位有符号整数，将整数中的数字进行反转。");
     Solution solution;
+    int x=-1234599;
+    outPut(0,x);
     
-    outPut();
-    
-    outPut();
+    outPut(1,solution.reverse(x));
     return 0;
 }

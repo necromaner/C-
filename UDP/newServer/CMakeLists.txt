@@ -3,4 +3,4 @@ project(newServer)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(newServer main.cpp Md5.cpp)
+add_executable(newServer main.cpp Md5.cpp Send.cpp Output.cpp)

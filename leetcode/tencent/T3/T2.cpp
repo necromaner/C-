@@ -1,7 +1,6 @@
 #include "../Output.h"
 /*
- 回文数
-
+回文数
 判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
 
 示例 1:
@@ -29,15 +28,28 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
-    
+        if(x<0)
+            return false;
+        int xx=x;
+        int sum = 0;
+        while (x != 0) {
+            int num = sum * 10;
+            if (num / 10 != sum) return false;
+            sum = num + x % 10;
+            x /= 10;
+        }
+        if(xx-sum==0)
+            return true;
+        return false;
     }
 };
 int main() {
-    problem(__FILE__,"");
+    problem(__FILE__,"回文数\n"
+            "判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。");
     Solution solution;
+    int x=123;
+    outPut(0,x);
     
-    outPut();
-    
-    outPut();
+    outPut(1,solution.isPalindrome(x));
     return 0;
 }

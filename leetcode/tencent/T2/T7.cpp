@@ -19,9 +19,9 @@ public:
 int main() {
     problem(__FILE__,"");
     Solution solution;
-    
-    outPut();
-    
+    ListNode* x=inPut({1,2,3});
+    outPut(x);
+    int xx=x->val;
     outPut();
     return 0;
 }

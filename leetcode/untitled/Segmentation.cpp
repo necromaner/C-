@@ -28,7 +28,7 @@ int main(){
     char buf[BUFSIZ];
     sprintf(buf, "a/b/c/d/e/f");
     char v[BUFSIZ];
-    v=SplitString(buf); //可按多个字符来分隔;
+//    v=SplitString(buf); //可按多个字符来分隔;
     printf("%d\n",v);
     //输出: a b c d e f
 }

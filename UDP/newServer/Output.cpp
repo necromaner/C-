@@ -1,4 +1,4 @@
-#include "Output.h"
+#include "Send.h"
 //string output,
 //printf("%s",output.c_str());
 //int output,
@@ -94,14 +94,14 @@ void outPut(vector<vector<int>> s){
     printf("\n]\n");
 }
 
-void outPut(vector<ListNode*>& s){
-    printf("[\n");
-    for (int i = 0; i < s.size(); ++i) {
-        printf("    ");
-        outPut(s[i]);
-    }
-    printf("]\n");
-}
+//void outPut(vector<ListNode*>& s){
+//    printf("[\n");
+//    for (int i = 0; i < s.size(); ++i) {
+//        printf("    ");
+//        outPut(s[i]);
+//    }
+//    printf("]\n");
+//}
 //------------------------------------other----------------------------------------//
 void outPut(int s){
     printf("%d\n",s);
@@ -119,16 +119,16 @@ void outPut(double s) {
     printf("%f\n",s);
 }
 
-void outPut(ListNode *s) {
-    vector<ListNode *> x;
-    while(s){
-        x.push_back(s);
-        printf("%d->",s->val);
-        s=s->next;
-    }
-    printf("NULL\n");
-    outPut(x);
-}
+//void outPut(ListNode *s) {
+//    vector<ListNode *> x;
+//    while(s){
+//        x.push_back(s);
+//        printf("%d->",s->val);
+//        s=s->next;
+//    }
+//    printf("NULL\n");
+//    outPut(x);
+//}
 //---------------------------------------------------------------------------------//
 void outPut1(string output){
     printf("%s:",output.c_str());
@@ -147,8 +147,8 @@ void outPut(int output,vector<string> s){outPut1(output);outPut(s);}
 void outPut(string output, vector<bool> s){outPut1(output);outPut(s);}
 void outPut(int output,vector<bool> s){outPut1(output);outPut(s);}
 
-void outPut(string output,vector<ListNode*>& s){outPut1(output);printf("\n");outPut(s);}
-void outPut(int output,vector<ListNode*>& s){outPut1(output);printf("\n");outPut(s);}
+//void outPut(string output,vector<ListNode*>& s){outPut1(output);printf("\n");outPut(s);}
+//void outPut(int output,vector<ListNode*>& s){outPut1(output);printf("\n");outPut(s);}
 
 void outPut(string output, vector<vector<int>> s){outPut1(output);printf("\n");outPut(s);}
 void outPut(int output,vector<vector<int>> s){outPut1(output);printf("\n");outPut(s);}
@@ -165,61 +165,61 @@ void outPut(int output,string s) {outPut1(output);outPut(s);}
 void outPut(string output, double s) {outPut1(output);outPut(s);}
 void outPut(int output,double s) {outPut1(output);outPut(s);}
 
-void outPut(string output, ListNode *s) {outPut1(output);outPut(s);}
-void outPut(int output,ListNode *s) {outPut1(output);outPut(s);}
+//void outPut(string output, ListNode *s) {outPut1(output);outPut(s);}
+//void outPut(int output,ListNode *s) {outPut1(output);outPut(s);}
 
 //--------------------------------input---------------------------------------------//
 
-ListNode* inPut(){
-    return NULL;
-}
-ListNode* inPut(vector<int> s) {//单链表
-    if (s.size() < 1)
-        return NULL;
-    ListNode *p = new ListNode(s[0]);
-    ListNode *q = p;
-    for (int i = 1; i < s.size(); ++i) {
-        q->next = new ListNode(s[i]);
-        q = q->next;
-    }
-    return p;
-}
-ListNode* inPut(int x,vector<int> s) {//循环链表
-    
-    if (s.size() < 1)
-        return NULL;
-    ListNode *p = new ListNode(s[0]);
-    ListNode *q = p;
-    for (int i = 1; i < s.size(); ++i) {
-        q->next = new ListNode(s[i]);
-        q = q->next;
-    }
-    q->next=p;
-    return p;
-}
-vector<ListNode*> inPut(vector<vector<int>> s) {
-    if (s.size() < 1)
-        return {NULL};
-    vector<ListNode *> x;
-    for (int j = 0; j < s.size(); ++j) {
-        x.push_back(inPut(s[j]));
-    }
-    return x;
-}
+//ListNode* inPut(){
+//    return NULL;
+//}
+//ListNode* inPut(vector<int> s) {//单链表
+//    if (s.size() < 1)
+//        return NULL;
+//    ListNode *p = new ListNode(s[0]);
+//    ListNode *q = p;
+//    for (int i = 1; i < s.size(); ++i) {
+//        q->next = new ListNode(s[i]);
+//        q = q->next;
+//    }
+//    return p;
+//}
+//ListNode* inPut(int x,vector<int> s) {//循环链表
+//    
+//    if (s.size() < 1)
+//        return NULL;
+//    ListNode *p = new ListNode(s[0]);
+//    ListNode *q = p;
+//    for (int i = 1; i < s.size(); ++i) {
+//        q->next = new ListNode(s[i]);
+//        q = q->next;
+//    }
+//    q->next=p;
+//    return p;
+//}
+//vector<ListNode*> inPut(vector<vector<int>> s) {
+//    if (s.size() < 1)
+//        return {NULL};
+//    vector<ListNode *> x;
+//    for (int j = 0; j < s.size(); ++j) {
+//        x.push_back(inPut(s[j]));
+//    }
+//    return x;
+//}
 
 
 
 
 
-void problem(string filepath,string s) {
-    if (!filepath.empty())
-    {
-        int locpoint = filepath.find_last_of('.');
-        int locfilename = filepath.find_last_of('/');
-        printf("%s.",filepath.substr(locfilename + 1, locpoint - locfilename-1).c_str());
-    }
-    if(s.size()>0)
-        printf("%s\n\n",s.c_str());
-    else
-        printf("还没有开始编写\n\n");
-}
+//void problem(string filepath,string s) {
+//    if (!filepath.empty())
+//    {
+//        int locpoint = filepath.find_last_of('.');
+//        int locfilename = filepath.find_last_of('/');
+//        printf("%s.",filepath.substr(locfilename + 1, locpoint - locfilename-1).c_str());
+//    }
+//    if(s.size()>0)
+//        printf("%s\n\n",s.c_str());
+//    else
+//        printf("还没有开始编写\n\n");
+//}

@@ -4,31 +4,31 @@
 #include <cstdlib>
 #include <zconf.h>
 #include <cstring>
+#include <vector>
+#include <arpa/inet.h>
+#include "Send.h"
 #include "Md5.hpp"
-
-#define    FINISH_FLAG    "FILE_TRANSPORT_FINISH"
-#define    MAXLINE        1024
 #define    PORT           8888
 
-struct Data{
-    char buf[30];
-    int num;
-    char md5[32];
-};
-int file_size(string filename) {
-    FILE *fp=fopen(filename.c_str(),"r");
-    if(!fp) return -1;
-    fseek(fp,0L,SEEK_END);
-    int size=ftell(fp);
-    fclose(fp);
-    
-    return size;
-}
-int main() {
+
+using namespace std;
+struct sockaddr_in server_addr;
+
+
+/**
+ * @brief 根据数组发送文件序号
+ * @param xx    未成功发送数据
+ * @param t        参数2 @see CTest
+ *
+ * @return 返回说明
+ *     -<em>false</em> fail
+ *     -<em>true</em> succeed
+ */
+
+void udpServer(){
     /*1.socket()*/
     int ss = socket(AF_INET, SOCK_DGRAM, 0);
     printf("1.socket()\n");
-    struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(PORT);
@@ -40,26 +40,12 @@ int main() {
         exit(1);
     } else
         printf("2.bind()\n");
-    FILE *fp;
-    /*3.recvfrom()*/
-    socklen_t len = sizeof(server_addr);
-    char recvBuf[100]={0};
-    Data data;
-    recvfrom(ss,recvBuf,1024,0,(struct sockaddr *) &server_addr,&len);
-    memcpy(&data,recvBuf,sizeof(data)+1);
-    printf("接收到：%s--%d--%s\n",data.buf,data.num,data.md5);
+    /*----------------------------------------------------------*/
+
     
-    
-    
-//    string file="/Users/necromaner/program/C-/UDP/test/send/send.txt";
-//
-//    if ((fp = fopen(file.c_str(), "r")) == NULL) {
-//        perror("打不开文件\n");
-//        exit(0);
-//    } else
-//        printf("-|1.打开文件\n");
-//    int file1=file_size(file);
-//    printf("%d\n",file1);
-    
+    send(ss,server_addr);
+}
+int main() {
+    udpServer();
     return 0;
 }

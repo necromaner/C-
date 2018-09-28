@@ -153,6 +153,25 @@ void MD5Transform(unsigned int state[4], unsigned char block[64]){
     state[3] += d;
 }
 
+string MD5s(char* buf){
+    string answer="";
+    unsigned char encrypt[]="";
+    unsigned char decrypt[16];
+    sprintf(reinterpret_cast<char *>(encrypt),buf);
+    MD5_CTX md5;
+    
+    MD5Init(&md5);
+    MD5Update(&md5, encrypt, (int)strlen((char *)encrypt));//只是个中间步骤
+    MD5Final(&md5, decrypt);//32位
+    for (int i = 4; i<12; i++){
+        
+        char firstNum[16] = {0};
+        sprintf(firstNum, "%02x", decrypt[i]);
+        answer.push_back(firstNum[0]);
+        answer.push_back(firstNum[1]);
+    }
+    return answer;
+}
 string MD5(char* buf){
     string answer="";
     unsigned char encrypt[]="";
@@ -163,7 +182,7 @@ string MD5(char* buf){
     MD5Init(&md5);
     MD5Update(&md5, encrypt, (int)strlen((char *)encrypt));//只是个中间步骤
     MD5Final(&md5, decrypt);//32位
-    for (int i = 0; i<16; i++){
+    for (int i = 1; i<16; i++){
         
         char firstNum[32] = {0};
         sprintf(firstNum, "%02x", decrypt[i]);

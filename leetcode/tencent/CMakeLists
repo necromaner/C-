@@ -4,6 +4,7 @@ project(tencent)
 set(CMAKE_CXX_STANDARD 11)
 add_executable(main main.cpp)
 add_executable(testCase testCase.cpp Output.cpp)
+add_executable(testDemo testDemo.cpp Output.cpp)
 add_executable(Create Create.cpp Output.cpp)
 
 

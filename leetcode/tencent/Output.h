@@ -31,6 +31,10 @@ void outPut(vector<int> s);
 void outPut(int output,vector<int> s);
 void outPut(string output,vector<int> s);
 
+void outPut(vector<bool> s);
+void outPut(int output,vector<bool> s);
+void outPut(string output,vector<bool> s);
+
 void outPut(vector<string> s);
 void outPut(int output,vector<string> s);
 void outPut(string output,vector<string> s);
