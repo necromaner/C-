@@ -36,7 +36,6 @@ bool check(unsigned char* old,unsigned char* chSha1) {
 //fl：为文件的信息
 //返回值：返回当前接收文件正确信息
 vector<bool> receiveData(int sc,sockaddr_in server_addr,FILE *fp,vector<bool> &xx,FileInformation fl){
-    int num=0;
     vector<int> css;
     while (1){
         socklen_t len = sizeof(server_addr);
@@ -48,47 +47,22 @@ vector<bool> receiveData(int sc,sockaddr_in server_addr,FILE *fp,vector<bool> &x
             break;
         }
         memcpy(&data, recvBuf, sizeof(data) + 1);
-//        printf("接收到：序号：%d；Md5:%s-------%d\n",data.num,data.md5,num);
-//        string aa=data.md5;
-//        string bb=md5.Encode(data.buf);
-//        printf("发送到SHA1为：%s\n",data.chSha1);
-    
         CSHA1 sha1;
         sha1.Update((unsigned char*)data.buf,strlen(data.buf));
         sha1.Final();
         unsigned char chSha1[20] = "";
         sha1.GetHash(chSha1);
-    
-    
-//        printf("解析后MD5为：%s\n",chSha1);
-    
-        for (int i = 0; i < 20; ++i) {
-            if(chSha1[i]!=data.chSha1[i]){
-                printf("不同\n");
-                break;
+        
+        if(check(data.chSha1,chSha1)){
+            fseek(fp, data.num * fl.max, SEEK_SET);
+            xx[data.num]=false;
+            if (data.num == xx.size() - 1) {
+                fwrite(data.buf, sizeof(char), (size_t )fl.size%fl.max, fp);
+            } else{
+                fwrite(data.buf, sizeof(char), (size_t )fl.max, fp);
             }
         }
-        check(data.chSha1,chSha1);
-//        printf("%d",strcmp(data.chSha1,chSha1));  //返回 0 表示相等
-//        printf("解析后MD5为：%s\n",md5.Encode(data.buf).c_str());
-//        int x=strcmp(data.md5,md5.Encode(data.buf).c_str());
-//        if(strcmp(data.md5,md5.Encode(data.buf).c_str())==0){
-//            printf("相同\n");
-//        } else{
-//            printf("不同\n");
-//            css.push_back(num);
-//        }
-        fseek(fp, data.num * fl.max, SEEK_SET);
-        if (data.num == xx.size() - 1) {
-            xx[data.num]=false;
-            fwrite(data.buf, sizeof(char), (size_t )fl.size%fl.max, fp);
-        } else{
-            xx[data.num]=false;
-            fwrite(data.buf, sizeof(char), (size_t )fl.max, fp);
-        }
-        num++;
     }
-    outPut(1,css);
     return xx;
 }
 
@@ -164,6 +138,7 @@ void receive(int sc,sockaddr_in server_addr){
     fp=fopen(file.c_str(),"rb+");
     vector<bool> xx((unsigned long)fl.size/fl.max+1, true);
     
+    int complete=0;
     bool e= true;
     while (e){
         xx=receiveData(sc,server_addr,fp,xx,fl);

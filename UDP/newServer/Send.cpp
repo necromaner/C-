@@ -2,7 +2,6 @@
 // Created by 温亚奇 on 2018/9/23.
 //
 #include <iostream>
-#include "Md5.h"
 #include "Send.h"
 #include "SHA1.h"
 
@@ -76,19 +75,10 @@ void sendData(int ss,sockaddr_in server_addr,FILE *fp,vector<vector<int>> xx,Fil
         for (int j = 0; j < xxxs; ++j) {
             if(xx[i][j]!=0){
                 Data data;
-//                Md5Encode md5;
                 fseek(fp, (xx[i][j]-1)*fl.max, SEEK_SET);
                 fread(data.buf, sizeof(char), (size_t )fl.max, fp);
                 data.num=xx[i][j]-1;
                 string dd=data.buf;
-                cout<<dd<<endl;
-//                sprintf(data.md5,"%s",md5.Encode(dd).c_str());
-                
-//                sprintf(data.md5,"%s",md5.Encode(data.buf).c_str());
-    
-    
-    
-    
                 CSHA1 sha1;
                 sha1.Update((unsigned char*)data.buf,strlen(data.buf));
                 sha1.Final();
@@ -97,8 +87,6 @@ void sendData(int ss,sockaddr_in server_addr,FILE *fp,vector<vector<int>> xx,Fil
                 
                 socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
                 sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
-//                printf("发送：序号：%d；Md5:%s\n",data.num,data.md5);
-//                printf("发送：序号：%d；Md5:%s\n",data.num,data.chSha1);
             } else
                 break;
         }
@@ -134,7 +122,6 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
         vector<int> x(suc.suc,suc.suc+100);
         qq.push_back(x);
     }
-    outPut(1,num2);
     sendFlag(ss,server_addr,(char*)AFFIRM_FLAG);
     return qq;
 }
