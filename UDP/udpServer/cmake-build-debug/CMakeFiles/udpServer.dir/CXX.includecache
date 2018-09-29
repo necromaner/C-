@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/necromaner/program/C-/UDP/udpServer/Md5.cpp
-Md5.hpp
-/Users/necromaner/program/C-/UDP/udpServer/Md5.hpp
-
 /Users/necromaner/program/C-/UDP/udpServer/Md5.hpp
 cstdio
 -

@@ -1,8 +1,11 @@
 //
 // Created by 温亚奇 on 2018/9/23.
 //
-#include "Md5.hpp"
+#include <iostream>
+#include "Md5.h"
 #include "Send.h"
+#include "SHA1.h"
+
 // 获取文件大小
 // filename:文件路径
 // 返回值:文件大小（字节）
@@ -73,18 +76,32 @@ void sendData(int ss,sockaddr_in server_addr,FILE *fp,vector<vector<int>> xx,Fil
         for (int j = 0; j < xxxs; ++j) {
             if(xx[i][j]!=0){
                 Data data;
+//                Md5Encode md5;
                 fseek(fp, (xx[i][j]-1)*fl.max, SEEK_SET);
                 fread(data.buf, sizeof(char), (size_t )fl.max, fp);
                 data.num=xx[i][j]-1;
-//            string md5=MD5(data.buf);
-                data.md5="49ba59abbe56e057";
+                string dd=data.buf;
+                cout<<dd<<endl;
+//                sprintf(data.md5,"%s",md5.Encode(dd).c_str());
+                
+//                sprintf(data.md5,"%s",md5.Encode(data.buf).c_str());
+    
+    
+    
+    
+                CSHA1 sha1;
+                sha1.Update((unsigned char*)data.buf,strlen(data.buf));
+                sha1.Final();
+                sha1.GetHash(data.chSha1);
+                
+                
                 socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
                 sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
-//                printf("发送：序号：%d；Md5:%s\n",data.num,data.md5.c_str());
+//                printf("发送：序号：%d；Md5:%s\n",data.num,data.md5);
+//                printf("发送：序号：%d；Md5:%s\n",data.num,data.chSha1);
             } else
                 break;
         }
-        
     }
     sendFlag(ss,server_addr,(char*)FINISH_FLAG);
 }
@@ -98,7 +115,7 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
     int num2=0;
     vector<vector<int>> qq;
     while (1){
-        Success suc;
+        Success suc{};
         socklen_t len = sizeof(server_addr);
         char buf[BUFSIZ]={0};
         recvfrom(ss,buf,BUFSIZ,0,(struct sockaddr *) &server_addr,&len);
@@ -128,14 +145,15 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
 //server_addr：连接地址
 void send(int ss,sockaddr_in server_addr){
     char buf[BUFSIZ];
-    /*3.recvfrom()*/
     socklen_t len = sizeof(server_addr);
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
     printf("接收到：%s\n",buf);
     
+//    receiveFlag(ss,server_addr);
+    
     FILE *fp;
-    string file1="/Users/necromaner/program/C-/UDP/test/send/";
-    string file2="6.zip";
+    string file1="/Users/necromaner/test/send/";
+    string file2="4.zip";
     string file=file1+file2;
     long x=file_size(file);//文件大小
     if ((fp = fopen(file.c_str(), "r")) == NULL) {

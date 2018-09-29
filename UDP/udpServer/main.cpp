@@ -92,7 +92,7 @@ int main() {
             printf("-|开始发送文件\n");
             int send_len;
             //1。打开文件
-            string file="/Users/necromaner/program/C-/UDP/test/send/send.txt";
+            string file="/Users/necromaner/test/send/2.zip";
             if ((fp = fopen(file.c_str(), "r")) == NULL) {
                 perror("打不开文件\n");
                 exit(0);
@@ -139,17 +139,15 @@ int main() {
                 for (int i = 0; i < 10-xxx.size(); ++i) {
                     xxx="0"+xxx;
                 }
-                printf("发送数据为：%s\n",buf);
+//                printf("发送数据为：%s\n",buf);
+                printf("MD5为：%s\n",MD5(buf).c_str());
                 char md5[32];
                 char buf1[BUFSIZ];
-                sprintf(buf1,"%s/%s/%s",buf,xxx.c_str(),"d41d8cd98f00b204e9800998ecf8427e");
+//                sprintf(buf1,"%s/%s/%s",buf,xxx.c_str(),"d41d8cd98f00b204e9800998ecf8427e");
+                sprintf(buf1,"%s",MD5(buf).c_str());
+                
                 send_len = sendto(ss, buf1, sizeof(buf1), 0, (struct sockaddr *) &server_addr, len);
         
-                printf("发送长度为：%d\n",send_len);
-                if (send_len < 0) {
-                    perror("发送失败\n");
-                    exit(0);
-                }
                 bzero(buf, MAXLINE);
             }
             
@@ -157,6 +155,9 @@ int main() {
             printf("%d次\n",num);
             bzero(buf, MAXLINE);
             //3。发送结束命令
+            strcpy(buf, FINISH_FLAG);
+            buf[strlen(buf)] = '\0';//strlen()用来计算字符串的长度
+            sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
             strcpy(buf, FINISH_FLAG);
             buf[strlen(buf)] = '\0';//strlen()用来计算字符串的长度
             sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);

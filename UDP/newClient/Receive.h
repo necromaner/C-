@@ -34,7 +34,8 @@ struct FileInformation{
 struct Data{
     char buf[984];
     int num;
-    string md5;
+//    char md5[32];
+    unsigned char chSha1[20]= "";
 };
 //成功写入的序号
 //suc:成功写入片段

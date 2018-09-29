@@ -1,193 +1,208 @@
-#include "Md5.hpp"
-unsigned char PADDING[] = {
-        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-void MD5Init(MD5_CTX *context){
-    context->count[0]=0;
-    context->count[1]=0;
-    context->state[0]=0x67452301;//链接变量，注意与大端字节序的区别，内存中是小端字节序
-    context->state[1]=0xEFCDAB89;
-    context->state[2]=0x98BADCFE;
-    context->state[3]=0x10325476;
-}
+#include "Md5.h"
+#include <iostream>
+// 幻数定义
+const int Md5Encode::kA = 0x67452301;
+const int Md5Encode::kB = 0xefcdab89;
+const int Md5Encode::kC = 0x98badcfe;
+const int Md5Encode::kD = 0x10325476;
 
-void MD5Update(MD5_CTX *context, unsigned char *input, unsigned int inputlen){
-    unsigned int i=0,index=0,partlen=0;
-    index=(context->count[0]>>3)&0x3F;//模64字节的余数，第一次调用为0
-    partlen=64-index;//第一次partlen为64
-    //预留最前面的64位存放数据长度
-    context->count[0]+=inputlen<<3;//文本总的位数,低32位
-    if(context->count[0]<(inputlen<<3)) context->count[1]++;
-    context->count[1]+=inputlen>>29;//先左移3,求出位数,再右移32位，求出左32位
-    
-    if(inputlen>=partlen){
-        memcpy(&context->buffer[index], input, partlen);
-        MD5Transform(context->state, context->buffer);
-        //512位为1组
-        for(i=partlen;i+64<=inputlen;i+=64) MD5Transform(context->state,&input[i]);
-        index=0;
+
+const unsigned long long Md5Encode::k_ti_num_integer = 4294967296;
+
+
+// function: CycleMoveLeft
+// @param src_num:要左移的数
+// @param bit_num_to_move:要移动的bit位数
+// @return  循环左移后的结果数
+UInt32 Md5Encode::CycleMoveLeft(UInt32 src_num, int bit_num_to_move) {
+    if (0 >= bit_num_to_move) {
+        return src_num;
     }
-    else i=0;
-    memcpy(&context->buffer[index], &input[i], inputlen-i);//最后剩下的一部分
+    return ((src_num << bit_num_to_move) \
+        | (src_num >> (32 - bit_num_to_move)));
 }
 
-//32位md5
-void MD5Final(MD5_CTX *context, unsigned char digest[16]){
-    unsigned int index=0,padlen=0;
-    unsigned char bits[8];
-    index=(context->count[0]>>3)&0x3F;//模64字节的余数
-    padlen=(index<56)?(56-index):(120-index);//需要填充的长度，注意长度占8字节
-    MD5Encode(bits,context->count,8);
-    MD5Update(context,PADDING,padlen);
-    MD5Update(context,bits,8);//这里调用时,index=0
-    MD5Encode(digest,context->state,16);
+
+// function: FillData
+// @param in_data_ptr:    要加密的信息数据
+// @param data_byte_len: 数据的字节数
+// @param out_data_ptr:  填充必要信息后的数据
+// return : 填充信息后的数据长度,以字节为单位
+UInt32 Md5Encode::FillData(const char *in_data_ptr, int data_byte_len, char** out_data_ptr) {
+    int bit_num = data_byte_len*BIT_OF_BYTE;
+    int grop_num = bit_num / BIT_OF_GROUP;
+    int mod_bit_num = bit_num % BIT_OF_GROUP;
+    int bit_need_fill = 0;
+    if (mod_bit_num > (BIT_OF_GROUP -  SRC_DATA_LEN)) {
+        bit_need_fill = (BIT_OF_GROUP - mod_bit_num);
+        bit_need_fill += (BIT_OF_GROUP -  SRC_DATA_LEN);
+    }
+    else {
+        bit_need_fill = (BIT_OF_GROUP -  SRC_DATA_LEN) - mod_bit_num; //  这里多加了一个BIT_OF_GROUP，避免bit_need_fill正好等于0,暂时不加
+    }
+    int all_bit = bit_num + bit_need_fill;
+    if (0 < bit_need_fill) {
+        *out_data_ptr = new char[all_bit / BIT_OF_BYTE + SRC_DATA_LEN / BIT_OF_BYTE];
+        memset(*out_data_ptr, 0, all_bit / BIT_OF_BYTE + SRC_DATA_LEN / BIT_OF_BYTE);
+        // copy data
+        memcpy(*out_data_ptr, in_data_ptr, data_byte_len);
+        // fill rest data
+        unsigned char *tmp = reinterpret_cast<unsigned char *>(*out_data_ptr);
+        tmp += data_byte_len;
+        // fill 1 and 0
+        *tmp = 0x80;
+        // fill origin data len
+        unsigned long long * origin_num = (unsigned long long *)((*out_data_ptr) + ((all_bit / BIT_OF_BYTE)));
+        *origin_num = data_byte_len*BIT_OF_BYTE;
+    }
+    return (all_bit / BIT_OF_BYTE + SRC_DATA_LEN / BIT_OF_BYTE);
 }
 
-void MD5Encode(unsigned char *output, unsigned int *input, unsigned int len){
-    unsigned int i = 0, j = 0;//len是char的长度
-    while (j<len){
-        output[j]=input[i] & 0xFF;
-        output[j+1]=(input[i]>>8)&0xFF;
-        output[j+2]=(input[i]>>16)&0xFF;
-        output[j+3]=(input[i]>>24)&0xFF;
-        i++;
-        j += 4;
+
+void Md5Encode::RoundF(char *data_BIT_OF_GROUP_ptr, ParamDynamic & param) {
+    UInt32 *M = reinterpret_cast<UInt32*>(data_BIT_OF_GROUP_ptr);
+    int s[] = { 7, 12, 17, 22 };
+    for (int i = 0; i < 16; ++i) {
+        UInt32 ti = k_ti_num_integer * abs(sin(i + 1));
+        if (i % 4 == 0) {
+            FF(param.ua_, param.ub_, param.uc_, param.ud_, M[i], s[i % 4], ti);
+        }
+        else if (i % 4 == 1) {
+            FF(param.ud_, param.ua_, param.ub_, param.uc_, M[i], s[i % 4], ti);
+        }
+        else if (i % 4 == 2) {
+            FF(param.uc_, param.ud_, param.ua_, param.ub_, M[i], s[i % 4], ti);
+        }
+        else if (i % 4 == 3) {
+            FF(param.ub_, param.uc_, param.ud_, param.ua_, M[i], s[i % 4], ti);
+        }
     }
 }
 
-void MD5Decode(unsigned int *output, unsigned char *input, unsigned int len){
-    unsigned int i = 0, j = 0;
-    while (j < len){
-        output[i] = (input[j]) |
-                    (input[j + 1] << 8) |
-                    (input[j + 2] << 16) |
-                    (input[j + 3] << 24);
-        i++;
-        j += 4;
+
+void Md5Encode::RoundG(char *data_BIT_OF_GROUP_ptr, ParamDynamic & param) {
+    UInt32 *M = reinterpret_cast<UInt32*>(data_BIT_OF_GROUP_ptr);
+    int s[] = { 5, 9, 14, 20 };
+    for (int i = 0; i < 16; ++i) {
+        UInt32 ti = k_ti_num_integer * abs(sin(i + 1 + 16));
+        int index = (i * 5 + 1) % 16;
+        if (i % 4 == 0) {
+            GG(param.ua_, param.ub_, param.uc_, param.ud_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 1) {
+            GG(param.ud_, param.ua_, param.ub_, param.uc_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 2) {
+            GG(param.uc_, param.ud_, param.ua_, param.ub_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 3) {
+            GG(param.ub_, param.uc_, param.ud_, param.ua_, M[index], s[i % 4], ti);
+        }
     }
 }
 
-void MD5Transform(unsigned int state[4], unsigned char block[64]){
-    unsigned int a = state[0];
-    unsigned int b = state[1];
-    unsigned int c = state[2];
-    unsigned int d = state[3];
-    unsigned int x[16];
-    
-    MD5Decode(x, block, 64);
-    FF(a, b, c, d, x[0], 7, 0xd76aa478);//32位运算
-    FF(d, a, b, c, x[1], 12, 0xe8c7b756);
-    FF(c, d, a, b, x[2], 17, 0x242070db);
-    FF(b, c, d, a, x[3], 22, 0xc1bdceee);
-    FF(a, b, c, d, x[4], 7, 0xf57c0faf);
-    FF(d, a, b, c, x[5], 12, 0x4787c62a);
-    FF(c, d, a, b, x[6], 17, 0xa8304613);
-    FF(b, c, d, a, x[7], 22, 0xfd469501);
-    FF(a, b, c, d, x[8], 7, 0x698098d8);
-    FF(d, a, b, c, x[9], 12, 0x8b44f7af);
-    FF(c, d, a, b, x[10], 17, 0xffff5bb1);
-    FF(b, c, d, a, x[11], 22, 0x895cd7be);
-    FF(a, b, c, d, x[12], 7, 0x6b901122);
-    FF(d, a, b, c, x[13], 12, 0xfd987193);
-    FF(c, d, a, b, x[14], 17, 0xa679438e);
-    FF(b, c, d, a, x[15], 22, 0x49b40821);
-    
-    
-    GG(a, b, c, d, x[1], 5, 0xf61e2562);
-    GG(d, a, b, c, x[6], 9, 0xc040b340);
-    GG(c, d, a, b, x[11], 14, 0x265e5a51);
-    GG(b, c, d, a, x[0], 20, 0xe9b6c7aa);
-    GG(a, b, c, d, x[5], 5, 0xd62f105d);
-    GG(d, a, b, c, x[10], 9, 0x2441453);
-    GG(c, d, a, b, x[15], 14, 0xd8a1e681);
-    GG(b, c, d, a, x[4], 20, 0xe7d3fbc8);
-    GG(a, b, c, d, x[9], 5, 0x21e1cde6);
-    GG(d, a, b, c, x[14], 9, 0xc33707d6);
-    GG(c, d, a, b, x[3], 14, 0xf4d50d87);
-    GG(b, c, d, a, x[8], 20, 0x455a14ed);
-    GG(a, b, c, d, x[13], 5, 0xa9e3e905);
-    GG(d, a, b, c, x[2], 9, 0xfcefa3f8);
-    GG(c, d, a, b, x[7], 14, 0x676f02d9);
-    GG(b, c, d, a, x[12], 20, 0x8d2a4c8a);
-    
-    
-    HH(a, b, c, d, x[5], 4, 0xfffa3942);
-    HH(d, a, b, c, x[8], 11, 0x8771f681);
-    HH(c, d, a, b, x[11], 16, 0x6d9d6122);
-    HH(b, c, d, a, x[14], 23, 0xfde5380c);
-    HH(a, b, c, d, x[1], 4, 0xa4beea44);
-    HH(d, a, b, c, x[4], 11, 0x4bdecfa9);
-    HH(c, d, a, b, x[7], 16, 0xf6bb4b60);
-    HH(b, c, d, a, x[10], 23, 0xbebfbc70);
-    HH(a, b, c, d, x[13], 4, 0x289b7ec6);
-    HH(d, a, b, c, x[0], 11, 0xeaa127fa);
-    HH(c, d, a, b, x[3], 16, 0xd4ef3085);
-    HH(b, c, d, a, x[6], 23, 0x4881d05);
-    HH(a, b, c, d, x[9], 4, 0xd9d4d039);
-    HH(d, a, b, c, x[12], 11, 0xe6db99e5);
-    HH(c, d, a, b, x[15], 16, 0x1fa27cf8);
-    HH(b, c, d, a, x[2], 23, 0xc4ac5665);
-    
-    
-    II(a, b, c, d, x[0], 6, 0xf4292244);
-    II(d, a, b, c, x[7], 10, 0x432aff97);
-    II(c, d, a, b, x[14], 15, 0xab9423a7);
-    II(b, c, d, a, x[5], 21, 0xfc93a039);
-    II(a, b, c, d, x[12], 6, 0x655b59c3);
-    II(d, a, b, c, x[3], 10, 0x8f0ccc92);
-    II(c, d, a, b, x[10], 15, 0xffeff47d);
-    II(b, c, d, a, x[1], 21, 0x85845dd1);
-    II(a, b, c, d, x[8], 6, 0x6fa87e4f);
-    II(d, a, b, c, x[15], 10, 0xfe2ce6e0);
-    II(c, d, a, b, x[6], 15, 0xa3014314);
-    II(b, c, d, a, x[13], 21, 0x4e0811a1);
-    II(a, b, c, d, x[4], 6, 0xf7537e82);
-    II(d, a, b, c, x[11], 10, 0xbd3af235);
-    II(c, d, a, b, x[2], 15, 0x2ad7d2bb);
-    II(b, c, d, a, x[9], 21, 0xeb86d391);
-    state[0] += a;
-    state[1] += b;
-    state[2] += c;
-    state[3] += d;
+
+void Md5Encode::RoundH(char *data_BIT_OF_GROUP_ptr, ParamDynamic & param) {
+    UInt32 *M = reinterpret_cast<UInt32*>(data_BIT_OF_GROUP_ptr);
+    int s[] = { 4, 11, 16, 23 };
+    for (int i = 0; i < 16; ++i) {
+        UInt32 ti = k_ti_num_integer * abs(sin(i + 1 + 32));
+        int index = (i * 3 + 5) % 16;
+        if (i % 4 == 0) {
+            HH(param.ua_, param.ub_, param.uc_, param.ud_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 1) {
+            HH(param.ud_, param.ua_, param.ub_, param.uc_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 2) {
+            HH(param.uc_, param.ud_, param.ua_, param.ub_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 3) {
+            HH(param.ub_, param.uc_, param.ud_, param.ua_, M[index], s[i % 4], ti);
+        }
+    }
 }
 
-string MD5s(char* buf){
-    string answer="";
-    unsigned char encrypt[]="";
-    unsigned char decrypt[16];
-    sprintf(reinterpret_cast<char *>(encrypt),buf);
-    MD5_CTX md5;
-    
-    MD5Init(&md5);
-    MD5Update(&md5, encrypt, (int)strlen((char *)encrypt));//只是个中间步骤
-    MD5Final(&md5, decrypt);//32位
-    for (int i = 4; i<12; i++){
-        
-        char firstNum[16] = {0};
-        sprintf(firstNum, "%02x", decrypt[i]);
-        answer.push_back(firstNum[0]);
-        answer.push_back(firstNum[1]);
+
+void Md5Encode::RoundI(char *data_BIT_OF_GROUP_ptr, ParamDynamic & param) {
+    UInt32 *M = reinterpret_cast<UInt32*>(data_BIT_OF_GROUP_ptr);
+    int s[] = { 6, 10, 15, 21 };
+    for (int i = 0; i < 16; ++i) {
+        UInt32 ti = k_ti_num_integer * abs(sin(i + 1 + 48));
+        int index = (i * 7 + 0) % 16;
+        if (i % 4 == 0) {
+            II(param.ua_, param.ub_, param.uc_, param.ud_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 1) {
+            II(param.ud_, param.ua_, param.ub_, param.uc_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 2) {
+            II(param.uc_, param.ud_, param.ua_, param.ub_, M[index], s[i % 4], ti);
+        }
+        else if (i % 4 == 3) {
+            II(param.ub_, param.uc_, param.ud_, param.ua_, M[index], s[i % 4], ti);
+        }
     }
-    return answer;
 }
-string MD5(char* buf){
-    string answer="";
-    unsigned char encrypt[]="";
-    unsigned char decrypt[16];
-    sprintf(reinterpret_cast<char *>(encrypt),buf);
-    MD5_CTX md5;
-    
-    MD5Init(&md5);
-    MD5Update(&md5, encrypt, (int)strlen((char *)encrypt));//只是个中间步骤
-    MD5Final(&md5, decrypt);//32位
-    for (int i = 1; i<16; i++){
-        
-        char firstNum[32] = {0};
-        sprintf(firstNum, "%02x", decrypt[i]);
-        answer.push_back(firstNum[0]);
-        answer.push_back(firstNum[1]);
+
+
+void Md5Encode::RotationCalculate(char *data_512_ptr, ParamDynamic & param) {
+    if (NULL == data_512_ptr) {
+        return;
     }
-    return answer;
+    RoundF(data_512_ptr, param);
+    RoundG(data_512_ptr, param);
+    RoundH(data_512_ptr, param);
+    RoundI(data_512_ptr, param);
+    param.ua_ = kA + param.ua_;
+    param.ub_ = kB + param.ub_;
+    param.uc_ = kC + param.uc_;
+    param.ud_ = kD + param.ud_;
+}
+
+
+// 转换成十六进制字符串输出
+std::string Md5Encode::GetHexStr(unsigned int num_str) {
+    std::string hexstr = "";
+    char szch[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    unsigned char *tmptr = (unsigned char *)&num_str;
+    int len = sizeof(num_str);
+    // 小端字节序，逆序打印
+    for (int i = 0; i < len; i++){
+        unsigned char ch = tmptr[i] & 0xF0;
+        ch = ch >> 4;
+        hexstr.append(1, szch[ch]);
+        ch = tmptr[i] & 0x0F;
+        hexstr.append(1, szch[ch]);
+    }
+    return hexstr;
+}
+
+
+// function: Encode
+// @param src_info:要加密的信息
+// return :加密后的MD5值
+std::string Md5Encode::Encode(std::string src_info) {
+    ParamDynamic param;
+    param.ua_ = kA;
+    param.ub_ = kB;
+    param.uc_ = kC;
+    param.ud_ = kD;
+    std::string result;
+    const char *src_data = src_info.c_str();
+    char *out_data_ptr = NULL;
+    int total_byte = FillData(src_data, strlen(src_data), &out_data_ptr);
+    char * data_BIT_OF_GROUP = out_data_ptr;
+    for (int i = 0; i < total_byte / (BIT_OF_GROUP / BIT_OF_BYTE); ++i) {
+        data_BIT_OF_GROUP += i*(BIT_OF_GROUP / BIT_OF_BYTE);
+        RotationCalculate(data_BIT_OF_GROUP, param);
+    }
+    if (NULL != out_data_ptr) {
+        delete[] out_data_ptr, out_data_ptr =  NULL;
+    }
+    result.append(GetHexStr(param.ua_));
+    result.append(GetHexStr(param.ub_));
+    result.append(GetHexStr(param.uc_));
+    result.append(GetHexStr(param.ud_));
+    return result;
 }
