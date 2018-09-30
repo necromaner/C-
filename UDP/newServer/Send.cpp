@@ -18,7 +18,7 @@ long file_size(string filename) {
 }
 //发送命令
 void sendFlag(int ss,sockaddr_in server_addr,char* flag) {
-    char buf[BUFSIZ];
+    char buf[BUFSIZ]={0};
     socklen_t len = sizeof(server_addr);
     strcpy(buf, flag);
     buf[strlen(buf)] = '\0';//strlen()用来计算字符串的长度
@@ -26,7 +26,7 @@ void sendFlag(int ss,sockaddr_in server_addr,char* flag) {
 }
 //接收命令
 void receiveFlag(int ss,sockaddr_in server_addr){
-    char buf[BUFSIZ];
+    char buf[BUFSIZ]={0};
     socklen_t len1 = sizeof(server_addr);
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len1);
     printf("接收到：%s\n",buf);
@@ -84,7 +84,6 @@ void sendData(int ss,sockaddr_in server_addr,FILE *fp,vector<vector<int>> xx,Fil
                 sha1.Final();
                 sha1.GetHash(data.chSha1);
                 
-                
                 socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
                 sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
             } else
@@ -105,6 +104,7 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
     while (1){
         Success suc{};
         socklen_t len = sizeof(server_addr);
+        
         char buf[BUFSIZ]={0};
         recvfrom(ss,buf,BUFSIZ,0,(struct sockaddr *) &server_addr,&len);
         if (strstr(buf, FINISH_FLAG) != NULL) {
@@ -114,6 +114,7 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
             e=false;
             break;
         }
+        
         memcpy(&suc,buf,sizeof(suc)+1);
         for (int i = 0; i < 100; ++i) {
             if (suc.suc[i] != 0)

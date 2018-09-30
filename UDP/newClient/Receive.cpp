@@ -7,7 +7,7 @@
 #include "SHA1.h"
 void sendFlag(int sc,sockaddr_in server_addr,char* flag) {
     //发送结束命令
-    char buf[BUFSIZ];
+    char buf[BUFSIZ]={0};
     socklen_t len = sizeof(server_addr);
     strcpy(buf, flag);
     buf[strlen(buf)] = '\0';//strlen()用来计算字符串的长度
@@ -15,7 +15,7 @@ void sendFlag(int sc,sockaddr_in server_addr,char* flag) {
 }
 //接收命令
 void receiveFlag(int ss,sockaddr_in server_addr){
-    char buf[BUFSIZ];
+    char buf[BUFSIZ]={0};
     socklen_t len = sizeof(server_addr);
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
     printf("接收到：%s\n",buf);
@@ -77,11 +77,8 @@ FileInformation receiveInformation(int sc,sockaddr_in server_addr){
     FileInformation fl;
     memcpy(&fl,recvBuf,sizeof(fl)+1);
     printf("接收到：文件名：%s;大小：%d字节,每次发送大小：%d字节\n",fl.name.c_str(),fl.size,fl.max);
-    char buf[BUFSIZ]="已收到文件信息";
-    socklen_t len1 = sizeof(*(struct sockaddr *) &server_addr);
-    sendto(sc,buf, sizeof(buf), 0, (struct sockaddr *) &server_addr, len1);
-    printf("发送：%s\n",buf);
-    bzero(buf, BUFSIZ);
+
+    sendFlag(sc,server_addr,(char*)AFFIRM_FLAG);
     return fl;
 }
 
