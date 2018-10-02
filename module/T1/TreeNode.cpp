@@ -28,10 +28,14 @@ vector<int> DLR(TreeNode *t,vector<int>& s){//前序遍历
         DLR(t->right,s);
     return s;
 }
+vector<int> DLR(TreeNode *t){
+    vector<int> x;
+    x=DLR(t,x);
+    return x;
+}
 void outPut_DLR(TreeNode *t) {//前序遍历输出，根左右
     printf("前序遍历：");
-    vector<int> x;
-    outPut(DLR(t,x));
+    outPut(DLR(t));
 }
 vector<int> LDR(TreeNode *t,vector<int>& s){//中序遍历
     if (t->left)
@@ -41,10 +45,14 @@ vector<int> LDR(TreeNode *t,vector<int>& s){//中序遍历
         LDR(t->right,s);
     return s;
 }
+vector<int> LDR(TreeNode *t){
+    vector<int> x;
+    x=LDR(t,x);
+    return x;
+}
 void outPut_LDR(TreeNode *t) {//中序遍历输出，左根右
     printf("中序遍历：");
-    vector<int> x;
-    outPut(LDR(t,x));
+    outPut(LDR(t));
 }
 vector<int> LRD(TreeNode *t,vector<int>& s){//后序遍历
     if (t->left)
@@ -54,10 +62,14 @@ vector<int> LRD(TreeNode *t,vector<int>& s){//后序遍历
     s.push_back(t->val);
     return s;
 }
+vector<int> LRD(TreeNode *t){
+    vector<int> x;
+    x=LRD(t,x);
+    return x;
+}
 void outPut_LRD(TreeNode *t) {//后序遍历输出，左右根
     printf("后序遍历：");
-    vector<int> x;
-    outPut(LRD(t,x));
+    outPut(LRD(t));
 }
 /*---------------------------------------------------------*/
 
