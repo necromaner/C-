@@ -69,12 +69,16 @@ void outPut(bool s,int x){
         printf("不存在值%d\n",x);
 }
 bool find(TreeNode *t,int x){
+    while (t->left!=NULL||t->right!=NULL){
+        if(x==t->val)
+            return true;
+        if(x<t->val&&t->left)
+            t=t->left;
+        else if(x>t->val&&t->right)
+            t=t->right;
+    }
     if(x==t->val)
         return true;
-    if(x<t->val&&t->left)
-        find(t->left,x);
-    if(x>t->val&&t->right)
-        find(t->right,x);
     return false;
 }
 void outPut_Find(TreeNode *t,int x){
@@ -97,7 +101,7 @@ void insert_unbalanced(TreeNode *&t,int x){//插入单值
             t->right=new TreeNode(x);
     }
 }
-int height(TreeNode *t){//返回高度，更新BF
+int height(TreeNode *&t){//返回高度，更新BF
     int height=0;
     if(t->left&&t->right) {
         t->bF=t->left->height-t->right->height;
@@ -114,7 +118,7 @@ int height(TreeNode *t){//返回高度，更新BF
         return height;
     }
 }
-void refresh(TreeNode *t){//更新高度和BF
+void refresh(TreeNode *&t){//更新高度和BF
     if(t->left){
         refresh(t->left);
     }
@@ -122,6 +126,7 @@ void refresh(TreeNode *t){//更新高度和BF
         refresh(t->right);
     }
     t->height=height(t);
+//    printf("[%d/%d/%d]\n",t->val,t->height,t->bF);
 }
 
 void LL(TreeNode *&t){
@@ -171,21 +176,24 @@ void searchBF(TreeNode *&t){
             LL(t);
         } else if(t->left->bF<0){
             LR(t);
+        } else{
+            LL(t);
         }
     } else if(t->bF<-1){
         if(t->right->bF>0){
             RL(t);
         } else if(t->right->bF<0){
             RR(t);
+        } else{
+            RR(t);
         }
     }
-//    return t;
 }
 
 void insert(TreeNode *&t,int x){
-    insert_unbalanced(t,x);
-    refresh(t);
-    searchBF(t);
+    insert_unbalanced(t,x);//1.添加
+    refresh(t);//2.更新高度和BF
+    searchBF(t);//3.平衡
 }
 TreeNode* build(vector<int> x){
     int xs=x.size();
@@ -197,30 +205,52 @@ TreeNode* build(vector<int> x){
     }
     return t;
 }
-int close(TreeNode *t){
-    if(t->left){
-    
-    } else
-    return t->val+10;
-}
-void delete_Unbalanced(TreeNode *t,int x) {
-    if(t->val==x){
-        TreeNode *s;
-        if(t->right==NULL)   //只有右子树，情况2
-        {
-            s=t;
-            t=t->left;
-//            free(s);
-        }
-//        if(t->left||t->right)
-//            free(t);
-        t->val=close(t);
-    } else if(t->val>x){
-        delete_Unbalanced(t->left,x);
-    } else if(t->val<x){
-        delete_Unbalanced(t->right,x);
+int close1(TreeNode *&t) {
+    int x = 0;
+    if (t->right) {
+        close1(t->right);
+        x = t->right->val;
+        t->right = NULL;
     }
+    return x;
+}
+
+int close(TreeNode *&t) {
+    int x = t->left->val;
+    if (t->left->right) {
+        x = close1(t->left);
+    } else {
+        t->left = NULL;
+    }
+    return x;
+}
+
+bool delete_Unbalanced(TreeNode *&t,int x) {
+    if(t->val==x){
+        if(t->right==NULL&&t->left==NULL){//1.无左右子树
+            return true;
+        } else if(t->right==NULL){//2.无右子树
+            t=t->left;
+            return false;
+        } else if(t->left==NULL){//3.无左子树
+            t=t->right;
+            return false;
+        } else{//4.有左右子树
+            t->val=close(t);
+        }
+    } else if(t->val>x&&t->left!=NULL){
+        if (delete_Unbalanced(t->left,x)){
+            t->left=NULL;
+        }
+    } else if(t->val<x&&t->right!=NULL){
+        if (delete_Unbalanced(t->right,x)) {
+            t->right=NULL;
+        }
+    }
+    return false;
 }
 void deleteVal(TreeNode *&t,int x){
     delete_Unbalanced(t,x);
+    refresh(t);//2.更新高度和BF
+    searchBF(t);//3.平衡
 }

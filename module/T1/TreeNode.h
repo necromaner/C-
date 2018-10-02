@@ -18,10 +18,12 @@ struct TreeNode {
 TreeNode* build(vector<int> x);//新建
 void insert(TreeNode *&t,int x);//插入
 void deleteVal(TreeNode *&t,int x);//删除
+
 void outPut_DLR(TreeNode *t);//根左右
 void outPut_LDR(TreeNode *t);//左根右
 void outPut_LRD(TreeNode *t);//左右根
 
+bool find(TreeNode *t,int x);//搜索
 void outPut_Find(TreeNode *t,int x);//搜索
 
 #endif //T1_TREENODE_H
