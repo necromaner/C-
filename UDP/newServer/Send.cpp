@@ -141,7 +141,7 @@ void send(int ss,sockaddr_in server_addr){
     
     FILE *fp;
     string file1="/Users/necromaner/test/send/";
-    string file2="4.zip";
+    string file2="2.zip";
     string file=file1+file2;
     long x=file_size(file);//文件大小
     if ((fp = fopen(file.c_str(), "r")) == NULL) {

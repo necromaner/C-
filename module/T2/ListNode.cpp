@@ -46,10 +46,8 @@ void close(ListNode *&s,int x){
     while (q->next){
         if(q->next->val==x){
             ListNode *l=q->next->next;
-            
             q->next->next=NULL;
             delete q->next;
-            
             q->next=l;
             break;
         }
@@ -59,10 +57,14 @@ void close(ListNode *&s,int x){
     p->next= NULL;
     delete p;
 }
-void closeAll(ListNode *&s){
+void closeAll1(ListNode *&s){
     if(s->next){
         closeAll(s->next);
     }
     s->next= NULL;
     delete s;
+}
+void closeAll(ListNode *&s){
+    closeAll1(s);
+    s->next=NULL;
 }

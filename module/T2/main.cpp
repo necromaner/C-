@@ -28,7 +28,6 @@ int main() {
     printf("---------------清空-----------------\n");
     closeAll(l);
     outPut(l);
-    
     printf("---------------end-----------------\n");
     return 0;
 }
