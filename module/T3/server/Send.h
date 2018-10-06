@@ -21,6 +21,7 @@ struct FileInformation{
 struct Data{
     char buf[984];
     int num;
+    string md5;
 };
 
 //成功写入的序号

@@ -17,7 +17,7 @@ void receiveFlag(int ss,sockaddr_in server_addr){
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
     printf("接收到：%s\n",buf);
 }
-void printMD5(const string& message) {
+void printMD5(const string message) {
     cout << "md5= "
          << MD5(message).toStr() << endl;
 }
@@ -44,9 +44,6 @@ vector<int> write(map<int,char*> mymap,string file,FileInformation fl) {
     for (auto it = mymap.begin(); it != mymap.end(); it++) {
         xx.push_back(it->first);
         fseek(fp, it->first * fl.max, SEEK_SET);
-    
-        printf("write %d-",it->first);
-        printMD5(it->second);
         if (it->first == (int) fl.size / fl.max) {
             fwrite(it->second, sizeof(char), (size_t) fl.size % fl.max, fp);
         } else {
@@ -65,40 +62,13 @@ void receiveData(int sc,sockaddr_in server_addr,FileInformation fl,map<int,char*
         if (strstr(recvBuf, FINISH_FLAG) != NULL) {
             break;
         }
+        printf("%s\n",data.md5.c_str());
         memcpy(&data, recvBuf, sizeof(data) + 1);
         char* buf= new char[fl.max];
-        strcpy(buf, data.buf);
+        memcpy(buf,data.buf,sizeof(data.buf));
+        
         mymap[data.num] = buf;
-        printf("rece1 %d-",data.num);
-        printMD5(mymap[data.num]);
     }
-}
-
-
-
-
-void receiveData(int sc,sockaddr_in server_addr,string file,FileInformation fl) {
-    FILE *fp;
-    fp = fopen(file.c_str(), "rb+");
-    while (1) {
-        socklen_t len = sizeof(server_addr);
-        char recvBuf[BUFSIZ] = {0};
-        recvfrom(sc, recvBuf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
-        Data data;
-        if (strstr(recvBuf, FINISH_FLAG) != NULL) {
-            break;
-        }
-        memcpy(&data, recvBuf, sizeof(data) + 1);
-        printf("rece2 %d-",data.num);
-        printMD5(data.buf);
-        fseek(fp, data.num * fl.max, SEEK_SET);
-        if (data.num == (int) fl.size / fl.max) {
-            fwrite(data.buf, sizeof(char), (size_t) fl.size % fl.max, fp);
-        } else {
-            fwrite(data.buf, sizeof(char), (size_t) fl.max, fp);
-        }
-    }
-    fclose(fp);
 }
 
 FileInformation receiveInformation(int sc,sockaddr_in server_addr){
@@ -116,9 +86,7 @@ FileInformation receiveInformation(int sc,sockaddr_in server_addr){
 
 void receive(int sc,sockaddr_in server_addr) {
     sendFlag(sc, server_addr, (char *) AFFIRM_FLAG);
-    
     FileInformation fl = receiveInformation(sc, server_addr);
-    
     FILE *fp;
     string file1 = "/Users/necromaner/test/receive/";
     string file2 = fl.name;
@@ -128,10 +96,8 @@ void receive(int sc,sockaddr_in server_addr) {
     
     map<int,char*> mymap;
     
-    
-//    receiveData(sc,server_addr,file,fl);
     receiveData(sc, server_addr, fl,mymap);
     vector<int> xx=write(mymap,file,fl);
-    outPut(xx);
+    outPut("未成功接收：",xx);
     printf("传输完成-end\n");
 }

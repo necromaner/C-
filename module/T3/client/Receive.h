@@ -20,6 +20,7 @@ struct FileInformation{
 struct Data{
     char buf[984];
     int num;
+    string md5;
 };
 struct Success{
     int suc[100]={0};

@@ -40,43 +40,20 @@ FileInformation sendInformation(int ss,sockaddr_in server_addr,string file,long 
     return fl;
 }
 
-void printMD5(const string& message) {
-    cout << "md5 = "
-         << MD5(message).toStr() << endl;
+void printMD5(const string message) {
+    cout << "md5 = "<< MD5(message).toStr() << endl;
 }
 void sendData(int ss,sockaddr_in server_addr,map<int,char*> mymap){
     for (auto it = mymap.begin(); it != mymap.end(); it++) {
         Data data;
         strcpy(data.buf, it->second);
-        for (int i = 0; i < (int)sizeof(data.buf); ++i) {
-            data.buf[i]=mymap[it->first][i];
-        }
+        memcpy(data.buf,mymap[it->first],sizeof(mymap[it->first]));
         int first=it->first;
         data.num=first;
-        printf("send1 %d-",it->first);
-        printMD5(data.buf);
         socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
         sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
     }
     sendFlag(ss,server_addr,(char*)FINISH_FLAG);
-}
-void sendData(int ss,sockaddr_in server_addr,string file,FileInformation fl) {
-    FILE *fp;
-    Data data;
-    map<int,char*> mymap;
-    fp = fopen(file.c_str(), "r");
-    int xxs = (int) fl.size / fl.max + 1;
-    for (int i = 0; i < xxs; ++i) {
-        fseek(fp, i * fl.max, SEEK_SET);
-        fread(data.buf, sizeof(char), (size_t) fl.max, fp);
-        data.num = i;
-        socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
-        sendto(ss, (char *) &data, sizeof(data) + 1, 0, (struct sockaddr *) &server_addr, len);
-        mymap[data.num] = data.buf;
-        printf("send2 %d-",i);
-        printMD5(data.buf);
-    }
-    sendFlag(ss, server_addr, (char *) FINISH_FLAG);
 }
 
 void block(map<int,char*> &mymap,string file,FileInformation fl) {
@@ -90,32 +67,11 @@ void block(map<int,char*> &mymap,string file,FileInformation fl) {
         fseek(fp, i * fl.max, SEEK_SET);
         fread(data.buf, sizeof(char), (size_t) fl.max, fp);
         char * buf=new char[fl.max];
-        strcpy(buf, data.buf);
+        memcpy(buf,data.buf,sizeof(data.buf));
         mymap[data.num] = buf;
-        printf("block %d-",i);
-        printMD5(mymap[data.num]);
     }
     fclose(fp);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void send(int ss,sockaddr_in server_addr,string file1,string file2,int max) {
@@ -138,12 +94,6 @@ void send(int ss,sockaddr_in server_addr,string file1,string file2,int max) {
     
     block(mymap,file,fl);
     
-//    for (auto it=mymap.begin(); it != mymap.end(); it++)
-//    {
-//        printf("key:%d->%s\n",it->first,it->second);
-//    }
-
-//    sendData(ss, server_addr,file,fl);
     sendData(ss, server_addr,mymap);
     printf("传输完成-end\n");
 }

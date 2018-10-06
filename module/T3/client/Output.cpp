@@ -22,6 +22,9 @@ void outPut(vector<int> s){
         if(i<s.size()-1)
             printf(",");
     }
+    if(s.size()<1){
+        printf("NULL");
+    }
     printf("]\n");
 }
 
