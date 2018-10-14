@@ -15,6 +15,7 @@ struct FileInformation{
     string name;
     long size;
     int max;
+    int bigblock;
 };
 
 struct Data{

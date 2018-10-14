@@ -3,4 +3,4 @@ project(newClient)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(newClient main.cpp Md5.cpp Receive.cpp Output.cpp Md5.h SHA1.cpp SHA1.h)
+add_executable(newClient main.cpp receive/Receive.cpp output/Output.cpp md5/md5.cpp md5/md5.h output/Output.h)

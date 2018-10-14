@@ -4,9 +4,8 @@
 #include <cstdlib>
 #include <zconf.h>
 #include <cstring>
-#include <vector>
 #include <arpa/inet.h>
-#include "Send.h"
+#include "send/Send.h"
 #define    PORT           8888
 
 
@@ -40,8 +39,6 @@ void udpServer(){
     } else
         printf("2.bind()\n");
     /*----------------------------------------------------------*/
-
-    
     send(ss,server_addr);
 }
 int main() {
