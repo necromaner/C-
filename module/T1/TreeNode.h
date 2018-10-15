@@ -24,7 +24,7 @@ void outPut_LDR(TreeNode *t);//左根右
 void outPut_LRD(TreeNode *t);//左右根
 
 vector<int> DLR(TreeNode *t);
-vector<int> LRD(TreeNode *t);
+vector<int> LDR(TreeNode *t);
 vector<int> LRD(TreeNode *t);
 
 
