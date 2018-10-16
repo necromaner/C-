@@ -10,10 +10,12 @@ Circle::Circle(double R)
 {
     this->r=R;
 }
-
+Circle::Circle(int R){
+    this->r=R;
+}
 double Circle:: Area()
 {
-    return 3.14*r*r;
+    return PI*r*r;
 }
 
 //------------------------------------------
