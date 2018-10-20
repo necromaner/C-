@@ -1,34 +1,30 @@
-#include "learn.h"
+#include "operator.h"
+/*
+ * 运算符优先级练习
+ */
 
-
-int t1_1() {//()调节优先级的括号操作符
-    int a = 1, b = 2;
-    int c[] = {1, 2, 3};
-    
+int T1::t1_1() {//()调节优先级的括号操作符
     return (a + b) / 2;
 }
-void t1() {//从左往右
-    int a = 1, b = 2;
-    int c[] = {1, 2, 3};
-//()调节优先级的括号操作符
-    int d = (a + b) / 2;
-    printf("d=%d\n",d);
-//[]数组下标访问操作符
-    int e = c[2] / 2;
-    printf("e=%d\n",e);
-//->通过指向对象的指针访问成员的操作符
-//.通过对象本身访问成员的操作符
-//++后置自增操作符
-    int f=a++ + b;
-    printf("f=%d\n",f);
-    printf("a=%d\n",a);
-    printf("b=%d\n",b);
-//--后置自减操作符
-    int g=a-- + b;
-    printf("g=%d\n",g);
-    printf("a=%d\n",a);
-    printf("b=%d\n",b);
+int T1::t1_2() {//[]数组下标访问操作符
+    return c[2] / 2;
 }
+int T1::t1_3() {//->通过指向对象的指针访问成员的操作符
+    return c[2] / 2;
+}
+int T1::t1_4() {//.通过对象本身访问成员的操作符
+    return c[2] / 2;
+}
+int T1::t1_5() {//::作用域操作符
+    return c[2] / 2;
+}
+int T1::t1_6() {//++后置自增操作符
+    return a++ + b;
+}
+int T1::t1_7() {//--后置自减操作符
+    return a-- + b;
+}
+
 
 void t2() {//右到左
     int a = 1, b = 2;

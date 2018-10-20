@@ -9,6 +9,6 @@ add_subdirectory(./gtest-1.7.0)
 
 set(3RD_LIBS gtest pthread)
 
-add_executable(${PROJECT_NAME} main.cpp Output.cpp operator.cpp inheritance.cpp classDemo.cpp)
+add_executable(${PROJECT_NAME} main.cpp OutPut/Output.cpp operator/operator.cpp classDemo/classDemo.cpp inheritance/inheritance.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${3RD_LIBS})

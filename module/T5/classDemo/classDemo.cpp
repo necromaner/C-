@@ -1,6 +1,7 @@
-#include "learn.h"
-
-//------------------------------------------
+#include "classDemo.h"
+/*
+ * 类练习
+ */
 Circle::Circle()
 {
     this->r=5.0;

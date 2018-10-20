@@ -1,8 +1,12 @@
 #include <gtest/gtest.h>
-#include "Output.h"
+#include "OutPut/Output.h"
+#include "classDemo/classDemo.h"
+#include "inheritance/inheritance.h"
+#include "operator/operator.h"
 #include "learn.h"
 TEST(testCase, test0){
-    EXPECT_EQ(1, t1_1());
+    T1 t1;
+    EXPECT_EQ(1, t1.t1_1());
 }
 
 
