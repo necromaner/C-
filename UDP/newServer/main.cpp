@@ -38,8 +38,9 @@ void udpServer(){
         exit(1);
     } else
         printf("2.bind()\n");
+    Send send1;
     /*----------------------------------------------------------*/
-    send(ss,server_addr);
+    send1.send(ss,server_addr);
 }
 int main() {
     udpServer();

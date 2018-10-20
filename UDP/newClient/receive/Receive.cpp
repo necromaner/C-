@@ -69,7 +69,7 @@ FileInformation receiveInformation(int sc,sockaddr_in server_addr){
     recvfrom(sc,recvBuf,1024,0,(struct sockaddr *) &server_addr,&len);
     FileInformation fl;
     memcpy(&fl,recvBuf,sizeof(fl)+1);
-    printf("接收到：文件名：%s;大小：%d字节,每次发送大小：%d字节\n",fl.name.c_str(),fl.size,fl.max);
+    printf("接收到：文件名：%s;大小：%ld字节,每次发送大小：%d字节\n",fl.name.c_str(),fl.size,fl.max);
 
     sendFlag(sc,server_addr,(char*)AFFIRM_FLAG);
     return fl;
@@ -114,7 +114,7 @@ void sendSuccess(int sc,sockaddr_in server_addr,vector<bool>& xx1,bool & e){
 //接收数据
 //sc：UDP连接
 //server_addr：连接地址
-void receive(int sc,sockaddr_in server_addr){
+void Receive::receive(int sc,sockaddr_in server_addr){
     sendFlag(sc,server_addr,(char*)AFFIRM_FLAG);
     
     FileInformation fl=receiveInformation(sc,server_addr);

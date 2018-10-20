@@ -27,8 +27,8 @@ void udpClient(){
         printf("2.connect()-TCP连接\n");
     }
     /*----------------------------------------------------------*/
-
-    receive(sc,server_addr);
+    Receive receive;
+    receive.receive(sc,server_addr);
 }
 int main() {
     udpClient();

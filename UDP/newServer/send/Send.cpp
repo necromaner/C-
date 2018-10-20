@@ -55,10 +55,10 @@ vector<vector<int>> newVector(int max,int size){
 //x:文件大小
 //返回值：返回接到到的文件信息
 FileInformation sendInformation(int ss,sockaddr_in server_addr,string file,long x){
-    FileInformation fl={file,x,984};
+    FileInformation fl={file,x,MAXSIZE};
     socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
     sendto(ss,(char*)&fl,sizeof(fl)+1,0,(struct sockaddr*)&server_addr,len);
-    printf("发送：文件名：%s;大小：%d字节,每次发送大小：%d字节\n",fl.name.c_str(),fl.size,fl.max);
+    printf("发送：文件名：%s;大小：%ld字节,每次发送大小：%d字节\n",fl.name.c_str(),fl.size,fl.max);
     
     receiveFlag(ss,server_addr);
     return fl;
@@ -111,7 +111,7 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
         }
         
         memcpy(&suc,buf,sizeof(suc)+1);
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < MAXLENGTH; ++i) {
             if (suc.suc[i] != 0)
                 num2++;
         }
@@ -126,7 +126,7 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
 //发送数据
 //sc：UDP连接
 //server_addr：连接地址
-void send(int ss,sockaddr_in server_addr){
+void Send::send(int ss,sockaddr_in server_addr){
     char buf[BUFSIZ];
     socklen_t len = sizeof(server_addr);
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);

@@ -2,37 +2,6 @@
 #define TENCENT_OUTPUT_H
 
 #include<vector>
-"__config"
-"iosfwd"
-"__bit_reference"
-"type_traits"
-"climits"
-"limits"
-"initializer_list"
-"memory"
-"stdexcept"
-"algorithm"
-"cstring"
-"__split_buffer"
-"__functional_base"
-"__debug"
-"__undef_macros"
-
-"__config"
-"iosfwd"
-"__bit_reference"
-"type_traits"
-"climits"
-"limits"
-"initializer_list"
-"memory"
-"stdexcept"
-"algorithm"
-"cstring"
-"__split_buffer"
-"__functional_base"
-"__debug"
-"__undef_macros"
 #include<string>
 #include <iostream>
 #include<map>
