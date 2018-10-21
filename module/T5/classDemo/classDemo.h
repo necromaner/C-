@@ -8,6 +8,7 @@
 #include <iostream>
 using namespace std;
 #define PI 3.1415926
+
 inline double square(double x){return x*x;}//内联
 class Circle
 {
@@ -15,24 +16,40 @@ private:
     double r;           //半径
 public:
     Circle();           //构造函数
+    virtual ~Circle();
+    
     Circle(double R);   //构造函数
     Circle(int R);      //重载
     void setR(double r);
     double getR() const;
     double Area();      //求面积函数
-//    virtual double Volume();
+    
 };
 class Cylindrical:public Circle{
 private:
     double h;           //高
 public:
     Cylindrical();           //构造函数
-    Cylindrical(double R);   //构造函数
+    Cylindrical(double R);
+    
     Cylindrical(double R, double H);   //构造函数
     void setH(double h);
     double getH() const;
     
+    virtual double Volume();    //求体积函数
+};
+class Cone:public Cylindrical{
+public:
+    Cone();
+    
+    Cone(double R);
+    
+    Cone(double R, double H);
+    
+    virtual ~Cone();
+    
     double Volume();    //求体积函数
+    
 };
 class Time {
 private:

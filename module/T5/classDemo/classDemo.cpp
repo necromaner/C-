@@ -5,18 +5,22 @@
 Circle::Circle()
 {
     this->r=5.0;
+    printf("圆-半径%d\n",this->r);
 }
 
 Circle::Circle(double R)
 {
     this->r=R;
+    printf("圆-半径%d\n",this->r);
 }
 Circle::Circle(int R){
     this->r=R;
+    printf("圆-半径%d\n",this->r);
 }
 
 double Circle:: Area()
 {
+    printf("圆面积：");
     return PI*square(this->r);
 }
 
@@ -28,13 +32,18 @@ void Circle::setR(double r) {
     Circle::r = r;
 }
 
-Cylindrical::Cylindrical(){
-    this->setR(5);
-    this->h=5;
+Circle::~Circle() {
+    cout << "这是圆的析构函数" << endl;
 }
-Cylindrical::Cylindrical(double R){
-    this->setR(R);
-    this->h=5;
+
+Cylindrical::Cylindrical(){
+    this->setR(0);
+    this->h=0;
+    printf("圆柱-高%d\n",this->h);
+}
+
+Cylindrical::Cylindrical(double R) : Circle(R) {
+    this->h=0;
 }
 Cylindrical::Cylindrical(double R, double H){
     this->setR(R);
@@ -49,8 +58,35 @@ double Cylindrical::getH() const {
 }
 
 double Cylindrical::Volume(){
+    printf("圆柱体积：");
     return Area()*getH();
 }
+
+
+Cone::Cone() {
+    printf("圆锥\n");
+    this->setR(0);
+    this->setH(0);
+}
+Cone::Cone(double R) : Cylindrical(R) {
+    this->setH(0);
+}
+Cone::Cone(double R, double H) : Cylindrical(R, H) {}
+
+Cone::~Cone() {
+    cout << "这是圆锥的析构函数" << endl;
+    
+}
+double Cone::Volume(){
+    printf("圆锥体积：");
+    double a=1/3;
+    return a*Area()*getH();
+}
+
+
+
+
+
 //------------------------------------------
 
 Time::Time(){
@@ -90,3 +126,4 @@ void Time::show()
 {
     cout << "hours:" << hours << "  " << "mintues:" << mintues << "  "<<endl;
 }
+

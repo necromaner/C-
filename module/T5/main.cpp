@@ -13,10 +13,14 @@ TEST(testCase, test0){
 
 int main(int argc, char ** argv) {
     Circle circle(3);
-    outPut("面积",circle.Area());
+    outPut(circle.Area());
     Cylindrical cylindrical;
-    outPut("面积",cylindrical.Area());
-    outPut("体积",cylindrical.Volume());
+    outPut(cylindrical.Area());
+    outPut(cylindrical.Volume());
+    Cone cone(1,1);
+    outPut(cone.Area());
+    outPut(cone.Volume());
+    
     
     
     Time time1(10, 1);
