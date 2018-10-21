@@ -5,17 +5,17 @@
 Circle::Circle()
 {
     this->r=5.0;
-    printf("圆-半径%d\n",this->r);
+    printf("圆-半径%f\n",this->r);
 }
 
 Circle::Circle(double R)
 {
     this->r=R;
-    printf("圆-半径%d\n",this->r);
+    printf("圆-半径%f\n",this->r);
 }
 Circle::Circle(int R){
     this->r=R;
-    printf("圆-半径%d\n",this->r);
+    printf("圆-半径%f\n",this->r);
 }
 
 double Circle:: Area()
@@ -37,9 +37,10 @@ Circle::~Circle() {
 }
 
 Cylindrical::Cylindrical(){
+    this->s=1;
     this->setR(0);
     this->h=0;
-    printf("圆柱-高%d\n",this->h);
+    printf("圆柱-高%f\n",this->h);
 }
 
 Cylindrical::Cylindrical(double R) : Circle(R) {
@@ -79,8 +80,7 @@ Cone::~Cone() {
 }
 double Cone::Volume(){
     printf("圆锥体积：");
-    double a=1/3;
-    return a*Area()*getH();
+    return this->a*Area()*getH();
 }
 
 

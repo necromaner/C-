@@ -23,7 +23,8 @@ public:
     void setR(double r);
     double getR() const;
     double Area();      //求面积函数
-    
+protected:
+    double s;
 };
 class Cylindrical:public Circle{
 private:
@@ -39,6 +40,8 @@ public:
     virtual double Volume();    //求体积函数
 };
 class Cone:public Cylindrical{
+private:
+    const double a=1/3;
 public:
     Cone();
     
