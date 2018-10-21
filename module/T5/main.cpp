@@ -13,7 +13,11 @@ TEST(testCase, test0){
 
 int main(int argc, char ** argv) {
     Circle circle(3);
-    outPut(circle.Area());
+    outPut("面积",circle.Area());
+    Cylindrical cylindrical;
+    outPut("面积",cylindrical.Area());
+    outPut("体积",cylindrical.Volume());
+    
     
     Time time1(10, 1);
     time1.show();
@@ -58,6 +62,9 @@ int main(int argc, char ** argv) {
     c=&d;
     printf("c=%d\n",*c);
     
+//    Time time2(10);
+//    time2.reset(10);
+//    time2.show();
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();  // 执行所有的 test case
 }
