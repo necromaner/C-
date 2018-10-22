@@ -25,7 +25,19 @@ UdpClient::~UdpClient() {
     printf("------end------\n");
     close(this->ss);
 }
-string UdpClient::SendMessage(char *message){
+string UdpClient::Message(){
+    char buf[BUFSIZ]={0};
+    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    return buf;
+}
+string UdpClient::Message(char *message){
     sendto(ss, message, strlen(message) + 1, 0, (struct sockaddr *) &server_addr, len);
     return message;
+}
+
+FileInformation UdpClient::sendInformation(string file,long x){
+    FileInformation fl={file,x,BUFSIZ};
+    socklen_t len = sizeof(*(struct sockaddr *) &server_addr);
+    sendto(ss,(char*)&fl,sizeof(fl)+1,0,(struct sockaddr*)&server_addr,len);
+    return fl;
 }

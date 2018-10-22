@@ -33,11 +33,13 @@ class UdpServer {
 private:
     int ss;
     struct sockaddr_in server_addr;
-    const socklen_t len = sizeof(server_addr);
+    socklen_t len = sizeof(server_addr);
+    FileInformation Information;
 public:
     UdpServer();                //构造函数
     virtual ~UdpServer();       //析构函数
-    string ReceiveMessage();
+    string Message();
+    string Message(char *message);
 };
 
 

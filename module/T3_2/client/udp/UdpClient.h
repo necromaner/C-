@@ -19,11 +19,12 @@ using namespace std;
 #define         PORT         8888
 #define         MAX_BLOCK    10000
 #define         MAX_SEND     1000
-
+enum TrafficLight{RED,YELLOR,GREEN};
 struct FileInformation{
-    string      name;
-    long        size;
-    int         max;
+    string      name;           //文件名
+    long        size;           //文件大小
+    int         block;          //文件块大小
+    int         send;           //文件发送大小
 };
 struct Data{
     char        buf[MAX_SEND];
@@ -34,11 +35,13 @@ class UdpClient {
 private:
     int ss;
     struct sockaddr_in server_addr;
-    const socklen_t len = sizeof(server_addr);
+    socklen_t len = sizeof(server_addr);
+    FileInformation Information;
 public:
-    UdpClient();
-    virtual ~UdpClient();
-    string SendMessage(char *message);
+    UdpClient();                //构造函数
+    virtual ~UdpClient();       //析构函数
+    string Message();
+    string Message(char *message);
 };
 
 

@@ -1,7 +1,3 @@
-//
-// Created by 温亚奇 on 2018/10/21.
-//
-
 #include "UdpServer.h"
 
 UdpServer::UdpServer() {
@@ -22,11 +18,15 @@ UdpServer::UdpServer() {
 }
 
 UdpServer::~UdpServer() {
-    printf("------end------\n");
     close(this->ss);
+    printf("------end------\n");
 }
-string UdpServer::ReceiveMessage(){
+string UdpServer::Message(){
     char buf[BUFSIZ]={0};
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
     return buf;
+}
+string UdpServer::Message(char *message){
+    sendto(ss, message, strlen(message) + 1, 0, (struct sockaddr *) &server_addr, len);
+    return message;
 }
