@@ -20,26 +20,31 @@ using namespace std;
 #define         MAX_SEND     1000
 
 struct FileInformation{
-    string      name;
-    long        size;
-    int         max;
+    string      name;                   //文件名
+    long long   size;                   //文件大小
+    int         block;                  //文件块大小
+    int         send;                   //文件发送大小
 };
 struct Data{
-    char        buf[MAX_SEND];
-    int         num;
-    string      md5;
+    char        buf[MAX_SEND];          //文件数据
+    int         num;                    //块序号
+    string      md5;                    //块的md5值
 };
 class UdpServer {
 private:
     int ss;
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
-    FileInformation Information;
+    FileInformation fl;
 public:
     UdpServer();                //构造函数
     virtual ~UdpServer();       //析构函数
-    string Message();
-    string Message(char *message);
+    char *Message();
+    char *Message(char *message);
+    FileInformation Information();
+    
+    const FileInformation &getFl() const;
+    void show() const;
 };
 
 

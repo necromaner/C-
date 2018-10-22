@@ -2,7 +2,8 @@
 #include <iostream>
 using namespace std;
 int main() {
-    UdpServer udpServer;
-    cout<<udpServer.Message()<<endl;
+    UdpServer udp;
+    udp.Information();
+    udp.show();
     return 0;
 }

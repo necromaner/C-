@@ -21,27 +21,31 @@ using namespace std;
 #define         MAX_SEND     1000
 enum TrafficLight{RED,YELLOR,GREEN};
 struct FileInformation{
-    string      name;           //文件名
-    long        size;           //文件大小
-    int         block;          //文件块大小
-    int         send;           //文件发送大小
+    string      name;                   //文件名
+    long long   size;                   //文件大小
+    int         block;                  //文件块大小
+    int         send;                   //文件发送大小
 };
 struct Data{
-    char        buf[MAX_SEND];
-    int         num;
-    string      md5;
+    char        buf[MAX_SEND];          //文件数据
+    int         num;                    //块序号
+    string      md5;                    //块的md5值
 };
 class UdpClient {
 private:
     int ss;
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
-    FileInformation Information;
+    FileInformation fl;
+    long long file_size(string filename);
 public:
-    UdpClient();                //构造函数
-    virtual ~UdpClient();       //析构函数
-    string Message();
-    string Message(char *message);
+    UdpClient();                       //构造函数
+    virtual ~UdpClient();              //析构函数
+    char *Message();                   //接收消息
+    char *Message(char *message);      //发送消息
+    FileInformation Information(string file1,string file2);
+    const FileInformation &getFl() const;
+    void show() const;
 };
 
 
