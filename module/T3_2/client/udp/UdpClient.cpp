@@ -1,7 +1,3 @@
-//
-// Created by 温亚奇 on 2018/10/21.
-//
-
 #include "UdpClient.h"
 
 UdpClient::UdpClient() {
@@ -20,14 +16,15 @@ UdpClient::UdpClient() {
 //        printf("*            -TCP-            *\n");
 //    }
 }
-
 UdpClient::~UdpClient() {
     close(this->ss);
+    delete[] buf;
+    delete[] block;
     printf("*-------------end-------------*\n");
 }
 char * UdpClient::Message(){
-    char buf[BUFSIZ]={0};
-    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    bzero(buf, MAX_SEND);
+    recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
     return buf;
 }
 char * UdpClient::Message(char *message){
@@ -42,22 +39,50 @@ long long UdpClient::file_size(string filename) {
     fclose(fp);
     return size;
 }
-FileInformation UdpClient::Information(string file1,string file2){
-    long long x=file_size(file1+file2);
-    this->fl={file2,x,BUFSIZ};
+FileInformation UdpClient::Information(){
+    
+    FILE *fp;
+    if ((fp = fopen(file().c_str(), "r")) == NULL) {
+        this->fl={"文件不存在",0,0,0};
+    } else{
+        this->fl={file2,file_size(file()),MAX_BLOCK,MAX_SEND};
+    }
+    fclose(fp);
     sendto(ss,(char*)&fl,sizeof(fl)+1,0,(struct sockaddr*)&server_addr,len);
     return fl;
 }
-
 const FileInformation &UdpClient::getFl() const {
     return fl;
 }
-
 void UdpClient::show() const {
-    printf(" 文件信息：\n");
+    printf(" 发送信息：\n");
     printf(" name: %s\n",this->fl.name.c_str());
-    printf(" size: %ld\n",this->fl.size);
+    printf(" size: %lld\n",this->fl.size);
     printf(" block:%d\n",this->fl.block);
     printf(" send: %d\n",this->fl.send);
     printf("*-----------------------------*\n");
+}
+
+char * UdpClient::readFile(int num){
+    bzero(block, MAX_BLOCK);
+    FILE *fp;
+    fp = fopen(file().c_str(), "rb+");
+    fseek(fp, num*fl.block, SEEK_SET);
+    fread(block, sizeof(char), (size_t )fl.block, fp);
+    fclose(fp);
+    return block;
+}
+char * UdpClient::sendFile(int num){
+    bzero(buf, MAX_SEND);
+    memcpy(&suc,buf,sizeof(suc)+1);
+    return buf;
+}
+
+char *UdpClient::getBlock() const {
+    return block;
+}
+
+void UdpClient::setFile(const string &file1,const string &file2) {
+    UdpClient::file1 = file1;
+    UdpClient::file2 = file2;
 }

@@ -18,7 +18,6 @@ using namespace std;
 #define         PORT         8888
 #define         MAX_BLOCK    10000
 #define         MAX_SEND     1000
-
 struct FileInformation{
     string      name;                   //文件名
     long long   size;                   //文件大小
@@ -35,13 +34,21 @@ private:
     int ss;
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
+    char* buf = new char[MAX_SEND];
+    char* block = new char[MAX_BLOCK];
     FileInformation fl;
+    inline int serial(){ return (int)(fl.size/MAX_BLOCK+1);}
 public:
-    UdpServer();                //构造函数
-    virtual ~UdpServer();       //析构函数
-    char *Message();
-    char *Message(char *message);
+    UdpServer();                       //构造函数
+    virtual ~UdpServer();              //析构函数
+    char *Message();                   //接收消息
+    char *Message(char *message);      //发送消息
     FileInformation Information();
+    
+    
+    
+    
+    
     
     const FileInformation &getFl() const;
     void show() const;

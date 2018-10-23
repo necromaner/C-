@@ -36,16 +36,30 @@ private:
     int ss;
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
+    char* buf = new char[MAX_SEND];      //发送的数据
+    char* block = new char[MAX_BLOCK];   //读取的块
     FileInformation fl;
-    long long file_size(string filename);
+    string file1="";
+    string file2="";
+    
+    long long file_size(string filename);//文件大小
+    inline string file(){ return file1+file2;}
+    inline int serial(){ return (int)(fl.size/MAX_BLOCK+1);}
 public:
     UdpClient();                       //构造函数
     virtual ~UdpClient();              //析构函数
     char *Message();                   //接收消息
     char *Message(char *message);      //发送消息
-    FileInformation Information(string file1,string file2);
+    FileInformation Information();
+    char *readFile(int num);
+    char *sendFile(int num);
+    
+    void setFile(const string &file1,const string &file2);
+    
     const FileInformation &getFl() const;
     void show() const;
+    
+    char *getBlock() const;
 };
 
 

@@ -4,7 +4,10 @@
 using namespace std;
 int main() {
     UdpClient udp;
-    udp.Information("/Users/necromaner/test/send/","4.zip");
+    udp.setFile("/Users/necromaner/test/send/","send.txt");
+    udp.Information();
     udp.show();
+    udp.readFile(3);
+    printf("读取内容：%s\n",udp.getBlock());
     return 0;
 }

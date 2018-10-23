@@ -13,14 +13,15 @@ UdpServer::UdpServer() {
         exit(1);
     }
 }
-
 UdpServer::~UdpServer() {
     close(this->ss);
+    delete[] buf;
+    delete[] block;
     printf("*-------------end-------------*\n");
 }
 char * UdpServer::Message(){
-    char buf[BUFSIZ]={0};
-    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    bzero(buf, MAX_SEND);
+    recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
     return buf;
 }
 char * UdpServer::Message(char *message){
@@ -28,19 +29,17 @@ char * UdpServer::Message(char *message){
     return message;
 }
 FileInformation UdpServer::Information(){
-    char buf[BUFSIZ]={0};
-    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    Message();
     memcpy(&this->fl,buf,sizeof(fl)+1);
     return fl;
 }
-
 const FileInformation &UdpServer::getFl() const {
     return fl;
 }
 void UdpServer::show() const {
-    printf(" 文件信息：\n");
+    printf(" 接收信息：\n");
     printf(" name: %s\n",this->fl.name.c_str());
-    printf(" size: %ld\n",this->fl.size);
+    printf(" size: %lld\n",this->fl.size);
     printf(" block:%d\n",this->fl.block);
     printf(" send: %d\n",this->fl.send);
     printf("*-----------------------------*\n");
