@@ -60,6 +60,8 @@ public:
     void show() const;
     
     char *getBlock() const;
+    
+    char *getBuf() const;
 };
 
 

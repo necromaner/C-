@@ -44,3 +44,13 @@ void UdpServer::show() const {
     printf(" send: %d\n",this->fl.send);
     printf("*-----------------------------*\n");
 }
+Data UdpServer::receiveFile(){
+    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    Data data;
+    memcpy(&data, buf, sizeof(data) + 1);
+    return data;
+}
+
+char *UdpServer::getBuf() const {
+    return buf;
+}

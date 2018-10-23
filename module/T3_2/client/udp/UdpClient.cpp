@@ -74,7 +74,11 @@ char * UdpClient::readFile(int num){
 }
 char * UdpClient::sendFile(int num){
     bzero(buf, MAX_SEND);
-    memcpy(&suc,buf,sizeof(suc)+1);
+    Data data;
+    memcpy(data.buf,&block[num*MAX_SEND],MAX_SEND);
+    data.num=num;
+    data.md5="md5";
+    sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
     return buf;
 }
 
@@ -85,4 +89,8 @@ char *UdpClient::getBlock() const {
 void UdpClient::setFile(const string &file1,const string &file2) {
     UdpClient::file1 = file1;
     UdpClient::file2 = file2;
+}
+
+char *UdpClient::getBuf() const {
+    return buf;
 }

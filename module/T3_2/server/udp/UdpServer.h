@@ -44,11 +44,10 @@ public:
     char *Message();                   //接收消息
     char *Message(char *message);      //发送消息
     FileInformation Information();
+    Data receiveFile();
     
     
-    
-    
-    
+    char *getBuf() const;
     
     const FileInformation &getFl() const;
     void show() const;
