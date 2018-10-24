@@ -22,6 +22,7 @@ UdpClient::~UdpClient() {
     delete[] block;
     printf("*-------------end-------------*\n");
 }
+
 char * UdpClient::Message(){
     bzero(buf, MAX_SEND);
     recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
@@ -51,17 +52,6 @@ FileInformation UdpClient::Information(){
     sendto(ss,(char*)&fl,sizeof(fl)+1,0,(struct sockaddr*)&server_addr,len);
     return fl;
 }
-const FileInformation &UdpClient::getFl() const {
-    return fl;
-}
-void UdpClient::show() const {
-    printf(" 发送信息：\n");
-    printf(" name: %s\n",this->fl.name.c_str());
-    printf(" size: %lld\n",this->fl.size);
-    printf(" block:%d\n",this->fl.block);
-    printf(" send: %d\n",this->fl.send);
-    printf("*-----------------------------*\n");
-}
 
 char * UdpClient::readFile(int num){
     bzero(block, MAX_BLOCK);
@@ -72,25 +62,44 @@ char * UdpClient::readFile(int num){
     fclose(fp);
     return block;
 }
-char * UdpClient::sendFile(int num){
+Data  UdpClient::sendFile(int num){
     bzero(buf, MAX_SEND);
     Data data;
     memcpy(data.buf,&block[num*MAX_SEND],MAX_SEND);
     data.num=num;
     data.md5="md5";
     sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
-    return buf;
+    return data;
 }
 
-char *UdpClient::getBlock() const {
-    return block;
-}
+
 
 void UdpClient::setFile(const string &file1,const string &file2) {
     UdpClient::file1 = file1;
     UdpClient::file2 = file2;
 }
-
+const FileInformation &UdpClient::getFl() const {
+    return fl;
+}
+char *UdpClient::getBlock() const {
+    return block;
+}
 char *UdpClient::getBuf() const {
     return buf;
+}
+void UdpClient::show() const {
+    printf(" 发送信息：\n");
+    printf(" name: %s\n",this->fl.name.c_str());
+    printf(" size: %lld\n",this->fl.size);
+    printf(" block:%d\n",this->fl.block);
+    printf(" send: %d\n",this->fl.send);
+    printf("*-----------------------------*\n");
+}
+void UdpClient::show(Data data){
+    printf(" 发送数据：\n");
+    char s[MAX_SEND];
+    printf(" buf: \n%s\n",data.buf);
+    printf(" num: %d\n",data.num);
+    printf(" md5:%s\n",data.md5.c_str());
+    printf("*-----------------------------*\n");
 }

@@ -19,6 +19,7 @@ UdpServer::~UdpServer() {
     delete[] block;
     printf("*-------------end-------------*\n");
 }
+
 char * UdpServer::Message(){
     bzero(buf, MAX_SEND);
     recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
@@ -31,7 +32,36 @@ char * UdpServer::Message(char *message){
 FileInformation UdpServer::Information(){
     Message();
     memcpy(&this->fl,buf,sizeof(fl)+1);
+    FILE *fp;
+    fp=fopen(file().c_str(),"w+");
+    fclose(fp);
     return fl;
+}
+
+Data UdpServer::receiveFile(){
+    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    Data data;
+    memcpy(&data, buf, sizeof(data) + 1);
+    return data;
+}
+char *UdpServer::writeFile(int num){
+    FILE *fp;
+    fp=fopen(file().c_str(),"rb+");
+    fseek(fp, num*fl.block, SEEK_SET);
+    if (num == serial()) {
+        fwrite(block, sizeof(char), (size_t) fl.size % fl.block, fp);
+    } else {
+        fwrite(block, sizeof(char), (size_t) fl.block, fp);
+    }
+    fclose(fp);
+    return block;
+}
+
+
+
+
+char *UdpServer::getBuf() const {
+    return buf;
 }
 const FileInformation &UdpServer::getFl() const {
     return fl;
@@ -44,13 +74,10 @@ void UdpServer::show() const {
     printf(" send: %d\n",this->fl.send);
     printf("*-----------------------------*\n");
 }
-Data UdpServer::receiveFile(){
-    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
-    Data data;
-    memcpy(&data, buf, sizeof(data) + 1);
-    return data;
-}
-
-char *UdpServer::getBuf() const {
-    return buf;
+void UdpServer::show(Data data){
+    printf(" 接收数据：\n");
+    printf(" buf: \n%s\n",data.buf);
+    printf(" num: %d\n",data.num);
+    printf(" md5:%s\n",data.md5.c_str());
+    printf("*-----------------------------*\n");
 }
