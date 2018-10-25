@@ -47,7 +47,9 @@ Data UdpServer::receiveFile(){
 }
 char *UdpServer::manage(int num){
     char ss[6][MAX_SEND];
-    for (int i = 0; i < 6; ++i) {
+    
+    memcpy(ss[0], receiveFile().buf, MAX_SEND);
+    for (int i = 1; i < 6; ++i) {
         bzero(ss[i], MAX_SEND);
         memcpy(ss[i], receiveFile().buf, MAX_SEND);
     }
@@ -58,8 +60,10 @@ char *UdpServer::manage(int num){
 }
 char *UdpServer::writeFile(int num){
     FILE *fp;
-    fp=fopen(file().c_str(),"rb+");
+//    fp=fopen(file().c_str(),"rb+");//可以在中间进行插入
 //    fseek(fp, num*fl.block, SEEK_SET);
+    
+    fp=fopen(file().c_str(),"rb+");
 //    if (num == serial()) {
 //        fwrite(block, sizeof(char), (size_t) fl.size % fl.block, fp);
 //    } else {
@@ -67,9 +71,9 @@ char *UdpServer::writeFile(int num){
 //    }
     
     printf("位置%d写入：\n%s\n",num*fl.block,block);
-//    if (fwrite(this->block, sizeof(char), 2, fp) != 1) {
-//        printf("写入失败");
-//    }
+    if (fwrite("hello", sizeof(char), 2, fp) != 1) {
+        printf("写入失败");
+    }
     fclose(fp);
     return block;
 }
