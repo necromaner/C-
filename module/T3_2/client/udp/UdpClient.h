@@ -21,15 +21,15 @@ using namespace std;
 #define         MAX_SEND     100
 enum TrafficLight{RED,YELLOR,GREEN};
 struct FileInformation{
-    string      name;                   //文件名
-    long long   size;                   //文件大小
-    int         block;                  //文件块大小
-    int         send;                   //文件发送大小
+    string      name;                    //文件名
+    long long   size;                    //文件大小
+    int         block;                   //文件块大小
+    int         send;                    //文件发送大小
 };
 struct Data{
-    char        buf[MAX_SEND];          //文件数据
-    int         num;                    //块序号
-    string      md5;                    //块的md5值
+    char        buf[MAX_SEND];           //文件数据
+    int         num;                     //块序号
+    string      md5;                     //块的md5值
 };
 class UdpClient {
 private:
@@ -46,13 +46,13 @@ private:
     inline string file(){ return file1+file2;}
     inline int serial(){ return (int)(fl.size/MAX_BLOCK+1);}
 public:
-    UdpClient();                       //构造函数
-    virtual ~UdpClient();              //析构函数
-    char *Message();                   //接收消息
-    char *Message(char *message);      //发送消息
-    FileInformation Information();     //发送文件信息
-    char *readFile(int num);           //读取文件
-    Data sendFile(int num);            //发送数据
+    UdpClient();                        //构造函数
+    virtual ~UdpClient();               //析构函数
+    char *Message();                    //接收消息
+    char *Message(char *message);       //发送消息
+    FileInformation Information();      //发送文件信息
+    char *readFile(int num);            //读取文件
+    Data sendFile(int num);             //发送数据
     
     
     

@@ -4,7 +4,7 @@
 using namespace std;
 int main() {
     UdpClient udp;
-    udp.setFile("/Users/necromaner/test/send/","1.zip");
+    udp.setFile("/Users/necromaner/test/send/","send.txt");
     udp.Information();
     udp.show();
     udp.readFile(0);

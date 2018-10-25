@@ -12,7 +12,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <string>
-
+//#include <vector>
 using namespace std;
 
 #define         PORT         8888
@@ -38,23 +38,34 @@ private:
     
     char* buf = new char[MAX_SEND];      //发送的数据
     char* block = new char[MAX_BLOCK];   //读取的块
+    
+    
     FileInformation fl;                  //文件信息
     string file1="/Users/necromaner/test/receive/";
     inline string file(){ return file1+fl.name;}
     inline int serial(){ return (int)(fl.size/MAX_BLOCK+1);}
 public:
-    UdpServer();                       //构造函数
-    virtual ~UdpServer();              //析构函数
-    char *Message();                   //接收消息
-    char *Message(char *message);      //发送消息
-    FileInformation Information();     //发送文件信息
-    Data receiveFile();                //接收数据
-    char *writeFile(int num);          //写入文件
+    UdpServer();                        //构造函数
+    virtual ~UdpServer();               //析构函数
+    char *Message();                    //接收消息
+    char *Message(char *message);       //发送消息
+    FileInformation Information();      //发送文件信息
+    
+    
+    Data receiveFile();                 //接收数据
+    char *manage(int num);
+    char *writeFile(int num);           //写入文件
+    
+    
+    
+    
+    
+    char *getBlock() const;
     
     char *getBuf() const;
     const FileInformation &getFl() const;
-    void show() const;                  //显示文件信息
-    void show(Data data);               //显示传输信息
+    void show() const;                   //显示文件信息
+    void show(Data data);                //显示传输信息
 };
 
 
