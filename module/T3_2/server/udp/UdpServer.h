@@ -1,7 +1,3 @@
-//
-// Created by 温亚奇 on 2018/10/21.
-//
-
 #ifndef SERVER_UDPSERVER_H
 #define SERVER_UDPSERVER_H
 #include <stdio.h>

@@ -73,6 +73,7 @@ char *UdpServer::writeFile(int num){
     printf("位置%d写入：\n%s\n",num*fl.block,block);
     if (fwrite("hello", sizeof(char), 2, fp) != 1) {
         printf("写入失败");
+        
     }
     fclose(fp);
     return block;
