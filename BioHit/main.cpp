@@ -1,12 +1,21 @@
 #include "commentMove/position.h"
 #include "add/add.h"
+#include <iostream>
+using namespace std;
 int main() {
-    Position position("    QLabel *Label_U;                      // U盘\n"
-                      "    QLabel *Label_Q;                      // 电量\n"
-                      "    QLabel *Label_time;                // 实时时间\n"
-                      "    QLabel *Label_station;            // 状态显示\n"
-                      "    QLabel *Label_Control;           // 告知控制状态\n"
-                      "    QLabel *Label_title;                 // 主界面不显示");
+    string s;
+    cin>>s;
+    Position position("");
     position.mobile(30);
+
+
+
+//    Add add;
+//    int a=10;
+//    int b=20;
+//    int c=2;
+//    int d=1;
+//    add.resizeDigital(a,b,c,d);
+//    printf("%d--%d--%d--%d",a,b,c,d);
     return 0;
 }

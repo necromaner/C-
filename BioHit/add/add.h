@@ -5,11 +5,13 @@
 #ifndef BIOHIT_ADD_H
 #define BIOHIT_ADD_H
 
+using namespace std;
 
-class add {
+class Add {
 public:
-    add();
-    virtual ~add();
+    Add();
+    virtual ~Add();
+    void resizeDigital(int &Mea_Limit,int &PG1_Mea_Max,int &Ref_Limit,int &Ref_Max);
 };
 
 
