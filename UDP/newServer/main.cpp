@@ -12,11 +12,12 @@
 using namespace std;
 struct sockaddr_in server_addr;
 
-
+////-----1111-----//
 /**
  * @brief 根据数组发送文件序号
- * @param xx    未成功发送数据
- * @param t        参数2 @see CTest
+ * @param xx         未成功发送数据
+ * @param t          参数2
+ * @see CTest
  *
  * @return 返回说明
  *     -<em>false</em> fail
@@ -30,10 +31,10 @@ void udpServer(){
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(PORT);
-    
+
     /*2.bind()*/
     if (bind(ss, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
-        
+
         printf("创建套接字失败!\n");
         exit(1);
     } else

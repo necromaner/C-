@@ -127,16 +127,17 @@ vector<vector<int>> receiveSuccess(int ss,sockaddr_in server_addr, bool& e){
 //sc：UDP连接
 //server_addr：连接地址
 void Send::send(int ss,sockaddr_in server_addr){
+    //----------------1-------------------------
     char buf[BUFSIZ];
     socklen_t len = sizeof(server_addr);
     recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
     printf("接收到：%s\n",buf);
     
 //    receiveFlag(ss,server_addr);
-    
+    //----------------2-------------------------
     FILE *fp;
     string file1="/Users/necromaner/test/send/";
-    string file2="4.zip";
+    string file2="3.zip";
     string file=file1+file2;
     long x=file_size(file);//文件大小
     if ((fp = fopen(file.c_str(), "r")) == NULL) {
@@ -146,7 +147,8 @@ void Send::send(int ss,sockaddr_in server_addr){
     
     FileInformation fl=sendInformation(ss,server_addr,file2,x);
     vector<vector<int>> xx=newVector(fl.size/fl.max+1,100);
-    
+
+    //----------------3-------------------------
     bool e= true;
     while (e){
         sendData(ss,server_addr,fp,xx,fl);

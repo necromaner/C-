@@ -115,8 +115,10 @@ void sendSuccess(int sc,sockaddr_in server_addr,vector<bool>& xx1,bool & e){
 //sc：UDP连接
 //server_addr：连接地址
 void Receive::receive(int sc,sockaddr_in server_addr){
+    //----------------1-------------------------
     sendFlag(sc,server_addr,(char*)AFFIRM_FLAG);
-    
+
+    //----------------2-------------------------
     FileInformation fl=receiveInformation(sc,server_addr);
     FILE *fp;
     string file1="/Users/necromaner/test/receive/";
@@ -126,7 +128,8 @@ void Receive::receive(int sc,sockaddr_in server_addr){
     fclose(fp);
     fp=fopen(file.c_str(),"rb+");
     vector<bool> xx((unsigned long)fl.size/fl.max+1, true);
-    
+
+    //----------------3-------------------------
     int complete=0;
     bool e= true;
     while (e){

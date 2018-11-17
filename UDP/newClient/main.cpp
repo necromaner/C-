@@ -18,7 +18,7 @@ void udpClient(){
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    
+
     /*2.connect()*/
     if (connect(sc, (struct sockaddr *) &server_addr, sizeof(struct sockaddr)) < 0) {
         printf("2.connect()-UDP连接\n");
