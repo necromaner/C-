@@ -191,6 +191,8 @@ void UdpClient::sendFile() {
         int errorNum=0;
         while (x.size()!=0&&errorNum++<100){
             sendBlock(i);
+            //用boost::serialization把容器序列化到一个buf,然后发送出去，在另外一端在boost::serialization来重建容器
+            //https://blog.csdn.net/breaksoftware/article/details/80775489
             x.erase(x.begin(), x.end());
         }
     }

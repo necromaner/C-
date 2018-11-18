@@ -1,5 +1,4 @@
 #include "UdpServer.h"
-
 UdpServer::UdpServer() {
     printf("*------------start------------*\n");
     /*1.socket()*/
@@ -13,6 +12,7 @@ UdpServer::UdpServer() {
         exit(1);
     }
 }
+
 UdpServer::~UdpServer() {
     close(this->ss);
     delete[] buf;
@@ -72,24 +72,24 @@ char *UdpServer::receiveFLAG(){
     printf("接收到：%s\n",buf);
 }
 
-//map<int,int> UdpServer::initialization(long long num,long long is){
-//    x.erase(x.begin(), x.end());
-//    int length;
-//    if(num==is){//最后一个块
-//        int iss=(int)(this->fl.size%this->fl.block);
-//        if(iss%this->fl.send==0){
-//            length=iss/this->fl.send;
-//        } else{
-//            length=iss/this->fl.send+1;
-//        }
-//    } else{
-//        length=this->fl.block/this->fl.block;
-//    }
-//    for (int i = 0; i < length; ++i) {
-//        x[i]=i;
-//    }
-//    return x;
-//}
+std::map<int,int> UdpServer::initialization(long long num,long long is){
+    x.erase(x.begin(), x.end());
+    int length;
+    if(num==is){//最后一个块
+        int iss=(int)(this->fl.size%this->fl.block);
+        if(iss%this->fl.send==0){
+            length=iss/this->fl.send;
+        } else{
+            length=iss/this->fl.send+1;
+        }
+    } else{
+        length=this->fl.block/this->fl.send;
+    }
+    for (int i = 0; i < length; ++i) {
+        x[i]=i;
+    }
+    return x;
+}
 //--------------------------------------------------------------------------
 
 
@@ -171,18 +171,10 @@ void UdpServer::receiveBlock(int num){
         writeBuf(num,data);
     }
 }
-char *UdpServer::writeBuf(int num,Data data){
-//    int n = (int)x.erase(data.num);//如果刪除了會返回1，否則返回0
-
-//    printf("跳转位置:%d\n",num*fl.block+data.num*fl.send);
-//    printf("*-----------------------------*\n");
-    fseek(fp, num*fl.block+data.num*fl.send, SEEK_SET);
-    if(1){//看是否是最后一块数据
-        fwrite(data.buf, sizeof(char), (size_t) fl.send, fp);
-    } else{
-        fwrite(data.buf, sizeof(char), (size_t) fl.send, fp);
-    }
-    return data.buf;
+void UdpServer::writeBuf(int num,Data data) {
+    int n = (int)x.erase(data.num);//如果刪除了會返回1，否則返回0
+    fseek(fp, num * fl.block + data.num * fl.send, SEEK_SET);
+    fwrite(data.buf, sizeof(char), (size_t) fl.send, fp);
 }
 void UdpServer::receiveFile(){
     long long is;
@@ -193,12 +185,12 @@ void UdpServer::receiveFile(){
     }
     fp=fopen(file().c_str(),"rb+");
     for (int i = 0; i < is; ++i) {
-//        initialization(i,is-1);
+        initialization(i,is-1);
         int errorNum=0;
-//        while (x.size()!=0&&errorNum++<100){
+        while (x.size()!=0&&errorNum++<100){
             receiveBlock(i);
-//            x.erase(x.begin(), x.end());
-//        }
+            x.erase(x.begin(), x.end());
+        }
     }
     fclose(fp);
 }

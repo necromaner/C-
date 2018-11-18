@@ -8,8 +8,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <string>
-//#include <map>
-using namespace std;
+#include <map>
 
 #define         PORT         8888
 #define         MAX_BLOCK    1000
@@ -18,7 +17,7 @@ using namespace std;
 #define         CORRECT_FLAG "FILE_TRANSPORT_CORRECT"
 #define         AFFIRM_FLAG  "AFFIRM_TRANSPORT_FINISH"
 struct FileInformation{
-    string      name;                   //文件名
+    std::string      name;                   //文件名
     long long   size;                   //文件大小
     int         block;                  //文件块大小
     int         send;                   //文件发送大小
@@ -26,13 +25,13 @@ struct FileInformation{
 struct Data{
     char        buf[MAX_SEND];          //文件数据
     int         num;                    //块序号
-    string      md5;                    //块的md5值
+    std::string      md5;               //块的md5值
 };
 
 class UdpServer {
 private:
     int ss;
-//    map<int, int> x;                     //发送序号
+    std::map<int, int> x;                //发送序号
     long long receiveMAX=0;              //总共接收次数
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
@@ -42,8 +41,8 @@ private:
     
     
     FileInformation fl;                  //文件信息
-    string file1="/Users/necromaner/test/receive/";
-    inline string file(){ return file1+fl.name;}
+    std::string file1="/Users/necromaner/test/receive/";
+    inline std::string file(){ return file1+fl.name;}
     inline int serial(){ return (int)(fl.size/MAX_BLOCK+1);}
 
     FILE *fp;
@@ -59,20 +58,20 @@ public:
     char *writeFile(int num);            //写入文件
 
 
-    char *sendFLAG(char* flag);           //发送命令
-    char *receiveFLAG();                  //接收命令
+    char *sendFLAG(char* flag);          //发送命令
+    char *receiveFLAG();                 //接收命令
 
-    Data receiveBuf();                    //接收数据
+    Data receiveBuf();                   //接收数据
     void receiveBlock(int num);
     void receiveFile();
-//    map<int,int> initialization(long long num,long long is);
+    std::map<int,int> initialization(long long num,long long is);
     char *getBlock() const;
     
     char *getBuf() const;
     const FileInformation &getFl() const;
     void show() const;                   //显示文件信息
     void show(Data data);                //显示传输信息
-    char *writeBuf(int num,Data data);             //写入
+    void writeBuf(int num,Data data);    //写入
 };
 
 
