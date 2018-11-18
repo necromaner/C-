@@ -17,41 +17,119 @@ UdpServer::~UdpServer() {
     close(this->ss);
     delete[] buf;
     delete[] block;
+
+
+
+    printf("*-----------------------------*\n");
+
+
     printf("*-------------end-------------*\n");
 }
+char *UdpServer::getBuf() const {
+    return buf;
+}
+const FileInformation &UdpServer::getFl() const {
+    return fl;
+}
+char *UdpServer::getBlock() const {
+    return block;
+}
+void UdpServer::show() const {
+    printf("* Send information:           *\n");
+    printf("* Name: %-22s*\n",this->fl.name.c_str());
+    printf("* size: %-22lld*\n",this->fl.size);
+    printf("* Block:%-22d*\n",this->fl.block);
+    printf("* Send: %-22d*\n",this->fl.send);
+    printf("*-----------------------------*\n");
+    printf("* Analysis:                   *\n");
+    if(this->fl.size%this->fl.send==0){
+        printf("* Send number:%-16lld*\n",this->fl.size/this->fl.send);
+    } else{
+        printf("* Send number:%-16lld*\n",this->fl.size/this->fl.send+1);
+    }
+    if(this->fl.size%this->fl.block==0){
+        printf("* Read number:%-16lld*\n",this->fl.size/this->fl.block);
 
-char * UdpServer::Message(){
+    } else{
+        printf("* Read number:%-16lld*\n",this->fl.size/this->fl.block+1);
+    }
+}
+void UdpServer::show(Data data){//接收到的数据
+    printf(" 接收数据：\n");
+    printf(" buf: \n%s\n",data.buf);
+    printf(" num: %d\n",data.num);
+    printf(" md5:%s\n",data.md5.c_str());
+}
+char *UdpServer::sendFLAG(char* flag){
+    char buf[BUFSIZ]={0};
+    strcpy(buf, flag);
+    buf[strlen(buf)] = '\0';
+    sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
+}
+char *UdpServer::receiveFLAG(){
+    char buf[BUFSIZ]={0};
+    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+    printf("接收到：%s\n",buf);
+}
+
+//map<int,int> UdpServer::initialization(long long num,long long is){
+//    x.erase(x.begin(), x.end());
+//    int length;
+//    if(num==is){//最后一个块
+//        int iss=(int)(this->fl.size%this->fl.block);
+//        if(iss%this->fl.send==0){
+//            length=iss/this->fl.send;
+//        } else{
+//            length=iss/this->fl.send+1;
+//        }
+//    } else{
+//        length=this->fl.block/this->fl.block;
+//    }
+//    for (int i = 0; i < length; ++i) {
+//        x[i]=i;
+//    }
+//    return x;
+//}
+//--------------------------------------------------------------------------
+
+
+
+char * UdpServer::Message(){//接收消息
     bzero(buf, MAX_SEND);
     recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
     return buf;
 }
-char * UdpServer::Message(char *message){
+char * UdpServer::Message(char *message){//发送消息
     sendto(ss, message, strlen(message) + 1, 0, (struct sockaddr *) &server_addr, len);
     return message;
 }
+
 FileInformation UdpServer::Information(){
     Message();
     memcpy(&this->fl,buf,sizeof(fl)+1);
-    FILE *fp;
+//    FILE *fp;
     fp=fopen(file().c_str(),"w+");
     fclose(fp);
     return fl;
 }
 
-Data UdpServer::receiveFile(){
-    recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+
+
+Data UdpServer::receiveBuf(){
     Data data;
     memcpy(&data, buf, sizeof(data) + 1);
-    show(data);
+    printf("-buf:%3d----*%9lld|\n",data.num,++this->receiveMAX);
+//    show(data);
     return data;
 }
+
 char *UdpServer::manage(int num){
     char ss[6][MAX_SEND];
     
-    memcpy(ss[0], receiveFile().buf, MAX_SEND);
+    memcpy(ss[0], receiveBuf().buf, MAX_SEND);
     for (int i = 1; i < 6; ++i) {
         bzero(ss[i], MAX_SEND);
-        memcpy(ss[i], receiveFile().buf, MAX_SEND);
+        memcpy(ss[i], receiveBuf().buf, MAX_SEND);
     }
     for (int j = 0; j < 6; ++j) {
         memcpy(&block[j*MAX_SEND], ss[j], MAX_SEND);
@@ -80,30 +158,47 @@ char *UdpServer::writeFile(int num){
 }
 
 
-
-
-char *UdpServer::getBuf() const {
-    return buf;
-}
-const FileInformation &UdpServer::getFl() const {
-    return fl;
-}
-void UdpServer::show() const {
-    printf(" 接收信息：\n");
-    printf(" name: %s\n",this->fl.name.c_str());
-    printf(" size: %lld\n",this->fl.size);
-    printf(" block:%d\n",this->fl.block);
-    printf(" send: %d\n",this->fl.send);
+void UdpServer::receiveBlock(int num){
     printf("*-----------------------------*\n");
+    while (1){
+        recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+        if (strstr(buf, FINISH_FLAG) != NULL) {
+            break;
+        }
+        printf("*--block:%9d",num);
+        Data data;
+        data=receiveBuf();
+        writeBuf(num,data);
+    }
 }
-void UdpServer::show(Data data){
-    printf(" 接收数据：\n");
-    printf(" buf: \n%s\n",data.buf);
-    printf(" num: %d\n",data.num);
-    printf(" md5:%s\n",data.md5.c_str());
-    printf("*-----------------------------*\n");
-}
+char *UdpServer::writeBuf(int num,Data data){
+//    int n = (int)x.erase(data.num);//如果刪除了會返回1，否則返回0
 
-char *UdpServer::getBlock() const {
-    return block;
+//    printf("跳转位置:%d\n",num*fl.block+data.num*fl.send);
+//    printf("*-----------------------------*\n");
+    fseek(fp, num*fl.block+data.num*fl.send, SEEK_SET);
+    if(1){//看是否是最后一块数据
+        fwrite(data.buf, sizeof(char), (size_t) fl.send, fp);
+    } else{
+        fwrite(data.buf, sizeof(char), (size_t) fl.send, fp);
+    }
+    return data.buf;
+}
+void UdpServer::receiveFile(){
+    long long is;
+    if(this->fl.size%this->fl.block==0){
+        is=this->fl.size/this->fl.block;
+    } else{
+        is=this->fl.size/this->fl.block+1;
+    }
+    fp=fopen(file().c_str(),"rb+");
+    for (int i = 0; i < is; ++i) {
+//        initialization(i,is-1);
+        int errorNum=0;
+//        while (x.size()!=0&&errorNum++<100){
+            receiveBlock(i);
+//            x.erase(x.begin(), x.end());
+//        }
+    }
+    fclose(fp);
 }
