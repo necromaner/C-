@@ -15,6 +15,7 @@ public:
     void resizeDigital(int &Mea_Limit,int &PG1_Mea_Max,int &Ref_Limit,int &Ref_Max);
     void x(double *bufP);
     void x1();
+    void x2(int DX_c);
 };
 
 
