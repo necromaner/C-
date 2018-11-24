@@ -1,4 +1,5 @@
 #include "udp/UdpServer.h"
+#include <iostream>
 using namespace std;
 int main() {
     UdpServer udp;
@@ -8,7 +9,8 @@ int main() {
 
     //2.接收数据
     udp.receiveFile();
-    
 
-    return 0;
+//    udp.TEXT_Receive(1,100);
+
+
 }
