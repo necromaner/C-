@@ -10,6 +10,8 @@
 #include <zconf.h>//close()
 #include <string>
 #include <map>
+#include "gtest/gtest_prod.h"
+#include <vector>
 
 #define         ADDRESS      "127.0.0.1"
 #define         PORT         8888
@@ -51,6 +53,8 @@ private:
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
 
+    bool test=false;                          //是否为测试
+
     std::map<int, int> x;                     //每块中需要发送的序号
     std::map<int,std::map<int,int>> xx;       //文件中需要发送的块
 
@@ -66,16 +70,25 @@ private:
     std::string file2="";                     //文件名
     long long file_size(std::string filename);//文件大小
     inline std::string file(){ return file1+file2;}
-    inline long long serial(){ if(this->fl.size%this->fl.block==0){ return this->fl.size/this->fl.block; } else{ return this->fl.size/this->fl.block+1; };}
+    long long serial();                       //分割块数
     inline int MAX_endbuf(){ return (int)((this->fl.size%this->fl.block)%this->fl.send);}
 
     bool Clean();                             //释放内存清空数据
     void end();                               //结束输出信息
     std::string times(int s);                 //用时
     std::string speed(long long s,int d,int num);   //传输速度
+
+    FRIEND_TEST(private, test0);              //private测试
+
+public:
+    ////---------------test-----------////
+    void setFile1(const std::string &file1);
+    void setFile2(const std::string &file2);
+    void setFl(const std::string &name,long long size,int block,int send);
 public:
     UdpClient();                              //构造函数
     virtual ~UdpClient();                     //析构函数
+    void udpStart();                          //启动udp
     char *Message();                          //接收消息
     char *Message(char *message);             //发送消息
     int sendFLAG(char* flag);                 //发送命令
@@ -98,9 +111,15 @@ public:
     const FileInformation &getFl() const;     //得到文件信息
     void show() const;                        //显示文件信息
     void show(Data data);                     //显示传输信息
+    std::map<int,int> char_To_Map(char* buf);                            //map反序列化
+    char* char_Cut_char(char* buf,const std::string& delim);             //第一次分割
+    std::map<int,int> char_Cut_Map(char* buf,const std::string& delim);  //第二次分割
 
 
+
+    std::vector<std::string> split(const std::string& str, const std::string& delim);
     void TEXT_Send(int min,int max);
+    void test1();
 };
 
 #endif //CLIENT_UDPCLIENT_H

@@ -1,7 +1,11 @@
 #include "UdpClient.h"
 #include <time.h>
 UdpClient::UdpClient() {
+    test=false;
+}
+void UdpClient::udpStart(){
     printf("*------------start------------*\n");
+    test=true;
     tt=time(nullptr);
 /*1.socket()*/
     this->ss = socket(AF_INET, SOCK_DGRAM, 0);//tcp
@@ -18,9 +22,11 @@ UdpClient::UdpClient() {
 //    }
 }
 UdpClient::~UdpClient() {
-    end();
-    Clean();
-    printf("*-------------end-------------*\n");
+    if(test){
+        end();
+        Clean();
+        printf("*-------------end-------------*\n");
+    }
 }
 void UdpClient::end(){
     printf("*-----------------------------*\n");
@@ -116,7 +122,6 @@ bool UdpClient::Clean(){
     delete[] block;
     return 1;
 }
-
 void UdpClient::setFile(const std::string &file1,const std::string &file2) {
     UdpClient::file1 = file1;
     UdpClient::file2 = file2;
@@ -164,7 +169,6 @@ void UdpClient::show(Data data){
     printf(" num: %d\n",data.num);
     printf(" md5:%s\n",data.md5.c_str());
 }
-
 int UdpClient::FLAG(char* buf){
     if (strstr(buf, FINISH_FLAG) != NULL) {
         return 1;
@@ -190,6 +194,26 @@ int UdpClient::receiveFLAG(){
     return FLAG(buf);
 }
 
+void UdpClient::setFile1(const std::string &file1) {
+    UdpClient::file1 = file1;
+}
+void UdpClient::setFile2(const std::string &file2) {
+    UdpClient::file2 = file2;
+}
+void UdpClient::setFl(const std::string &name,long long size,int block,int send) {
+    UdpClient::fl.name = name;
+    UdpClient::fl.size = size;
+    UdpClient::fl.block = block;
+    UdpClient::fl.send = send;
+}
+
+inline long long UdpClient::serial() {
+    if (this->fl.size % this->fl.block == 0) {
+        return this->fl.size / this->fl.block;
+    } else {
+        return this->fl.size / this->fl.block + 1;
+    }
+}
 std::map<int,int> UdpClient::initialization(long long num,long long is){
     x.erase(x.begin(), x.end());
     int length;
@@ -297,17 +321,47 @@ bool UdpClient::receiveX(){
         if (strstr(buf, FINISH_FLAG) != NULL) {
             break;
         }
-//        memcpy(&x, buf, sizeof(x) + 1);
-//        std::map<int,int>::iterator i;
-//        for (i = x.begin(); i != x.end(); ++i) {
-//            printf("* %d - %d*\n",i->first,i->second);
-//        }
+
+        printf("-----%s------\n",buf);
+
     }
     x.erase(x.begin(), x.end());
 //    printf("x.size=%d\n",(int)x.size());
     return true;
 }
+std::map<int,int> UdpClient::char_To_Map(char* buf){
+    std::map<int,int> x;
 
+}
+std::vector<std::string> UdpClient::split(const std::string& str, const std::string& delim) {
+    std::vector<std::string> res;
+    if("" == str) return res;
+    //先将要切割的字符串从string类型转换为char*类型
+    char * strs = new char[str.length() + 1] ; //不要忘了
+    strcpy(strs, str.c_str());
+
+    char * d = new char[delim.length() + 1];
+    strcpy(d, delim.c_str());
+
+    char *p = strtok(strs, d);
+    while(p) {
+        std::string s = p; //分割得到的字符串转换为string类型
+        res.push_back(s); //存入结果数组
+        p = strtok(NULL, d);
+    }
+
+    return res;
+}
+void UdpClient::test1() { //空字符串
+    printf("******test1****** \n");
+    std::string s = "1:2";
+
+    std::vector<std::string> res = split(s, ":");
+    for (int i = 0; i < res.size(); ++i)
+    {
+        printf("---%s---\n",res[i].c_str());
+    }
+}
 void UdpClient::TEXT_Send(int min,int max) {
 
     FILE *fp;

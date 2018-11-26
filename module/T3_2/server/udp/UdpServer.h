@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <string>
 #include <map>
+#include "gtest/gtest_prod.h"
 
 #define         PORT         8888
 #define         MAX_SEND     8000
@@ -50,6 +51,7 @@ private:
     struct sockaddr_in server_addr;
     socklen_t len = sizeof(server_addr);
 
+    bool test=false;                          //是否为测试
 
     std::map<int,std::map<int,int>> xx;       //文件中未成功接收的块
 
@@ -80,12 +82,17 @@ private:
     bool Clean();                             //释放内存清空数据
     void end();                               //结束输出信息
     std::string times(int s);                 //用时
+    std::string speed(long long s,int d);     //传输速度
     std::string speed(long long s,int d,int num);   //传输速度
 
     FILE *fp;
+
+    FRIEND_TEST(private, test0);              //private测试
+
 public:
     UdpServer();                              //构造函数
     virtual ~UdpServer();                     //析构函数
+    void udpStart();                          //启动udp
     char *Message();                          //接收消息
     char *Message(char *message);             //发送消息
     int sendFLAG(char* flag);                 //发送命令
@@ -107,9 +114,9 @@ public:
     void show() const;                        //显示文件信息
     void show(Data data);                     //显示传输信息
 
+    std::string map_To_String(std::map<int,int> x);//map序列化
+
     void TEXT_Receive(int min,int max);
 };
-
-
 
 #endif //SERVER_UDPSERVER_H

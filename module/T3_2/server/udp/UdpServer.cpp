@@ -1,6 +1,10 @@
 #include "UdpServer.h"
 UdpServer::UdpServer() {
+    test=false;
+}
+void UdpServer::udpStart(){
     printf("*------------start------------*\n");
+    test=true;
     /*1.socket()*/
     this->ss = socket(AF_INET, SOCK_DGRAM, 0);
     server_addr.sin_family = AF_INET;
@@ -13,9 +17,11 @@ UdpServer::UdpServer() {
     }
 }
 UdpServer::~UdpServer() {
-    end();
-    Clean();
-    printf("*-------------end-------------*\n");
+    if(test){
+        end();
+        Clean();
+        printf("*-------------end-------------*\n");
+    }
 }
 void UdpServer::end(){
     printf("*-----------------------------*\n");
@@ -46,9 +52,11 @@ void UdpServer::end(){
            t1->tm_min,
            t1->tm_sec);
     printf("* Time : %-15s      *\n",times((int)tt1-(int)tt).c_str());
-    printf("* Speed: %-11s          *\n",speed(fl.size,(int)tt1-(int)tt,0).c_str());
+    printf("* Speed: %-11s          *\n",speed(fl.size,(int)tt1-(int)tt).c_str());
 }
 std::string UdpServer::times(int s) {
+    if(s<0)
+        return "ERROR";
     std::string ss = "";
 
     if (s >= TIME_D) {
@@ -83,6 +91,13 @@ std::string UdpServer::times(int s) {
     } else
         ss += "00";
     return ss;
+}
+std::string UdpServer::speed(long long s,int d){
+
+    if(s>=0&&d>=0)
+        return speed(s,d,0);
+    else
+        return "  ERROR   ";
 }
 std::string UdpServer::speed(long long s,int d,int num){
     std::string sl[7]={SPEED_B,SPEED_K,SPEED_M,SPEED_G,SPEED_T,SPEED_P,SPEED_E};
@@ -265,34 +280,22 @@ bool UdpServer::sendX(){
     int xs=x.size();
     if(xs>0){
         printf("* Loss: %-10d            *\n",(int)x.size());
-        std::map<int,int>::iterator i;
-        int yy1=10;
-        int yy2=20;
-        int array1[3][2]={6};
-        int yy[yy1][yy2]={1,2,3,4,5};
-        int n1=0;
-        int n2=0;
-//        for (i = x.begin(); i != x.end(); ++i) {
-//            printf("* %d - %d*\n",i->first,i->second);
-//            yy[n1][n2]=i->first;
-//            if(n2++>99){
-//                n2=0;
-//                n1++;
-//            }
-//        }
-//        for (int j = 0; j < yy1; ++j) {
-//            for (int k = 0; k < yy2; ++k) {
-//                if(yy[j][k]!=0){
-//                    printf("%3d   ",yy[j][k]);
-//                } else
-//                    break;
-//            }
-//        }
-//        sendto(ss,(char*)&x,sizeof(x)+1,0,(struct sockaddr*)&server_addr,len);
+        std::string s=map_To_String(x);
+        sendto(ss,(char*)&s,s.size()+1,0,(struct sockaddr*)&server_addr,len);
     }
     sendFLAG((char*)FINISH_FLAG);
     x.erase(x.begin(), x.end());
     return true;
+}
+std::string UdpServer::map_To_String(std::map<int,int> x){
+    std::string s="";
+    std::map<int,int>::iterator i;
+    for (i = x.begin(); i != x.end(); ++i) {
+        char s1[40]="";
+        sprintf(s1,"%d-%d,",i->first,i->second);
+        s+=s1;
+    }
+    return s;
 }
 void UdpServer::TEXT_Receive(int min,int max) {
     char *buf=new char[10000];
@@ -303,3 +306,5 @@ void UdpServer::TEXT_Receive(int min,int max) {
     }
     delete[] buf;
 }
+
+
