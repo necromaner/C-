@@ -1,12 +1,55 @@
 #include "UdpClient.h"
-#include <time.h>
+////------------------内联函数--------------------////
+inline std::string UdpClient::file() {
+    return file1 + file2;
+}
+inline long long UdpClient::MAX_Block_Num() {
+    if (this->fl.size % this->fl.block == 0)
+        return this->fl.size / this->fl.block;
+    else
+        return this->fl.size / this->fl.block + 1;
+}
+inline int UdpClient::MAX_endbuf() {
+    return (int) ((this->fl.size % this->fl.block) % this->fl.send);
+}
+inline int UdpClient::MIN_Buf_Num() {
+    if (((this->fl.size % this->fl.block) % this->fl.send) == 0)
+        return (int) ((this->fl.size % this->fl.block) / this->fl.send);
+    else
+        return (int) ((this->fl.size % this->fl.block) / this->fl.send) + 1;
+}
+inline long long UdpClient::serial() {
+    if (this->fl.size % this->fl.block == 0) {
+        return this->fl.size / this->fl.block;
+    } else {
+        return this->fl.size / this->fl.block + 1;
+    }
+}
+////------------------清空数据--------------------////
+void UdpClient::Clean_Set_Y(){
+    UdpClient::y.erase(UdpClient::y.begin(), UdpClient::y.end());
+}
+void UdpClient::Clean_buf(){
+    bzero(buf, MAX_SEND);
+}
+void UdpClient::Clean_block(){
+    bzero(block, MAX_BLOCK);
+}
+////-----------------构造--析构-------------------////
 UdpClient::UdpClient() {
     test=false;
+}
+UdpClient::~UdpClient() {
+    if(test){
+        end();
+        Clean();
+        printf("*-------------end-------------*\n");
+    }
 }
 void UdpClient::udpStart(){
     printf("*------------start------------*\n");
     test=true;
-    tt=time(nullptr);
+    tt=getCurrentTime();
 /*1.socket()*/
     this->ss = socket(AF_INET, SOCK_DGRAM, 0);//tcp
     server_addr.sin_family = AF_INET;
@@ -21,13 +64,6 @@ void UdpClient::udpStart(){
 //        printf("*            -TCP-            *\n");
 //    }
 }
-UdpClient::~UdpClient() {
-    if(test){
-        end();
-        Clean();
-        printf("*-------------end-------------*\n");
-    }
-}
 void UdpClient::end(){
     printf("*-----------------------------*\n");
     long long a;
@@ -37,8 +73,8 @@ void UdpClient::end(){
         a=this->fl.size/this->fl.send+1;
     }
     printf("* Expect send:%10lld      *\n",a);
-    printf("* Actual send:%10lld      *\n",sendMAX);
-    printf("* Resend rates:%9.3f%%     *\n",(((double)(sendMAX-a))/(double)a)*100);
+    printf("* Actual send:%10lld      *\n",SR_NUM);
+    printf("* Resend rates:%9.3f%%     *\n",(((double)(SR_NUM-a))/(double)a)*100);
     tm* t= localtime(&tt);
     printf("* Begin: %d-%02d-%02d %02d:%02d:%02d  *\n",
            t->tm_year + 1900,
@@ -47,7 +83,7 @@ void UdpClient::end(){
            t->tm_hour,
            t->tm_min,
            t->tm_sec);
-    time_t tt1 = time(nullptr);
+    time_t tt1 = getCurrentTime();
     tm* t1= localtime(&tt1);
     printf("* End:   %d-%02d-%02d %02d:%02d:%02d  *\n",
            t1->tm_year + 1900,
@@ -56,46 +92,79 @@ void UdpClient::end(){
            t1->tm_hour,
            t1->tm_min,
            t1->tm_sec);
-    printf("* Time : %-15s      *\n",times((int)tt1-(int)tt).c_str());
-    printf("* Speed: %-11s          *\n",speed(fl.size,(int)tt1-(int)tt,0).c_str());
+    printf("* Time : %-15s      *\n",times((long long)tt1-(long long)tt).c_str());
+    printf("* Speed: %-11s          *\n",speed(fl.size,(int)tt1-(int)tt).c_str());
 }
-std::string UdpClient::times(int s) {
+int64_t UdpClient::getCurrentTime() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);    //该函数在sys/time.h头文件中
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+std::string UdpClient::times(long long s) {
     std::string ss = "";
-
-    if (s >= TIME_D) {
-        ss += std::to_string(s / TIME_D);
-        s = s % TIME_D;
+    int s1=s;
+    ////-----------days
+    int days=s1 / TIME_D;
+    if (s1 >= TIME_D) {
+        ss += std::to_string(days);
         ss += "d ";
     }
+    s1 = s1 % TIME_D;
 
-    if (s >= TIME_H) {
-        if (s < TIME_H * TIME_10)
+    ////-----------hours
+    int hours=s1 / TIME_H;
+    if (s1 >= TIME_H) {
+        if (s1 < TIME_H * TIME_10)
             ss += "0";
-        ss += std::to_string(s / TIME_H);
-        s = s % TIME_H;
+        ss += std::to_string(hours);
     } else
         ss += "00";
     ss += ":";
+    s1 = s1 % TIME_H;
 
-    if (s >= TIME_M) {
-        if (s < TIME_M * TIME_10)
+    ////-----------minutes
+    int minutes=s1 / TIME_M;
+    if (s1 >= TIME_M) {
+        if (s1 < TIME_M * TIME_10)
             ss += "0";
-        ss += std::to_string(s / TIME_M);
-        s = s % TIME_M;
+        ss += std::to_string(s1 / TIME_M);
     } else
         ss += "00";
     ss += ":";
+    s1 = s1 % TIME_M;
 
-    if (s >= TIME_S) {
-        if (s < TIME_S * TIME_10)
+    ////-----------seconds
+    int seconds=s1 / TIME_S;
+    if(s1 % TIME_S>500&&s>TIME_M)
+        s1++;
+    if (s1 >= TIME_S) {
+        if (s1 < TIME_S * TIME_10)
             ss += "0";
-        ss += std::to_string(s / TIME_S);
-        s = s % TIME_S;
+        ss += std::to_string(s1 / TIME_S);
     } else
         ss += "00";
+    s1 = s1 % TIME_S;
+
+    ////-----------milliseconds
+    int milliseconds=s1 / TIME_MS;
+    if(s<TIME_M){
+        ss+=".";
+        if(s1<TIME_MS*TIME_10)
+            ss+="00";
+        else if(s1<TIME_MS*TIME_10*TIME_10)
+            ss+="0";
+        ss+=std::to_string(s1 / TIME_MS);
+    }
     return ss;
 }
-std::string UdpClient::speed(long long s,int d,int num){
+std::string UdpClient::speed(long long s,long long d){
+
+    if(s>=0&&d>=0)
+        return speed(s,d,0);
+    else
+        return "  ERROR   ";
+}
+std::string UdpClient::speed(long long s,long long d,int num){
     std::string sl[7]={SPEED_B,SPEED_K,SPEED_M,SPEED_G,SPEED_T,SPEED_P,SPEED_E};
     std::string  speeds="";
     char ss1[10];
@@ -116,33 +185,13 @@ std::string UdpClient::speed(long long s,int d,int num){
     return speeds;
 }
 bool UdpClient::Clean(){
-    x.erase(x.begin(), x.end());
+    y.erase(y.begin(), y.end());
     close(this->ss);
     delete[] buf;
     delete[] block;
     return 1;
 }
-void UdpClient::setFile(const std::string &file1,const std::string &file2) {
-    UdpClient::file1 = file1;
-    UdpClient::file2 = file2;
-}
-const FileInformation &UdpClient::getFl() const {
-    return fl;
-}
-char *UdpClient::getBlock() const {
-    return block;
-}
-char *UdpClient::getBuf() const {
-    return buf;
-}
-long long UdpClient::file_size(std::string filename) {//获取文件大小
-    FILE *fp=fopen(filename.c_str(),"r");
-    if(!fp) return -1;
-    fseek(fp,0L,SEEK_END);
-    long size=ftell(fp);
-    fclose(fp);
-    return size;
-}
+////-------------------test---------------------////
 void UdpClient::show() const {
     printf("* Send information:           *\n");
     printf("* Name: %-22s*\n",this->fl.name.c_str());
@@ -169,6 +218,63 @@ void UdpClient::show(Data data){
     printf(" num: %d\n",data.num);
     printf(" md5:%s\n",data.md5.c_str());
 }
+void UdpClient::setFile1(const std::string &file1) {
+    UdpClient::file1 = file1;
+}
+void UdpClient::setFile2(const std::string &file2) {
+    UdpClient::file2 = file2;
+}
+void UdpClient::setFl(const std::string &name,long long size,int block,int send) {
+    UdpClient::fl.name = name;
+    UdpClient::fl.size = size;
+    UdpClient::fl.block = block;
+    UdpClient::fl.send = send;
+}
+void UdpClient::TEXT_Send(int min,int max) {
+    fp = fopen(file().c_str(), "rb+");
+    fseek(fp, 0, SEEK_SET);
+
+    int x=199;
+    char* buf = new char[x];
+    fseek(fp, 0, SEEK_SET);
+    fread(buf, sizeof(char), 9200, fp);
+    printf("接收到:\n%s\n",buf);
+    sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
+    bzero(buf, strlen(buf));
+    delete[] buf;
+    fclose(fp);
+}
+char *UdpClient::getBuf() const {
+    return buf;
+}
+const FileInformation &UdpClient::getFl() const {
+    return fl;
+}
+char *UdpClient::getBlock() const {
+    return block;
+}
+void UdpClient::Clean_test(){
+    bzero(buf, MAX_SEND);
+    bzero(block, MAX_BLOCK);
+    y.erase(y.begin(), y.end());
+    file1="";
+    file2="";
+    fl.name= "";
+    fl.block=0;
+    fl.size=0;
+    fl.send=0;
+}
+////-------------------收  发---------------------////
+char * UdpClient::Message(){//接收消息
+    bzero(buf, MAX_SEND);
+    recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
+    return buf;
+}
+char * UdpClient::Message(char *message){//发送消息
+    sendto(ss, message, strlen(message) + 1, 0, (struct sockaddr *) &server_addr, len);
+    return message;
+}
+////-------------------命  令---------------------////
 int UdpClient::FLAG(char* buf){
     if (strstr(buf, FINISH_FLAG) != NULL) {
         return 1;
@@ -193,58 +299,19 @@ int UdpClient::receiveFLAG(){
     printf("接收到：%s\n",buf);
     return FLAG(buf);
 }
-
-void UdpClient::setFile1(const std::string &file1) {
+////------------------文件信息--------------------////
+void UdpClient::setFile(const std::string &file1,const std::string &file2) {
     UdpClient::file1 = file1;
-}
-void UdpClient::setFile2(const std::string &file2) {
     UdpClient::file2 = file2;
 }
-void UdpClient::setFl(const std::string &name,long long size,int block,int send) {
-    UdpClient::fl.name = name;
-    UdpClient::fl.size = size;
-    UdpClient::fl.block = block;
-    UdpClient::fl.send = send;
+long long UdpClient::file_size(std::string filename) {//获取文件大小
+    FILE *fp=fopen(filename.c_str(),"r");
+    if(!fp) return -1;
+    fseek(fp,0L,SEEK_END);
+    long size=ftell(fp);
+    fclose(fp);
+    return size;
 }
-
-inline long long UdpClient::serial() {
-    if (this->fl.size % this->fl.block == 0) {
-        return this->fl.size / this->fl.block;
-    } else {
-        return this->fl.size / this->fl.block + 1;
-    }
-}
-std::map<int,int> UdpClient::initialization(long long num,long long is){
-    x.erase(x.begin(), x.end());
-    int length;
-    if(num==is){//最后一个块
-        int iss=(int)(this->fl.size%this->fl.block);
-        if(iss%this->fl.send==0){
-            length=iss/this->fl.send;
-        } else{
-            length=iss/this->fl.send+1;
-        }
-    } else{
-        length=this->fl.block/this->fl.send;
-    }
-
-    for (int i = 0; i < length; ++i) {
-        x[i]=i;
-    }
-    return x;
-}
-//--------------------------------------------------------------------------
-char * UdpClient::Message(){//接收消息
-    bzero(buf, MAX_SEND);
-    recvfrom(ss, buf, MAX_SEND, 0, (struct sockaddr *) &server_addr, &len);
-    return buf;
-}
-char * UdpClient::Message(char *message){//发送消息
-    sendto(ss, message, strlen(message) + 1, 0, (struct sockaddr *) &server_addr, len);
-    return message;
-}
-
-
 FileInformation UdpClient::Information(){//发送文件信息
     FILE *fp;
     if ((fp = fopen(file().c_str(), "r")) == NULL) {
@@ -256,7 +323,25 @@ FileInformation UdpClient::Information(){//发送文件信息
     sendto(ss,(char*)&fl,sizeof(fl)+1,0,(struct sockaddr*)&server_addr,len);
     return fl;
 }
-
+////------------------发送文件--------------------////
+std::set<int> UdpClient::initialization_set(long long num,long long is){
+    y.erase(y.begin(),y.end());
+    int length;
+    if(num==is){//最后一个块
+        int iss=(int)(this->fl.size%this->fl.block);
+        if(iss%this->fl.send==0){
+            length=iss/this->fl.send;
+        } else{
+            length=iss/this->fl.send+1;
+        }
+    } else{
+        length=this->fl.block/this->fl.send;
+    }
+    for (int i = 0; i < length; ++i) {
+        y.insert(i);
+    }
+    return y;
+}
 char *UdpClient::readFile(int num){//读取文件
     bzero(block, MAX_BLOCK);
     FILE *fp;
@@ -270,25 +355,31 @@ void UdpClient::sendFile() {
     long long is;
     is=serial();
     for (int i = 0; i < is; ++i) {
-        initialization(i,is-1);
+        initialization_set(i,is-1);
         int errorNum=BEGIN;
-        while (x.size()!=BEGIN&&errorNum++<MAX_RESEND){
-            sendBlock(i);
-            receiveX();
-            //用boost::serialization把容器序列化到一个buf,然后发送出去，在另外一端在boost::serialization来重建容器
-            //https://blog.csdn.net/breaksoftware/article/details/80775489
 
+//        std::set<int>::iterator it;
+//        for(it=y.begin ();it!=y.end ();it++)
+//        {
+//            printf("%d--",*it);
+//        }
+//        printf("\n");
+
+        while (y.size()!=BEGIN&&errorNum++<MAX_RESEND){
+            sendBlock(i);
+            receiveY();
+            Clean_Set_Y();
         }
     }
 }
 void UdpClient::sendBlock(int num){
 //    printf("*-----------------------------*\n");
     readFile(num);
-    std::map<int,int>::iterator i;
-    for (i = x.begin(); i != x.end(); ++i) {
-        if(i->first==40){
-            continue;
-        }
+    std::set<int>::iterator i;
+    for (i = y.begin(); i != y.end(); ++i) {
+//        if(i->first==40){
+//            continue;
+//        }
 //        if(i->first==41){
 //            continue;
 //        }
@@ -299,82 +390,68 @@ void UdpClient::sendBlock(int num){
 //            continue;
 //        }
 //        printf("*--block:%9d",num);
-        sendBuf(i->first);
+        sendBuf(*i);
     }
     sendFLAG((char*)FINISH_FLAG);
 }
-Data UdpClient::sendBuf(int num){//发送数据
+Data UdpClient::sendBuf(int num) {//发送数据
 //    printf("-buf:%3d----*%9lld|\n",num,this->sendMAX);
-    ++this->sendMAX;
+    ++this->SR_NUM;
     bzero(buf, MAX_SEND);
     Data data;
-    memcpy(data.buf,&block[num*MAX_SEND],MAX_SEND);
-    data.num=num;
-    data.md5="md5";
-    sendto(ss,(char*)&data,sizeof(data)+1,0,(struct sockaddr*)&server_addr,len);
+    memcpy(data.buf, &block[num * MAX_SEND], MAX_SEND);
+    data.num = num;
+    data.md5 = "md5";
+    sendto(ss, (char *) &data, sizeof(data) + 1, 0, (struct sockaddr *) &server_addr, len);
     return data;
 }
-
-bool UdpClient::receiveX(){
-    while (true){
-        recvfrom(ss, buf, BUFSIZ, 0, (struct sockaddr *) &server_addr, &len);
+////------------------消息回传--------------------////
+bool UdpClient::receiveY() {
+    y.erase(y.begin(), y.end());
+    while (true) {
+        bzero(buf, MAX_SEND);
+        recvfrom(ss, buf, MAX_SEND_MAX, 0, (struct sockaddr *) &server_addr, &len);
         if (strstr(buf, FINISH_FLAG) != NULL) {
             break;
         }
 
-        printf("-----%s------\n",buf);
+        Data data;
+        data=receiveBuf();
+//        memcpy(&data, buf, sizeof(data) + 1);
+        printf("--%s--\n", buf);
 
+//        buf[0] = ' ';
+//        string_To_Set(buf,CUT);
+//        std::set<int>::iterator it;
+//        printf("*-%-27s-*", buf);
+//        for (it = y.begin(); it != y.end(); it++) {
+//            printf("-%d--", *it);
+//        }
+        printf("\n");
     }
-    x.erase(x.begin(), x.end());
-//    printf("x.size=%d\n",(int)x.size());
+//    x.erase(x.begin(), x.end());
     return true;
 }
-std::map<int,int> UdpClient::char_To_Map(char* buf){
-    std::map<int,int> x;
+Data UdpClient::receiveBuf(){
+    Data data;
+    memcpy(&data, buf, sizeof(data) + 1);
+    printf("--%d--\n", data.num);
 
+//    show(data);
+    return data;
 }
-std::vector<std::string> UdpClient::split(const std::string& str, const std::string& delim) {
-    std::vector<std::string> res;
-    if("" == str) return res;
-    //先将要切割的字符串从string类型转换为char*类型
-    char * strs = new char[str.length() + 1] ; //不要忘了
+std::set<int> UdpClient::string_To_Set(const std::string& str, const std::string& delim) {
+    if ("" == str) return y;
+    char *strs = new char[str.length() + 1];
     strcpy(strs, str.c_str());
-
-    char * d = new char[delim.length() + 1];
+    char *d = new char[delim.length() + 1];
     strcpy(d, delim.c_str());
-
     char *p = strtok(strs, d);
-    while(p) {
-        std::string s = p; //分割得到的字符串转换为string类型
-        res.push_back(s); //存入结果数组
+    while (p) {
+        int s = atoi(p);
+        y.insert(s);
         p = strtok(NULL, d);
     }
-
-    return res;
+    return y;
 }
-void UdpClient::test1() { //空字符串
-    printf("******test1****** \n");
-    std::string s = "1:2";
 
-    std::vector<std::string> res = split(s, ":");
-    for (int i = 0; i < res.size(); ++i)
-    {
-        printf("---%s---\n",res[i].c_str());
-    }
-}
-void UdpClient::TEXT_Send(int min,int max) {
-
-    FILE *fp;
-    fp = fopen(file().c_str(), "rb+");
-    fseek(fp, 0, SEEK_SET);
-
-    int x=199;
-    char* buf = new char[x];
-    fseek(fp, 0, SEEK_SET);
-    fread(buf, sizeof(char), 9200, fp);
-    printf("接收到:\n%s\n",buf);
-    sendto(ss, buf, strlen(buf) + 1, 0, (struct sockaddr *) &server_addr, len);
-    bzero(buf, strlen(buf));
-    delete[] buf;
-    fclose(fp);
-}

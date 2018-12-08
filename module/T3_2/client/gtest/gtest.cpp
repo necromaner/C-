@@ -1,5 +1,19 @@
-#include <gtest/gtest.h>
-#include "udp/UdpClient.h"
+//
+// Created by necromaner on 2018/12/8.
+//
+
+#include "gtest.h"
+gtest::gtest(){
+    printf("-------------begin-------------");
+}
+gtest::~gtest(){
+    printf("--------------end--------------");
+}
+int gtest::test(int argc, char ** argv){
+    printf("\n");
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS(); // 执行所有的 test case
+}
 TEST(private, test0){
     UdpClient udp;
 
@@ -58,76 +72,7 @@ TEST(private, test0){
     ////-----------string speed(long long s,int d)
 
 }
-//
-//TEST(TEXT_Send,test0){
-//    UdpClient udp;
-//}
 
-
-void udp(){
+TEST(TEXT_Send,test0){
     UdpClient udp;
-    //0.设置发送路径及文件名
-    udp.setFile("/Users/necromaner/test/send/","2.zip");
-    //1.启动udp
-    udp.udpStart();
-    //2.发送信息
-    udp.Information();
-    udp.show();
-    //3.发送数据
-    udp.sendFile();
-//    udp.TEXT_Send(1,100);
 }
-int test(int argc, char ** argv){
-    printf("\n");
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS(); // 执行所有的 test case
-}
-
-int main(int argc, char ** argv) {
-    int x = 0;
-    switch (x) {
-        case 0:
-            udp();
-            break;
-        case 1:
-            test(argc, argv);
-            break;
-        default:
-            break;
-    }
-}
-
-
-//#include "udp/UdpClient.h"
-//#include "gtest/gtest.h"
-//void udp(){
-//    UdpClient udp;
-//    //0.设置发送路径及文件名
-//    udp.setFile("/Users/necromaner/test/send/","2.zip");
-//    //1.启动udp
-//    udp.udpStart();
-//    //2.发送信息
-//    udp.Information();
-//    udp.show();
-//    //3.发送数据
-//    udp.sendFile();
-//    udp.TEXT_Send(1,100);
-//}
-//void test(int argc, char ** argv){
-//    gtest test;
-//    test.test(argc,argv);
-//}
-//
-//int main(int argc, char ** argv) {
-//    int x = 0;
-//    switch (x) {
-//        case 0:
-//            udp();
-//            break;
-//        case 1:
-//            test(argc, argv);
-//            break;
-//        default:
-//            break;
-//    }
-//}

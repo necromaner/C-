@@ -1,7 +1,20 @@
-#include <gtest/gtest.h>
-#include "udp/UdpServer.h"
-//using namespace std;
+//
+// Created by necromaner on 2018/12/8.
+//
 
+#include "gtest.h"
+
+gtest::gtest(){
+    printf("-------------begin-------------");
+}
+gtest::~gtest(){
+    printf("--------------end--------------");
+}
+int gtest::test(int argc, char ** argv){
+    printf("\n");
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS(); // 执行所有的 test case
+}
 //TEST(time, test0){
 //    UdpServer udp;
 //    printf("111\n");
@@ -37,46 +50,14 @@ TEST(private, test0){
 
 
 }
-//TEST(map_To_String, test0){
+//TEST(set_To_String, test0){
 //    UdpServer udp;
-//    std::map<int,int> s;
-//    s[1]=1;
-//    s[2]=2;
-//    EXPECT_EQ("1-1,2-2,",udp.map_To_String(s));
-//    std::map<int,int> s1;
-//    EXPECT_EQ("",udp.map_To_String(s1));
+//    std::set<int> s;
+//    s.insert(1);
+//    s.insert(2);
+//    EXPECT_EQ("1 2 ",udp.set_To_String(s));
+//    std::set<int> s1;
+//    EXPECT_EQ("",udp.set_To_String(s1));
 //}
 
 
-void udp(){
-    UdpServer udp;
-    //0.设置发送路径及文件名
-    udp.setFile("/Users/necromaner/test/receive/");
-    //1.启动udp
-    udp.udpStart();
-    //2.发送信息
-    udp.Information();
-    udp.show();
-    //3.发送数据
-    udp.receiveFile();
-
-//    udp.TEXT_Receive(1,100);
-}
-int test(int argc, char ** argv){
-    printf("\n");
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS(); // 执行所有的 test case
-}
-int main(int argc, char ** argv) {
-    int x = 0;
-    switch (x) {
-        case 0:
-            udp();
-            break;
-        case 1:
-            test(argc, argv);
-            break;
-        default:
-            break;
-    }
-}
