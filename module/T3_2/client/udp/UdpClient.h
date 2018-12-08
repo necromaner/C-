@@ -16,8 +16,8 @@
 
 #define         ADDRESS      "127.0.0.1"
 #define         PORT         8888
-#define         MAX_SEND     8000
 
+#define         MAX_SEND     8000
 #define         NUM_BLOCK    50
 #define         MAX_BLOCK    (MAX_SEND*NUM_BLOCK)
 #define         NUM_OTHER    1000

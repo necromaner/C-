@@ -16,8 +16,8 @@
 
 #define         ADDRESS      "127.0.0.1"
 #define         PORT         8888
-#define         MAX_SEND     8000
 
+#define         MAX_SEND     8000
 #define         NUM_BLOCK    50
 #define         MAX_BLOCK    (MAX_SEND*NUM_BLOCK)
 #define         NUM_OTHER    1000
@@ -89,7 +89,6 @@ private:
     long long MAX_Block_Num();                             //需要发送的块总数量
     int MAX_endbuf();                                      //最后一个数据的大小
     int MIN_Buf_Num();                                     //最后一个块中最小的序号
-    long long serial();                                    //分割块数
     ////------------------清空数据--------------------////
     void Clean_Set_Y();                                    //清空set<int> y中元素
     void Clean_buf();                                      //清空buf
@@ -110,6 +109,7 @@ private:
     int FLAG(char *buf);                                   //命令解析
     ////------------------文件收发--------------------////
     void receiveBlock(int num);                            //接收文件块
+    Data receiveBuf();                                     //接收数据
     void writeBuf(int num,Data data);                      //写入数据
     std::set<int> initialization_set(long long num, long long is);//块序号初始化
     bool sendY();                                          //发送未成功发送序号
