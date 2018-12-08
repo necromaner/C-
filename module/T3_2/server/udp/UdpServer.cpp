@@ -318,8 +318,8 @@ void UdpServer::receiveFile(){
         int errorNum=BEGIN;//BEGIN=0;
         while (y.size()!=BEGIN&&errorNum++<MAX_RESEND){
             receiveBlock(i);
-            sendY();
-
+//            sendY();
+//            Clean_Set_Y();
         }
         block_num++;
     }
@@ -349,7 +349,7 @@ Data UdpServer::receiveBuf(){
 }
 void UdpServer::writeBuf(int num,Data data) {
     int n = (int) y.erase(data.num);//如果刪除了會返回1，否則返回0
-    printf("---%s--%d\n",data.buf,data.num);
+//    printf("---%s--%d\n",data.buf,data.num);
     fseek(fp, num * fl.block + data.num * fl.send, SEEK_SET);//写入坐标
     if (num + 1 == MAX_Block_Num() && data.num + 1 == MIN_Buf_Num())
         fwrite(data.buf, sizeof(char), (size_t) MAX_endbuf(), fp);

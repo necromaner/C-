@@ -342,33 +342,22 @@ std::set<int> UdpClient::initialization_set(long long num,long long is){
     }
     return y;
 }
-char *UdpClient::readFile(int num){//读取文件
-    bzero(block, MAX_BLOCK);
-    FILE *fp;
-    fp = fopen(file().c_str(), "rb+");
-    fseek(fp, num*fl.block, SEEK_SET);
-    fread(block, sizeof(char), (size_t )fl.block, fp);
-    fclose(fp);
-    return block;
-}
 void UdpClient::sendFile() {
     long long is;
     is=serial();
     for (int i = 0; i < is; ++i) {
         initialization_set(i,is-1);
         int errorNum=BEGIN;
-
 //        std::set<int>::iterator it;
 //        for(it=y.begin ();it!=y.end ();it++)
 //        {
 //            printf("%d--",*it);
 //        }
 //        printf("\n");
-
         while (y.size()!=BEGIN&&errorNum++<MAX_RESEND){
             sendBlock(i);
-            receiveY();
-            Clean_Set_Y();
+//            receiveY();
+//            Clean_Set_Y();
         }
     }
 }
@@ -393,6 +382,15 @@ void UdpClient::sendBlock(int num){
         sendBuf(*i);
     }
     sendFLAG((char*)FINISH_FLAG);
+}
+char *UdpClient::readFile(int num){//读取文件
+    bzero(block, MAX_BLOCK);
+    FILE *fp;
+    fp = fopen(file().c_str(), "rb+");
+    fseek(fp, num*fl.block, SEEK_SET);
+    fread(block, sizeof(char), (size_t )fl.block, fp);
+    fclose(fp);
+    return block;
 }
 Data UdpClient::sendBuf(int num) {//发送数据
 //    printf("-buf:%3d----*%9lld|\n",num,this->sendMAX);
