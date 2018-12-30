@@ -1,0 +1,421 @@
+//
+// Created by necromaner on 2018-12-26.
+//
+
+void APP_dev::Timer_SelectDian() {//电量状态
+    //1.判断是否获取到数据，如果没有获取到数据则结束
+    if (AdcDev > 0) {
+        ////----------------------初始化-----------------------////
+        int ibuffer;
+//        static int ADC1Buffer = 0;
+        static double dValue0 = 0;//0通道模数转换
+        static double dValue1 = 0;//1通道模数转换
+        double Value_Temp = 0;                  // 电池平均值 放电状态时使用
+        double Value_Value = 0;                 // 电压平均值 充电状态时使用
+        static bool isChangePower = false;      // 充电状态
+        static bool isChangeDianchi = false;    // 电池状态
+
+        static bool isBattery_80true = false;//放电显示80
+        static bool isBattery_60true = false;//放电显示60
+        static bool isBattery_40true = false;//放电显示40
+        static bool isBattery_20true = false;//放电显示20
+
+        static bool isCharging_80true = false;//充电显示80
+        static bool isCharging_60true = false;//充电显示60
+        static bool isCharging_40true = false;//充电显示40
+        static bool isCharging_100true = false;//充电显示20
+
+        static bool Read0 = false; // 程序启动时采集通道1
+        ////-------------------------------------------------////
+
+//        static QString Battery_Str;
+
+        if (0 == iCount_Power) {
+            memset(Power, 0, 10);//memset将某一块内存中的内容全部设置为指定的值
+            //将Power前10个字节设置为0
+        }
+
+        if (true == isMotorStart || true == isPrinterRun || true == isDoorMove)  // 电机正在运动时，停止采集电压
+        {
+            return;
+        }
+
+//        int ret = read(AdcDev, &ibuffer, sizeof(ibuffer)); //读ad转换后的数据
+        //通道0为获取充电放电状态，通道1为获取电池具体电压
+        if (Read0 == true) // 读通道0 ADC值 ,并且分析通道1与通道0的值
+        {
+            ioctl(AdcDev, CMD_BIT_SELECTED, 12);
+            ioctl(AdcDev, CMD_PORT_SELECTED, 0); //设置通道0
+            int ret = read(AdcDev, &ibuffer, sizeof(ibuffer)); //读ad转换后的数据
+//            qDebug("读通道0=========buffer0 = %d",ibuffer);
+            if (ret > 0) {
+                dValue0 = ((float) ibuffer * 3.3) / 4095 * 4;//模数换算
+//                qDebug("读通道0=========dValue0 = %f",dValue0);
+//                qDebug("\r\n");
+
+                if (Low_Data >= dValue0) {
+                    Low_Data = dValue0;
+                }
+                if (Hight_Data <= dValue0) {
+                    Hight_Data = dValue0;
+                }
+
+//                Battery_Str += QString::number(dValue0) + ",";
+//                Battery_Str += QString::number(ibuffer) + ",";
+//                Battery_Str += QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss") + "\r\n";
+            }
+            if (dValue0 >= 10)          //  充电
+            {
+//                qDebug() << "++++++++++++++++++++ 充电+++++++++++++++++++";
+//                qDebug("充电====== dValue0 = %f",dValue0);
+//                qDebug("充电====== 0 ibuffer = %d",ibuffer);
+//                qDebug("充电====== dValue1 = %f",dValue1);
+//                qDebug("充电====== 1 ibuffer = %d",ibuffer);
+                if (false == isChangePower) // 由电池状态切换到充电状态
+                {
+                    iCount_Power = 0;
+                    isChangeDianchi = false;
+                    isChangePower = true;
+                    isBattery_80true = false;
+                    isBattery_60true = false;
+                    isBattery_40true = false;
+                    isBattery_20true = false;
+//                    qDebug() << "+由电池状态切换到充电状态+ " <<  dValue1;
+                    if (10.2 <= dValue1)                          // 充电100
+                    {
+                        yx_power = 2.0;
+                        isCharging_100true = true;
+                    } else if (10 <= dValue1 && dValue1 < 10.2)       // 充电80
+                    {
+//                        if(isCharging_100true == true)
+//                        {
+//                            return;
+//                        }
+                        yx_power = 1.8;
+                        isCharging_80true = true;
+                    } else if (9.8 <= dValue1 && dValue1 < 10)       // 充电60
+                    {
+//                        if(isCharging_100true == true || isCharging_80true == true)
+//                        {
+//                            return;
+//                        }
+                        yx_power = 1.6;
+                        isCharging_60true = true;
+                    } else if (9.5 <= dValue1 && dValue1 < 9.8)       // 充电40
+                    {
+//                        if(isCharging_100true == true || isCharging_80true == true || isCharging_60true == true)
+//                        {
+//                            return;
+//                        }
+                        yx_power = 1.4;
+                        isCharging_40true = true;
+                    } else if (dValue1 < 9.5)                    // 充电20
+                    {
+//                        if(isCharging_100true == true || isCharging_80true == true || isCharging_60true == true || isCharging_40true == true)
+//                        {
+//                            return;
+//                        }
+                        yx_power = 1.2;
+                    }
+                    return;
+                } else                                       // 当前一直是充电状态
+                {
+                    if (iCount_Power < 10) {
+                        Power[iCount_Power] = dValue1;
+//                        qDebug("充电 dValue1 = %f",dValue1);
+                        if (iCount_Power == 9) {
+                            Rank_Data(Power, 10);
+                            Value_Value = GetMeanVal(Power, 10, 0.2);
+//                            qDebug("<><><><><><><><><><><><>充电状态 Value_Value = %f",Value_Value);
+                        }
+                        iCount_Power++;
+                    }
+                }
+                if (10 == iCount_Power) {
+                    if (10.2 <= Value_Value)                          // 充电100
+                    {
+                        yx_power = 2.0;
+                        isCharging_100true = true;
+                    } else if (10 <= Value_Value && Value_Value < 10.2)       // 充电80
+                    {
+                        //                        if(isCharging_100true == true)
+                        //                        {
+                        //                            return;
+                        //                        }
+                        yx_power = 1.8;
+                        isCharging_80true = true;
+                    } else if (9.8 <= Value_Value && Value_Value < 10)       // 充电60
+                    {
+                        //                        if(isCharging_100true == true || isCharging_80true == true)
+                        //                        {
+                        //                            return;
+                        //                        }
+                        yx_power = 1.6;
+                        isCharging_60true = true;
+                    } else if (9.5 <= Value_Value && Value_Value < 9.8)       // 充电40
+                    {
+                        //                        if(isCharging_100true == true || isCharging_80true == true || isCharging_60true == true)
+                        //                        {
+                        //                            return;
+                        //                        }
+                        yx_power = 1.4;
+                        isCharging_40true = true;
+                    } else if (Value_Value < 9.5)                    // 充电20
+                    {
+                        //                        if(isCharging_100true == true || isCharging_80true == true || isCharging_60true == true || isCharging_40true == true)
+                        //                        {
+                        //                            return;
+                        //                        }
+                        yx_power = 1.2;
+                    }
+                    iCount_Power = 0;
+                }
+            } else                                   //  电池
+            {
+//                qDebug() << "++++++++++++++++++++ 电池+++++++++++++++++++";
+//                qDebug("电池====== dValue0 = %f",dValue0);
+//                qDebug("电池====== 0 ibuffer = %d",ibuffer);
+//                qDebug("电池====== dValue1 = %f",dValue1);
+//                qDebug("电池====== 1 ibuffer = %d",ADC1Buffer);
+                if (false == isChangeDianchi)  // 由充电状态切换电池到状态
+                {
+//                    qDebug() << "+由充电状态切换电池到状态+ " <<  dValue1;
+                    iCount_Power = 0;
+                    isChangeDianchi = true;
+                    isChangePower = false;
+//                    if(dValue1 >= 9.7)                                           // 电池电量100
+                    if (dValue1 >= 11.06)                                           // 电池电量100
+                    {
+                        yx_power = 1.00;
+                        isCharging_100true = true;
+                    }
+//                    else if(dValue1 >= 9.5 && dValue1 < 9.7)     // 电池电量80
+                    else if (dValue1 >= 10.83 && dValue1 < 11.06)     // 电池电量80
+                    {
+                        yx_power = 0.8;
+                        isBattery_80true = true;
+                        isCharging_80true = true;
+                    }
+//                    else if(dValue1 >= 9.3 && dValue1 < 9.5)       // 电池电量60
+                    else if (dValue1 >= 10.72 && dValue1 < 10.83)       // 电池电量60
+                    {
+                        yx_power = 0.6;
+                        isBattery_60true = true;
+                        isCharging_60true = true;
+                    }
+//                    else if(dValue1 >= 9.0 && dValue1 < 9.5)       // 电池电量40
+                    else if (dValue1 >= 10.49 && dValue1 < 10.72)       // 电池电量40
+                    {
+                        yx_power = 0.4;
+                        isBattery_40true = true;
+                        isCharging_40true = true;
+                    } else if (10.49 > dValue1)                                        // 电池电量20
+                    {
+                        yx_power = 0.2;
+                        isBattery_20true = true;
+                    }
+                    return;
+                } else                                 // 当前一直是电池状态
+                {
+//                    isChangeDianchi = true;
+//                    isChangePower = false;
+                    if (iCount_Power < 10) {
+                        Power[iCount_Power] = dValue1;
+                        if (iCount_Power == 9) {
+                            Rank_Data(Power, 10);
+                            Value_Temp = GetMeanVal(Power, 10, 0.2);
+//                            qDebug("<><><><><><><><><><><><>电池状态 Value_Temp = %f",Value_Temp);
+                        }
+                        iCount_Power++;
+                    }
+                }
+                if (10 == iCount_Power) {
+//                    qDebug("##################### 10 == iCount_Power  Value_Temp = %f",Value_Temp);
+//                    if(Value_Temp >= 9.7)                                           // 电池电量100
+                    if (Value_Temp >= 11.06)                                           // 电池电量100
+                    {
+                        if (isBattery_80true == true || isBattery_60true == true || isBattery_40true == true ||
+                            isBattery_20true == true) {
+                            iCount_Power = 0;
+                            return;
+                        }
+                        yx_power = 1.00;
+                        isCharging_100true = true;
+                    }
+//                    else if(Value_Temp >= 9.5 && Value_Temp < 9.7)     // 电池电量80
+                    else if (Value_Temp >= 10.83 && Value_Temp < 11.06)     // 电池电量80
+                    {
+                        if (isBattery_60true == true || isBattery_40true == true || isBattery_20true == true) {
+                            iCount_Power = 0;
+                            return;
+                        }
+                        yx_power = 0.8;
+                        isBattery_80true = true;
+                        isCharging_80true = true;
+                    }
+//                    else if(Value_Temp >= 9.3 && Value_Temp < 9.5)       // 电池电量60
+                    else if (Value_Temp >= 10.72 && Value_Temp < 10.83)       // 电池电量60
+                    {
+                        if (isBattery_40true == true || isBattery_20true == true) {
+                            iCount_Power = 0;
+                            return;
+                        }
+                        yx_power = 0.6;
+                        isBattery_60true = true;
+                        isCharging_60true = true;
+                    }
+//                    else if(Value_Temp >= 9.0 && Value_Temp < 9.3)       // 电池电量40
+                    else if (Value_Temp >= 10.49 && Value_Temp < 10.72)       // 电池电量40
+                    {
+                        if (isBattery_20true == true) {
+                            iCount_Power = 0;
+                            return;
+                        }
+                        yx_power = 0.4;
+                        isBattery_40true = true;
+                        isCharging_40true = true;
+                    } else if (10.49 > Value_Temp)                                        // 电池电量20
+                    {
+                        yx_power = 0.2;
+                        isBattery_20true = true;
+                    }
+                    iCount_Power = 0;
+                }
+            }
+//-----------------------------------Add-----battery---CSV File--------------------------------------//
+//            File_Record_Battery->setFileName("./Battery.csv");
+//            if(!File_Record_Battery->open(QFile::Append | QFile::WriteOnly))
+//            {
+//                qDebug() << "the file battery open error";
+//                return;
+//            }
+//            QTextStream Stream(File_Record_Battery);
+//            Stream << Battery_Str;
+//            File_Record_Battery->close();
+//            Battery_Str.clear();
+//-----------------------------------------------------------------------------------------------------------//
+            Read0 = false;
+        } else                       // 读通道1 ADC值
+        {
+            ioctl(AdcDev, CMD_BIT_SELECTED, 12);
+            ioctl(AdcDev, CMD_PORT_SELECTED, 1); //设置通道1
+            int ret = read(AdcDev, &ibuffer, sizeof(ibuffer)); //读ad转换后的数据
+//            qDebug("读通道1========== buffer1 = %d",ibuffer);
+            if (ret > 0) {
+                dValue1 = ((float) ibuffer * 3.3) / 4095 * 4;//模数换算
+//                qDebug("读通道1========== dValue1 = %f",dValue1);
+//                Battery_Str += QString::number(dValue1) + ",";
+//                Battery_Str += QString::number(ibuffer) + ",";
+            }
+            Read0 = true;
+        }
+    }
+}
+
+void APP_dev::Timer_SelectDian() {//电量状态
+    //1.判断是否获取到数据，如果没有获取到数据则结束
+    if (AdcDev > 0) {
+        //1.1初始化Power
+        if (0 == iCount_Power) {}
+        //1.2电机正在运动时，停止采集电压
+        if (true == isMotorStart || true == isPrinterRun || true == isDoorMove)   // 电机正在运动时，停止采集电压
+        { return;}
+        //1.3读通道0 先读1通道，再读0通道，轮流读取
+        if (Read0 == true) // 读通道0 ADC值 ,并且分析通道1与通道0的值
+        {
+            //1.3.1如果读取到ad转换后的数
+            if (ret > 0) {
+                //1.3.1.1最低值赋给Low_Data （暂无实际用处）
+                if (Low_Data >= dValue0) {}
+                //1.3.1.2最高值赋给Hight_Data （暂无实际用处）
+                if (Hight_Data <= dValue0) {}
+            }
+            //1.3.2充电状态
+            if (dValue0 >= 10)          //  充电
+            {
+                //1.3.2.1电池状态转充电状态
+                if (false == isChangePower) // 由电池状态切换到充电状态
+                {
+                    if (10.2 <= dValue1) {}                          // 充电100
+                    else if (10 <= dValue1 && dValue1 < 10.2) {}       // 充电80
+                    else if (9.8 <= dValue1 && dValue1 < 10) {}       // 充电60
+                    else if (9.5 <= dValue1 && dValue1 < 9.8) {}       // 充电40
+                    else if (dValue1 < 9.5) {}                    // 充电20
+                    return;
+                }
+                //1.3.2.1一直为充电状态
+                else                                       // 当前一直是充电状态
+                {
+                    if (iCount_Power < 10) {
+                        if (iCount_Power == 9) {}
+                    }
+                }
+                //1.3.2.2
+                if (10 == iCount_Power) {
+                    if (10.2 <= Value_Value)                          // 充电100
+                    else
+                    if (10 <= Value_Value && Value_Value < 10.2) {}      // 充电80
+                    else if (9.8 <= Value_Value && Value_Value < 10) {}       // 充电60
+                    else if (9.5 <= Value_Value && Value_Value < 9.8) {}       // 充电40
+                    else if (Value_Value < 9.5) {}                    // 充电20
+                    iCount_Power = 0;
+                }
+            }
+            //1.3.2放电状态
+            else                       //放电
+            {
+                //1.3.2.1充电状态转电池状态
+                if (false == isChangeDianchi)  // 由充电状态切换电池到状态
+                {                                // 电池电量100
+                    if (dValue1 >= 11.06)                                           // 电池电量100
+                    else
+                    if (dValue1 >= 10.83 && dValue1 < 11.06) {}     // 电池电量80
+                    else if (dValue1 >= 10.72 && dValue1 < 10.83) {}       // 电池电量60
+                    else if (dValue1 >= 10.49 && dValue1 < 10.72) {}       // 电池电量40
+                    else if (10.49 > dValue1) {}
+                    return;
+                }
+                //1.3.2.1一直为放电状态
+                else                                 // 当前一直是电池状态
+                {
+                    if (iCount_Power < 10) {
+                        if (iCount_Power == 9) {
+                        }
+                    }
+                }
+                //1.3.2.2
+                if (10 == iCount_Power) {
+                    {
+                        if (isBattery_80true == true || isBattery_60true == true || isBattery_40true == true ||
+                            isBattery_20true == true) {
+                            return;
+                        }
+                    }
+                    else if (Value_Temp >= 10.83 && Value_Temp < 11.06)     // 电池电量80
+                    {
+                        if (isBattery_60true == true || isBattery_40true == true || isBattery_20true == true) {
+                            return;
+                        }
+                    } else if (Value_Temp >= 10.72 && Value_Temp < 10.83)       // 电池电量60
+                    {
+                        if (isBattery_40true == true || isBattery_20true == true) {
+                            return;
+                        }
+                    } else if (Value_Temp >= 10.49 && Value_Temp < 10.72)       // 电池电量40
+                    {
+                        if (isBattery_20true == true) {
+                            return;
+                        }
+                    } else if (10.49 > Value_Temp) {}
+                }
+            }
+        }
+        //1.3读通道1
+        else                       // 读通道1 ADC值
+        {
+            //1.3.1如果读取到ad转换后的数
+            if (ret > 0) {
+            }
+        }
+    }
+}

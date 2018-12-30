@@ -25,11 +25,11 @@ TEST(private, test0){
     UdpServer udp;
 
     ////-----------string times(int s)
-    std::string a01="01:01:25";
+    std::string a01="1d 01:01:01";
     std::string a02="2d 01:01:01";
     std::string a03="14288d 23:31:30";
     std::string a04="ERROR";
-    EXPECT_EQ(a01,udp.times(24+3600+60+1));
+    EXPECT_EQ(a01,udp.times(24*3600*1000+3600000+60000+1000+1));
     EXPECT_EQ(a02,udp.times(7200*24+3600+60+1));
     EXPECT_EQ(a03,udp.times(1234567890));
     EXPECT_EQ(a04,udp.times(-1000));

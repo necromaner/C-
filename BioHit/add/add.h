@@ -6,6 +6,7 @@
 #define BIOHIT_ADD_H
 
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 class Add {

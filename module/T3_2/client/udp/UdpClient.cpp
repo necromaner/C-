@@ -355,9 +355,9 @@ void UdpClient::sendFile() {
 //        }
 //        printf("\n");
         while (y.size()!=BEGIN&&errorNum++<MAX_RESEND){
-            sendBlock(i);
+//            sendBlock(i);
 //            receiveY();
-//            Clean_Set_Y();
+            Clean_Set_Y();
         }
     }
 }
@@ -379,7 +379,7 @@ void UdpClient::sendBlock(int num){
 //            continue;
 //        }
 //        printf("*--block:%9d",num);
-        sendBuf(*i);
+//        sendBuf(*i);
     }
     sendFLAG((char*)FINISH_FLAG);
 }
@@ -398,6 +398,8 @@ Data UdpClient::sendBuf(int num) {//发送数据
     bzero(buf, MAX_SEND);
     Data data;
     memcpy(data.buf, &block[num * MAX_SEND], MAX_SEND);
+    bzero(data.buf, MAX_SEND);
+    memcpy(data.buf, "1234567890", MAX_SEND);
     data.num = num;
     data.md5 = "md5";
     sendto(ss, (char *) &data, sizeof(data) + 1, 0, (struct sockaddr *) &server_addr, len);

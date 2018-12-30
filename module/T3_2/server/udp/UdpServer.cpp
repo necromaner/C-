@@ -38,8 +38,8 @@ UdpServer::UdpServer() {
 }
 UdpServer::~UdpServer() {
     if(test){
-        end();
-        Clean();
+//        end();
+//        Clean();
         printf("*-------------end-------------*\n");
     }
 }
@@ -87,6 +87,11 @@ void UdpServer::end(){
            t1->tm_sec);
     printf("* Time : %-15s      *\n",times((int)tt1-(int)tt).c_str());
     printf("* Speed: %-11s          *\n",speed(fl.size,(int)tt1-(int)tt).c_str());
+}
+int64_t UdpServer::getCurrentTime() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);    //该函数在sys/time.h头文件中
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 std::string UdpServer::times(long long s) {
     std::string ss = "";
@@ -154,7 +159,7 @@ std::string UdpServer::speed(long long s,long long d){
 }
 std::string UdpServer::speed(long long s,long long d,int num){
     std::string sl[7]={SPEED_B,SPEED_K,SPEED_M,SPEED_G,SPEED_T,SPEED_P,SPEED_E};
-    std::string  speeds="";
+    std::string  speeds;
     char ss1[10];
     if(d<1)
         d=1;
@@ -284,9 +289,9 @@ FileInformation UdpServer::Information(){
     Message();
     memcpy(&this->fl,buf,sizeof(fl)+1);
 //    FILE *fp;
-    fp=fopen(file().c_str(),"w+");
-    fclose(fp);
-    tt=time(nullptr);
+//    fp=fopen(file().c_str(),"w+");
+//    fclose(fp);
+    tt=getCurrentTime();
     return fl;
 }
 ////------------------发送文件--------------------////
@@ -308,24 +313,25 @@ std::set<int> UdpServer::initialization_set(long long num,long long is){
     }
     return y;
 }
-void UdpServer::receiveFile(){
-
+void UdpServer::receiveFile() {
     long long is;
-    is=MAX_Block_Num();
-    fp=fopen(file().c_str(),"rb+");
+    is = MAX_Block_Num();
+    fp = fopen(file().c_str(), "rb+");
     for (int i = 0; i < is; ++i) {
-        initialization_set(i,is-1);
-        int errorNum=BEGIN;//BEGIN=0;
-        while (y.size()!=BEGIN&&errorNum++<MAX_RESEND){
-            receiveBlock(i);
+        initialization_set(i, is - 1);
+        int errorNum = BEGIN;//BEGIN=0;
+        while (y.size() != BEGIN && errorNum++ < MAX_RESEND) {
+            printf("----------------%d-%ld\n", errorNum, y.size());
+//            receiveBlock(i);
 //            sendY();
-//            Clean_Set_Y();
+            Clean_Set_Y();
         }
         block_num++;
     }
     fclose(fp);
 }
 void UdpServer::receiveBlock(int num){
+    int x=0;
 //    printf("*-----------------------------*\n");
     while (1){
         recvfrom(ss, buf, MAX_SEND_MAX, 0, (struct sockaddr *) &server_addr, &len);
@@ -334,15 +340,16 @@ void UdpServer::receiveBlock(int num){
         }
 //        printf("*--block:%9d",num);
         Data data;
+        x++;
         data=receiveBuf();
-        writeBuf(num,data);
+        printf("x=%d\n",x);
+//        writeBuf(num,data);
     }
 }
 Data UdpServer::receiveBuf(){
     Data data;
     memcpy(&data, buf, sizeof(data) + 1);
 //    printf("-buf:%3d----*%9lld|\n",data.num,this->receiveMAX);
-
     ++this->SR_NUM;
 //    show(data);
     return data;

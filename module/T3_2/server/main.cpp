@@ -19,7 +19,7 @@ int test(int argc, char ** argv){
     gtest1.test(argc,argv);
 }
 int main(int argc, char ** argv) {
-    int x = 1;
+    int x = 0;
     switch (x) {
         case 0:
             udp();
