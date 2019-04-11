@@ -9,6 +9,6 @@ add_subdirectory(./gtest-1.7.0)
 
 set(3RD_LIBS gtest pthread)
 
-add_executable(${PROJECT_NAME} main.cpp commentMove/position.cpp add/add.cpp APP_dev/APP_dev.cpp Test/Test.cpp)
+add_executable(${PROJECT_NAME} main.cpp commentMove/position.cpp add/add.cpp APP_dev/APP_dev.cpp Test/Test.cpp refactoring/Refactoring.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${3RD_LIBS})

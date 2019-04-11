@@ -55,12 +55,12 @@ private:
     bool fileMessage;                                 //判断文件信息是否定义
     int checkProblem();                               //检查问题文件大小问题-已创建测试用例
     void Initialize();                                //初始化
-    long long file_Size();                            //文件大小-已创建测试用例
 //    FRIEND_TEST(File, checkProblem);                  //private测试
 public:
     File();                                           //构造函数
     virtual ~File();                                  //析构函数
 
+    long long file_Size();                            //文件大小-已创建测试用例
     void setFileName(const std::string &file1, const std::string &file2);//设置文件名及路径-已创建测试用例
     const std::string &getFile2() const;              //获得文件名-已创建测试用例
     std::string getFileName();                        //文件完整路径-已创建测试用例

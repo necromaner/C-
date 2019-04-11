@@ -1,0 +1,319 @@
+void APP_dev::Timer_SelectDian() {
+    if (AdcDev > 0) {
+        static int iCount_Power = 0;                    //当前连续获取次数
+        float ibuffer;
+        static float dValue0 = 0;                     //0通道模数转换 0通道用于检测充放电状态
+        static float dValue1 = 0;                     //1通道模数转换 1通道用于判断电量范围
+        double Value_Temp = 0;                        //电池平均值 放电状态时使用
+        double Value_Value = 0;                       //电压平均值 充电状态时使用
+        static bool isChangePower = false;            //充电状态
+        static bool isChangeDianchi = false;          //电池状态
+        static bool electricity_100 = false;            //电量100
+        static bool electricity_80 = false;             //电量80
+        static bool electricity_60 = false;             //电量60
+        static bool electricity_40 = false;             //电量40
+        static bool electricity_20 = false;             //电量20
+        static bool initializePower = true;            //初始化Power
+        static bool Read0 = false;                    //程序启动时采集通道1 从1通道开始，交替采集
+        if (0 == iCount_Power && initializePower) {
+            for (int i = 0; i < 10; ++i) {
+                Power[i] = 0;
+            }
+            memset(Power, 0, 10);//memset将某一块内存中的内容全部设置为指定的值
+            initializePower = false;
+        }
+        if (isMotorStart || isPrinterRun || isDoorMove) {  // 电机正在运动时，停止采集电压
+            return;
+        }
+        if (Read0) { // 读通道0 ADC值 ,并且分析通道1与通道0的值
+////            ioctl(AdcDev, CMD_BIT_SELECTED, 12);
+////            ioctl(AdcDev, CMD_PORT_SELECTED, 0); //设置通道0
+////            int ret = read(AdcDev, &ibuffer, sizeof(ibuffer)); //读ad转换后的数据
+            if (ret > 0) {
+                dValue0 = (float) ((ibuffer * 3.3) / 4095 * 4);//模数换算
+            }
+            //1.3.2充电状态
+            if (dValue0 >= 10) {
+                if (!isChangePower) {
+                    iCount_Power = 0;          //当前次数
+                    initializePower = true;    //下次是否初始化Power
+                    isChangeDianchi = false;    //电池状态 否
+                    isChangePower = true;       //充电状态 是
+                    electricity_20 = false;    //20电量
+                    electricity_40 = false;    //40电量
+                    electricity_60 = false;    //60电量
+                    electricity_80 = false;    //80电量
+                    electricity_100 = false;   //100电量
+                    if (yx_power > 0 && yx_power <= 1) {//根据之前电量直接转换对应电量
+                        yx_power += 1;
+                        switch ((int) (yx_power * 10)) {
+                            case 20:
+                                electricity_100 = true;
+                            case 18:
+                                electricity_80 = true;
+                            case 16:
+                                electricity_60 = true;
+                            case 14:
+                                electricity_40 = true;
+                            case 12:
+                                electricity_20 = true;
+                                break;
+                        }
+                    } else {//第一次判断电量
+                        if (10.2 <= dValue1) {                               //充电100
+                            electricity_100 = true;
+                            yx_power = 2.0;
+                        } else if (10 <= dValue1 && dValue1 < 10.2) {        //充电80
+                            electricity_80 = true;
+                            yx_power = 1.8;
+                        } else if (9.8 <= dValue1 && dValue1 < 10) {         //充电60
+                            electricity_60 = true;
+                            yx_power = 1.6;
+                        } else if (9.5 <= dValue1 && dValue1 < 9.8) {        //充电40
+                            electricity_40 = true;
+                            yx_power = 1.4;
+                        } else if (dValue1 < 9.5) {                          //充电20
+                            electricity_20 = true;
+                            yx_power = 1.2;
+                        }
+                    }
+                }
+                    //1.3.2.1一直为充电状态
+                else {
+                    if (iCount_Power < 9) {//读取前9次数据
+                        printf("\n");
+                        Power[iCount_Power] = dValue1;
+                        iCount_Power++;
+                    } else if (9 == iCount_Power) {
+                        iCount_Power = 0;
+                        initializePower = true;
+                        Power[iCount_Power] = dValue1;//读取第十个数据
+                        Rank_Data(Power, 10);//从小到大排序Power，排序前10个数
+                        Value_Value = GetMeanVal(Power, 10, 0.2);//Value_Value：电压平均值 充电状态时使用
+                        if (10.2 <= Value_Value) {                           //充电100
+                            if (!electricity_80 && electricity_60) {         //从60充到100
+                                electricity_80 = true;
+                                yx_power = 1.8;
+                            } else if (!electricity_80 && electricity_40) {  //从40充到100
+                                electricity_60 = true;
+                                yx_power = 1.6;
+                            } else if (!electricity_80 && electricity_20) {  //从20充到100
+                                electricity_40 = true;
+                                yx_power = 1.4;
+                            } else {                                         //从80或100充到100
+                                electricity_100 = true;
+                                yx_power = 2.0;
+                                return;
+                            }
+                        } else if (10 <= Value_Value && Value_Value < 10.2) {//充电80
+                            if (electricity_100) {                           //从100充到80 降低
+                                electricity_100=false;
+                                electricity_80 = true;
+                                yx_power = 1.8;
+                            } else {
+                                if (!electricity_60 && electricity_40) {      //从40充到80
+                                    electricity_60 = true;
+                                    yx_power = 1.6;
+                                } else if (!electricity_60 && electricity_20) {//从20充到80
+                                    electricity_40 = true;
+                                    yx_power = 1.4;
+                                } else {                                       //从60或80充到80
+                                    electricity_80 = true;
+                                    yx_power = 1.8;
+                                    return;
+                                }
+                            }
+                        } else if (9.8 <= Value_Value && Value_Value < 10) { //充电60
+                            if (electricity_100) {                           //从100充到60 降低
+                                electricity_100=false;
+                                electricity_80 = true;
+                                yx_power = 1.8;
+                            } else if (electricity_80) {                     //从80充到60 降低
+                                electricity_80=false;
+                                electricity_60 = true;
+                                yx_power = 1.6;
+                            } else {
+                                if (!electricity_40 && electricity_20) {     //从20充到60
+                                    electricity_40 = true;
+                                    yx_power = 1.4;
+                                } else {                                     //从40或60充到60
+                                    electricity_60 = true;
+                                    yx_power = 1.6;
+                                    return;
+                                }
+                            }
+                        } else if (9.5 <= Value_Value && Value_Value < 9.8) {//充电40
+                            if (electricity_100) {                           //从100充到40 降低
+                                electricity_100=false;
+                                electricity_80 = true;
+                                yx_power = 1.8;
+                            } else if (electricity_80) {                     //从80充到40 降低
+                                electricity_80=false;
+                                electricity_60 = true;
+                                yx_power = 1.6;
+                            } else if (electricity_60) {                     //从60充到40 降低
+                                electricity_60 = false;
+                                electricity_40 = true;
+                                yx_power = 1.4;
+                            } else {                                         //从20或40充到40
+                                electricity_40 = true;
+                                yx_power = 1.4;
+                                return;
+                            }
+                        } else if (Value_Value < 9.5) {                      //充电20
+                            if (electricity_100) {                           //从100充到20 降低
+                                electricity_100=false;
+                                electricity_80 = true;
+                                yx_power = 1.8;
+                            } else if (electricity_80) {                     //从80充到20 降低
+                                electricity_80=false;
+                                electricity_60 = true;
+                                yx_power = 1.6;
+                            } else if (electricity_60) {                     //从60充到20 降低
+                                electricity_60=false;
+                                electricity_40 = true;
+                                yx_power = 1.4;
+                            } else if (electricity_40) {                     //从40充到20 降低
+                                electricity_40=false;
+                                electricity_20 = true;
+                                yx_power = 1.2;
+                            } else {                                         //从20充到20
+                                electricity_20 = true;
+                                yx_power = 1.2;
+                                return;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!isChangeDianchi) {
+                    iCount_Power = 0;          //当前次数
+                    initializePower = true;    //下次是否初始化Power
+
+                    isChangeDianchi = true;    // 电池状态 是
+                    isChangePower = false;     // 充电状态 否
+
+                    electricity_20 = false;    //20电量
+                    electricity_40 = false;    //40电量
+                    electricity_60 = false;    //60电量
+                    electricity_80 = false;    //80电量
+                    electricity_100 = false;   //100电量
+                    if (yx_power > 1 && yx_power <= 2) {//根据之前电量直接转换对应电量
+                        yx_power -= 1;
+                        switch ((int) (yx_power * 10)) {
+                            case 2:
+                                electricity_20 = true;
+                            case 4:
+                                electricity_40 = true;
+                            case 6:
+                                electricity_60 = true;
+                            case 8:
+                                electricity_80 = true;
+                            case 10:
+                                electricity_100 = true;
+                                break;
+                        }
+                    } else {
+                        if (11.06 <= dValue1) {                          //放电100
+                            electricity_100 = true;
+                            yx_power = 1.00;
+                        } else if (10.83 <= dValue1 && dValue1 < 11.06) {//放电80
+                            electricity_80 = true;
+                            yx_power = 0.8;
+                        } else if (10.72 <= dValue1 && dValue1 < 10.83) {//放电60
+                            electricity_60 = true;
+                            yx_power = 0.6;
+                        } else if (10.49 <= dValue1 && dValue1 < 10.72) {//放电40
+                            electricity_40 = true;
+                            yx_power = 0.4;
+                        } else if (dValue1 < 10.49) {                    //放电20
+                            electricity_20 = true;
+                            yx_power = 0.2;
+                        }
+                    }
+                } else {
+                    if (iCount_Power < 9) {//读取前9次数据
+                        printf("\n");
+                        Power[iCount_Power] = dValue1;
+                        iCount_Power++;
+                    } else if (9 == iCount_Power) {
+                        iCount_Power = 0;
+                        initializePower = true;
+                        Power[iCount_Power] = dValue1;//读取第十个数据
+                        Rank_Data(Power, 10);//从小到大排序Power，排序前10个数
+                        //GetMeanVal中带入参数 10, 0.2，可以为获得Power[1～9]的平均值
+                        Value_Temp = GetMeanVal(Power, 10, 0.2);//Value_Temp：电池平均值 放电状态时使用
+                        if (11.06 <= Value_Temp) {                           //放电100
+                            if (electricity_20 || electricity_40 || electricity_60 || electricity_80) {//放电电量升高error
+                            } else {                                         //从100降到100
+                                electricity_100 = true;
+                                yx_power = 1.00;
+                                return;
+                            }
+                        } else if (10.83 <= Value_Temp && Value_Temp < 11.06) {//电池电量80
+                            if (electricity_20 || electricity_40 || electricity_60) {//放电电量升高error
+                            } else {                                           //从100或80降到80
+                                electricity_80 = true;
+                                yx_power = 0.8;
+                                return;
+                            }
+                        } else if (10.72 <= Value_Temp && Value_Temp < 10.83) {//电池电量60
+                            if (electricity_20 || electricity_40) {            //放电电量升高error
+                                printf("  电量0.6->电量%3.1f 电量升高\n", yx_power);
+                            } else {
+                                if (!electricity_80 && electricity_100) {      //从100降到60
+                                    electricity_80 = true;
+                                    yx_power = 0.8;
+                                } else {                                       //从80或60降到60
+                                    electricity_60 = true;
+                                    yx_power = 0.6;
+                                    return;
+                                }
+                            }
+                        } else if (10.49 <= Value_Temp && Value_Temp < 10.72) {//电池电量40
+                            if (electricity_20) {                              //放电电量升高error
+                            } else {
+                                if (!electricity_60 && electricity_80) {       //从80降到40
+                                    electricity_60 = true;
+                                    yx_power = 0.6;
+                                } else if (!electricity_60 && electricity_100) {//从100降到40
+                                    electricity_80 = true;
+                                    yx_power = 0.8;
+                                } else {                                        //从60或40降到40
+                                    electricity_40 = true;
+                                    yx_power = 0.4;
+                                    return;
+                                }
+                            }
+                        } else if (Value_Temp < 10.49) {                   //电池电量20
+                            if (!electricity_40 && electricity_60) {       //从60降到20
+                                electricity_40 = true;
+                                yx_power = 0.4;
+                            } else if (!electricity_40 && electricity_80) {//从80降到20
+                                electricity_60 = true;
+                                yx_power = 0.6;
+                            } else if (!electricity_40 && electricity_100) {//从100降到20
+                                electricity_80 = true;
+                                yx_power = 0.8;
+                            } else {                                        //从40或20降到20
+                                electricity_20 = true;
+                                yx_power = 0.2;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            Read0 = false;
+        } else {
+            lastRead1 = true;
+////            ioctl(AdcDev, CMD_BIT_SELECTED, 12);
+////            ioctl(AdcDev, CMD_PORT_SELECTED, 1); //设置通道1
+////            int ret = read(AdcDev, &ibuffer, sizeof(ibuffer)); //读ad转换后的数据
+            if (ret > 0) {
+                dValue1 = (float) ((ibuffer * 3.3) / 4095 * 4);//模数换算
+            }
+            Read0 = true;
+        }
+    }
+}

@@ -31,6 +31,8 @@
 #define         SPEED        1024                     //速度进制
 #define         SPEED_MAX    (1125899906842624*11)    //最大文件大小 0x44'000'000'000'000
 #define         ZERO         0                        //零
+
+#define         MAXBLOCK     10000                    //最大块
 class Other {                                         //其他类
 private:
     std::string speed(long long bs);                  //速度主要方法
@@ -53,14 +55,21 @@ private:
     std::string file1 = "";                           //文件路径
     std::string file2 = "";                           //文件名
     std::vector<std::vector<int>> Z;                  //文件序号对应大小
-
+    /*
+     * 异常情况：
+     *  1.size block send   ==0              返回:-1    checkProblem()
+     *  2.send > block                       返回:-2    checkProblem()
+     *  3.block / send != 0                  返回:-3    checkProblem()
+     *  4.文件名未初始化                       返回:-4    file_Size()
+     *  5.路径文件不存在                       返回:-5    file_Size()
+     */
+    int fileError;
     char error[6]="error";
     bool fileName;                                    //判断文件路径是否定义
     bool fileMessage;                                 //判断文件信息是否定义
 
     int checkProblem();                               //检查问题文件大小问题-已创建测试用例
     void Initialize();                                //初始化
-    long long file_Size();                            //文件大小-已创建测试用例
 //    FRIEND_TEST(File, checkProblem);                  //private测试
     char* mergeMap(std::map<int, char *> x,long long blockNum);
     bool num_Size();//生成所有序号大小
@@ -68,6 +77,7 @@ public:
     File();                                           //构造函数
     virtual ~File();                                  //析构函数
 
+    long long file_Size();                            //文件大小-已创建测试用例
     void setFileName(const std::string &file1, const std::string &file2);//设置文件名及路径-已创建测试用例
     const std::string &getFile2() const;              //获得文件名-已创建测试用例
     std::string getFileName();                        //文件完整路径-已创建测试用例
@@ -76,8 +86,15 @@ public:
     long long int getSize() const;                    //获取文件大小-已创建测试用例
     long long int getBlock() const;                   //获取文件块大小-已创建测试用例
     long long int getSend() const;                    //获取文件发送大小-已创建测试用例
-
-    long long int get_Block_Num();                    //获得块最大块序-已创建测试用例
+    /*
+     * 异常情况：
+     *  1.块序大于实际序号                     返回:-1    checkProblem()
+     *  2.send > block                       返回:-2    checkProblem()
+     *  3.block / send != 0                  返回:-3    checkProblem()
+     *  4.文件名未初始化                       返回:-4    file_Size()
+     *  5.路径文件不存在                       返回:-5    file_Size()
+     */
+    long long int get_Block_Num();                    //获得块最大块序-从1开始-已创建测试用例
     int get_Block_Size(long long int blockNum);       //当前块的理论大小-已创建测试用例
     int get_Buf_Num(long long int blockNum);          //获取当前块的发送最大序号-已创建测试用例
     int get_Buf_Size(long long int blockNum, int bufNum);//当前数据的理论大小-已创建测试用例

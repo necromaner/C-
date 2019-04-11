@@ -27,8 +27,6 @@ vector<int> DLR(TreeNode *t);
 vector<int> LDR(TreeNode *t);
 vector<int> LRD(TreeNode *t);
 
-
-
 bool find(TreeNode *t,int x);//搜索
 void outPut_Find(TreeNode *t,int x);//搜索
 

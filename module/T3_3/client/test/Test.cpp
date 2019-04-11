@@ -470,11 +470,12 @@ TEST(File,mergeMap){
     sprintf(buf3,"3333");
     sprintf(buf4,"4444");
     sprintf(result,"1111222233334444");
+    string s=result;
     x[0]=buf1;
     x[3]=buf4;
     x[1]=buf2;
     x[2]=buf3;
     block=file.mergeMap(x,0);
-    EXPECT_EQ(result,block)<<"合并";
+    EXPECT_EQ(s,block)<<"合并";
     delete[] block;
 }

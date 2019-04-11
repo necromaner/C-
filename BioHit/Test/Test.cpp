@@ -9,922 +9,620 @@ int Test::test(int argc, char ** argv){
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS(); // 执行所有的 test case
 }
-TEST(APP_dev,GetMeanVal) {
-    APP_dev app_dev;
+string getPower(APP_dev app_dev){
+    int x=app_dev.getYx_power();
+    switch(x){
+        case 0:
+            return P_0;
+        case 1:
+            return P_F_10;
+        case 2:
+            return P_F_20;
+        case 3:
+            return P_F_40;
+        case 4:
+            return P_F_60;
+        case 5:
+            return P_F_80;
+        case 6:
+            return P_F_100;
+        case 7:
+            return P_C_20;
+        case 8:
+            return P_C_40;
+        case 9:
+            return P_C_60;
+        case 10:
+            return P_C_80;
+        case 11:
+            return P_C_100;
+        default:
+            return P_ERROR;
 
-    double Value_Value = 0;                       //电压平均值 充电状态时使用
-    float Power[10];
-    for (int i = 0; i < 10; ++i) {
-        Power[i]=i;
     }
-//    memset(Power, 0, 10);//memset将某一块内存中的内容全部设置为指定的值
-    Power[0]=1;
-    int xx=0;
-//    for (auto num:Power) {
-//        printf("--%f--\n",num);
-//    }
-    Value_Value = app_dev.GetMeanVal(Power, 10, 0.2);
-    EXPECT_EQ(5,Value_Value);
 }
-TEST(APP_dev,Rank_Data){
+TEST(APP_dev,power_average_MIN_MAX){
     APP_dev app_dev;
-    float Power[10];
-    for (int i = 0; i < 10; ++i) {
-        Power[i]=10-i;
-    }
-    Power[4]=100;
-//    printf("begin:");
-//    for (auto num:Power) {
-//        printf("%f  ",num);
-//    }
-//    printf("\n");
-//    app_dev.Rank_Data(Power,9);
-//    printf("end  :");
-//    for (auto num:Power) {
-//        printf("%f  ",num);
-//    }
-//    printf("\n");
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(1));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(2));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(3));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(4));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(5));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(6));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(7));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(8));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(9));
+    EXPECT_EQ(5.5,app_dev.power_average_MIN_MAX(10));
+
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(10));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(20));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(30));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(40));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(50));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(60));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(70));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(80));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(90));
+    EXPECT_EQ(55,app_dev.power_average_MIN_MAX(100));
+
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(10));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(20));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(30));
+
+    EXPECT_EQ(-1,app_dev.power_average_MIN_MAX(0))<<"重置";
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(10));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(20));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(30));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(40));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(50));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(60));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(70));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(80));
+    EXPECT_EQ(0,app_dev.power_average_MIN_MAX(90));
+    EXPECT_EQ(55,app_dev.power_average_MIN_MAX(100));
 }
-
-TEST(APP_dev,Timer_SelectDian){
+TEST(APP_dev,power_State){
     APP_dev app_dev;
-//    充电
-//    10.2	3164
-//    10    3102
-//    9.8	3040
-//    9.5	2947
-//    放电
-//    11.06	3431
-//    10.83	3360
-//    10.72	3326
-//    10.49	3254
+    int dy=C5;//电量
+    int zt=CHONG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
 
-//    充电
-//    >3164 2.0
-//3102-3164 1.8
-//3040-3102 1.6
-//2947-3040 1.4
-//    <2947 1.2
-//
-//    放电
-//    >3431 1.0
-//3360-3431 0.8
-//3326-3360 0.6
-//3254-3326 0.4
-//    <3254 0.2
+    EXPECT_EQ(ZT1,app_dev.power_State())<<"第一次1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"第一次2";
 
+    EXPECT_EQ(ZT3,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态不变2";
+    zt=FANG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(ZT0,app_dev.power_State())<<"状态改变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态改变2";
 
-//    printf("\n-----------------------状态改变-充电1.0--------------------\n");
-//
-//    printf("\n-----------------------连续充电-前充电-充电1.0--------------\n");
-//    printf("\n-----------------------连续充电-前充电-不变1.0--------------\n");
-//    printf("\n-----------------------连续充电-前充电-降低1.0--------------\n");
-//
-//    printf("\n-----------------------连续充电-前不变-充电1.0--------------\n");
-//    printf("\n-----------------------连续充电-前不变-不变1.0--------------\n");
-//    printf("\n-----------------------连续充电-前不变-降低1.0--------------\n");
-//
-//
-//    printf("\n-----------------------状态改变-放电0.0--------------------\n");
-//
-//    printf("\n-----------------------连续放电-前放电-放电0.0--------------\n");
-//    printf("\n-----------------------连续放电-前放电-不变0.0--------------\n");
-//    printf("\n-----------------------连续放电-前放电-升高0.0--------------\n");
-//
-//    printf("\n-----------------------连续放电-前不变-放电0.0--------------\n");
-//    printf("\n-----------------------连续放电-前不变-不变0.0--------------\n");
-//    printf("\n-----------------------连续放电-前不变-升高0.0--------------\n");
-}
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态不变2";
 
-TEST(APP_dev,Timer_SelectDian_chong){
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态不变2";
 
-    /*
-     * 测试内容：
-     * 1。电池连续充电
-     *      0->20->20->40->60->80->100->100
-     * 2。充电中检测到电池电量下降
-     *      100->80->60->100
-     */
-    //仅充电
-    APP_dev app_dev;
-    printf("\n---------------------------状态改变-充电1.2--------------------\n");
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.2";
+    zt=CHONG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(ZT0,app_dev.power_State())<<"状态改变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态改变2";
 
-    printf("\n-----------------------连续充电-前不变-不变1.2--------------\n");
-//    app_dev.setTest(CHONG,C1);
-//    EXPECT_EQ(1.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(1.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(1.2,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-充电1.4--------------\n");
-//    app_dev.setTest(CHONG,C2);
-//    EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.2,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
+    EXPECT_EQ(ZT3,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT3,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT3,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT3,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态不变2";
 
 
-    printf("\n-----------------------连续充电-前充电-充电1.6--------------\n");
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.4,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前充电-充电1.8--------------\n");
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前充电-充电2.0--------------\n");
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前充电-不变2.0--------------\n");
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-不变2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-    printf("\n-----------------------连续充电-前不变-降低1.8--------------\n");
-//    app_dev.setTest(CHONG,C4);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.8--------------\n");
-//    app_dev.setTest(CHONG,C4);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.6--------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
+    zt=FANG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(ZT0,app_dev.power_State())<<"状态改变1";
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"状态改变2";
+    EXPECT_EQ(DISCHARGE_10,app_dev.setYx_power(1))<<"状态改变2";
 
 
-    printf("\n-----------------------连续充电-前不变-不变2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n\n");
-}
-TEST(APP_dev,Timer_SelectDian_chong80){
-
-    /*
-     * 测试内容：
-     * 1。电池连续充电
-     *      80->100
-     * 2。充电中检测到电池电量下降
-     *      100->80->60->40->20->40->100
-     */
-    //仅充电
-    APP_dev app_dev;
-    printf("\n-----------------------状态改变-充电1.8--------------------\n");
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.8";
-
-    printf("\n-----------------------连续充电-前不变-充电2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前充电-不变2.0--------------\n");
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-不变2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-    printf("\n-----------------------连续充电-前不变-降低1.8--------------\n");
-//    app_dev.setTest(CHONG,C4);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.8--------------\n");
-//    app_dev.setTest(CHONG,C4);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C4);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.6--------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.4--------------\n");
-//    app_dev.setTest(CHONG,C2);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.2--------------\n");
-//    app_dev.setTest(CHONG,C1);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.4--------------\n");
-//    app_dev.setTest(CHONG,C2);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
-    printf("\n-----------------------连续充电-前不变-降低1.6--------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C4判断连续放电状态，电量不变-9";
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_10,getPower(app_dev))<<"状态不变2";
+    EXPECT_EQ(ZT4,app_dev.power_State())<<"状态不变1";
+    EXPECT_EQ(P_F_10,getPower(app_dev))<<"状态不变2";
 
 
-    printf("\n-----------------------连续充电-前不变-不变2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
+    zt=CHONG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(ZT0,app_dev.power_State())<<"状态改变1";
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"状态改变2";
 
-    printf("\n\n");
-}
-TEST(APP_dev,Timer_SelectDian_chong40_60){
-
-    /*
-     * 测试内容：
-     * 1。电池连续充电
-     *      40->60
-     * 2。充电中检测到电池电量下降
-     *      60->40->20->40->100
-     */
-    //仅充电
-    APP_dev app_dev;
-    printf("\n-----------------------状态改变-充电1.4--------------------\n");
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.2";
-
-    printf("\n-----------------------连续充电-前不变-充电1.6--------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.4,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前充电-降低1.4--------------\n");
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.2--------------\n");
-//    app_dev.setTest(CHONG,C1);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C1);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C1);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C1判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续充电-前不变-降低1.4--------------\n");
-//    app_dev.setTest(CHONG,C2);
-//    EXPECT_EQ(2.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C2);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C2);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C2判断连续放电状态，电量不变-9";
-    printf("\n-----------------------连续充电-前不变-不变1.6--------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C3);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C3判断连续放电状态，电量不变-9";
-
-
-    printf("\n-----------------------连续充电-前不变-充电2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.6,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-"<<i;
-    }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"C5判断连续放电状态，电量不变-9";
-
-    printf("\n\n");
 }
 
-TEST(APP_dev,Timer_SelectDian_fang){
-    /*
-     * 测试内容：
-     * 1。电池连续放电
-     *      100->0
-     * 2。放电中检测到电池电量上升
-     *      20->40->60->20
-     */
+TEST(APP_dev,power_Electricity_chong){
     APP_dev app_dev;
+    int dy=C1;//电量
+    int zt=CHONG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
+////----------------------7-> 7 初始化
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"计算";
+////----------------------7->11>> 8   充上升
+    dy=C5;//电量
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------状态改变-放电1.0--------------------\n");
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.0";
-
-    printf("\n-----------------------连续放电-前不变-不变1.0--------------\n");
-//    app_dev.setTest(FANG,F5);
-//    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"F5判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F5);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F5);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"F5判断连续放电状态，电量不变-"<<i;
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_20,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"F5判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续放电-前不变-放电0.8--------------\n");
-//    app_dev.setTest(FANG,F4);
-//    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F4);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F4);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_40,getPower(app_dev))<<"计算";
+////----------------------8->11>> 9   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_40,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续放电-前放电-放电0.6--------------\n");
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"F3判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.8,app_dev.getYx_power())<<"F3判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9->11>>10   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"F3判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续放电-前放电-放电0.4--------------\n");
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F2);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F2);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_80,getPower(app_dev))<<"计算";
+////----------------------10->11>>11   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_80,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.4,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续放电-前放电-放电0.2--------------\n");
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.4,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.4,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->11 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.4,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->10>>11   充临界
+    dy=C4_1;
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------连续放电-前放电-不变0.2--------------\n");
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-"<<i;
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->10>>10   充下降
+    dy=C4;
+    app_dev.setTest1(zt,dy);
 
-
-    printf("\n-----------------------连续放电-前不变-升高0.4--------------\n");
-//    app_dev.setTest(FANG,F2);
-//    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"判断连续放电状态，电量不变-0   电量回落";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F2);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F2);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-"<<i;
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F2);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_80,getPower(app_dev))<<"计算";
+////----------------------10-> 8>> 9   充下降
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------连续放电-前不变-升高0.6--------------\n");
-//    app_dev.setTest(FANG,F3);
-//    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"判断连续放电状态，电量不变-0   电量回落";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-"<<i;
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_80,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9-> 8>> 9   充临界
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
 
-
-    printf("\n-----------------------连续放电-前不变-不变0.2--------------\n");
-//    app_dev.setTest(FANG,F1);
-//    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"判断连续放电状态，电量不变-0   电量恢复";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-"<<i;
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9-> 8>> 9   充临界
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
 
-    printf("\n\n");
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
 }
-TEST(APP_dev,Timer_SelectDian_fang80_60){
-    /*
-     * 测试内容：
-     * 1。电池连续放电
-     *      80->60
-     * 2。放电中检测到电池电量上升
-     *      60->100->20
-     */
+TEST(APP_dev,power_Electricity_fang){
     APP_dev app_dev;
+    int zt=FANG;//充放电状态
+    int dy=F5;//电量
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
 
-    printf("\n-----------------------状态改变-放电0.8--------------------\n");
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为0.8";
-
-    printf("\n-----------------------连续放电-前不变-放电0.6--------------\n");
-//    app_dev.setTest(FANG,F3);
-//    EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F3);
-        EXPECT_EQ(0.8,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-"<<i;
+////----------------------2-> 6>> 6   第一次
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
+////----------------------6-> 6 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_100,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-9";
-
-    printf("\n-----------------------连续放电-前放电-升高1.0--------------\n");
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"判断连续放电状态，电量不变-0   电量回落";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F5);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F5);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
+////----------------------6-> 2>> 5   放下降
+    dy=F1;//电量
+    app_dev.setTest1(zt,dy);
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_100,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"F2判断连续放电状态，电量不变-9";
-
-
-    printf("\n-----------------------连续放电-前不变-放电0.2--------------\n");
-//    app_dev.setTest(FANG,F1);
-//    EXPECT_EQ(0.2,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"判断连续放电状态，电量不变-0   电量恢复";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F1);
-        EXPECT_EQ(0.6,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-"<<i;
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_80,getPower(app_dev))<<"计算";
+////----------------------5-> 2>> 4   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_80,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.6,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F1);
-    EXPECT_EQ(0.2,app_dev.getYx_power())<<"F1判断连续放电状态，电量不变-9";
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_60,getPower(app_dev))<<"计算";
+////----------------------4-> 2>> 3   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_40,getPower(app_dev))<<"计算";
+////----------------------3-> 2>> 2   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_40,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
+////----------------------2-> 2 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_20,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
 
-    printf("\n\n");
+
+////----------------------2-> 5>> 2   放上升
+    dy=F4;//电量
+    app_dev.setTest1(zt,dy);
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_Electricity(app_dev.power_State());
+        EXPECT_EQ(P_F_20,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_Electricity(app_dev.power_State());
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
 }
 
-
-TEST(APP_dev,Timer_SelectDian_bian) {
-//充放电状态改变
-/*
- * 测试内容：
- * 1。充放电状态改变，显示百分比不变
- *      充80->充100
- *      充100->放100
- *      放100->放80
- *      放80->充80
- * 2。充放电状态改变，显示百分比变化
- *      充80->放100
- *      放80->充60
- *      充80->放60
- *      放80->充100
- */
+TEST(APP_dev,power_SelectDian_chong){
     APP_dev app_dev;
-    printf("\n-----------------------状态改变-充电1.8--------------------\n");
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(0,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,F5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.0";
+    int dy=C1;//电量
+    int zt=CHONG;//充放电状态
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
+////----------------------7-> 7 初始化
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_20,getPower(app_dev))<<"计算";
+////----------------------7->11>> 8   充上升
+    dy=C5;//电量
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------连续充电-前不变-充电2.0--------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"判断连续放电状态";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(CHONG,C5);
-        EXPECT_EQ(1.8,app_dev.getYx_power())<<"判断连续放电状态";
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_20,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(2.0,app_dev.getYx_power())<<"判断连续放电状态";
-    printf("\n-----------------------状态改变-放电1.0--------------------\n");
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(2,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.0";
-
-    printf("\n-----------------------连续放电-前不变-放电0.8--------------\n");
-//    app_dev.setTest(FANG,F4);
-//    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-0";
-    for (int i = 1; i < 9; ++i) {
-        app_dev.setTest(FANG,F4);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-        app_dev.setTest(FANG,F4);
-        EXPECT_EQ(1.0,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-"<<i;
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_40,getPower(app_dev))<<"计算";
+////----------------------8->11>> 9   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_40,getPower(app_dev))<<i<<"次";
     }
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(1.0,app_dev.getYx_power())<<"读取通道1，获取充放电状态";
-    app_dev.setTest(FANG,F4);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"F4判断连续放电状态，电量不变-9";
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9->11>>10   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_80,getPower(app_dev))<<"计算";
+////----------------------10->11>>11   充上升
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_80,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->11 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->10>>11   充临界
+    dy=C4_1;
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------状态改变-充电1.8--------------------\n");
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C4);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.0";
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------11->10>>10   充下降
+    dy=C4;
+    app_dev.setTest1(zt,dy);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_80,getPower(app_dev))<<"计算";
+////----------------------10-> 8>> 9   充下降
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_80,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9-> 8>> 9   充临界
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+////----------------------9-> 8>> 9   充临界
+    dy=C2_1;
+    app_dev.setTest1(zt,dy);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+}
+TEST(APP_dev,power_SelectDian_fang){
+    APP_dev app_dev;
+    int zt=FANG;//充放电状态
+    int dy=F5;//电量
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
+
+////----------------------2-> 6>> 6   第一次
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
+////----------------------6-> 6 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
+////----------------------6-> 2>> 5   放下降
+    dy=F1;//电量
+    app_dev.setTest1(zt,dy);
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_80,getPower(app_dev))<<"计算";
+////----------------------5-> 2>> 4   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_80,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_60,getPower(app_dev))<<"计算";
+////----------------------4-> 2>> 3   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_60,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_40,getPower(app_dev))<<"计算";
+////----------------------3-> 2>> 2   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_40,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
+////----------------------2-> 2 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_20,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
 
 
-    printf("\n-----------------------状态改变-放电1.0--------------------\n");
-//    app_dev.setTest(FANG,F5);
-//    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(FANG,F5);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为0.8";
+////----------------------2-> 5>> 2   放上升
+    dy=F4;//电量
+    app_dev.setTest1(zt,dy);
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_20,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_20,getPower(app_dev))<<"计算";
+}
+TEST(APP_dev,power_SelectDian_bian){
+    APP_dev app_dev;
+    int zt=FANG;//充放电状态
+    int dy=F5;//电量
+    app_dev.setTest1(zt,dy);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
 
-    printf("\n-----------------------状态改变-充电1.6--------------------\n");
-//    app_dev.setTest(CHONG,C3);
-//    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C3);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.8";
+////----------------------[ 2-> 6>> 6]  { 0.00V}  FIRST
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
+////----------------------[ 6-> 6>> 6]  {11.60V}  NO CHANGE
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_100,getPower(app_dev))<<"计算";
 
-    printf("\n-----------------------状态改变-放电0.8--------------------\n");
-//    app_dev.setTest(FANG,F3);
-//    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(FANG,F3);
-    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为0.8";
+////----------------------[ 6->  >>11]  {      }  RESET
+    zt=CHONG;//充放电状态
+    dy=C5;//电量
+    app_dev.setTest1(zt,dy);
 
-    printf("\n-----------------------状态改变-充电2.0--------------------\n");
-//    app_dev.setTest(CHONG,C5);
-//    EXPECT_EQ(0.8,app_dev.getYx_power())<<"第一次为通道1，获取通道1值";
-    app_dev.setTest(CHONG,C5);
-    EXPECT_EQ(1.8,app_dev.getYx_power())<<"第二次为判断充放电状态,电量为1.8";
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
 
+////----------------------[11->11>>11]  {11.60V}  NO CHANGE
+    zt=CHONG;//充放电状态
+    dy=C5;//电量
+    app_dev.setTest1(zt,dy);
 
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_100,getPower(app_dev))<<"计算";
+////----------------------[11->10>>10]  {11.28V}  Charging DOWN
+    zt=CHONG;//充放电状态
+    dy=C4;//电量
+    app_dev.setTest1(zt,dy);
 
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_C_100,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_80,getPower(app_dev))<<"计算";
+////----------------------[10->  >> 5]  {      }  RESET
+    zt=FANG;//充放电状态
+    dy=F3;//电量
+    app_dev.setTest1(zt,dy);
+
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_80,getPower(app_dev))<<"计算";
+////----------------------[ 5-> 4>> 4]  {10.64V}  Discharge DOWN
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_80,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_F_60,getPower(app_dev))<<"计算";
+////----------------------[ 4->  >> 9]  {      }  RESET
+    for (int i = 0; i < POWER_SIZE-5; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_F_60,getPower(app_dev))<<i<<"次";
+    }
+
+    zt=CHONG;//充放电状态
+    dy=C1;//电量
+    app_dev.setTest1(zt,dy);
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_C_60,getPower(app_dev))<<"计算";
+}
+
+TEST(APP_dev,power_SelectDian_old){
+    APP_dev app_dev;
+    int zt=FANG;//充放电状态
+    int dy=F5;//电量
+    app_dev.setTest1(dy,zt);
+    EXPECT_EQ(P_0,getPower(app_dev))<<"初始化";
+
+////----------------------2-> 6>> 6   第一次
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+////----------------------6-> 6 无变化
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_0,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+
+////----------------------6-> 11  重置
+    zt=CHONG;//充放电状态
+    dy=C5;//电量
+    app_dev.setTest1(dy,zt);
+
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+
+////----------------------11->11 无变化
+    zt=CHONG;//充放电状态
+    dy=C5;//电量
+    app_dev.setTest1(dy,zt);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_0,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+////----------------------11->10>>10   充下降
+    zt=CHONG;//充放电状态
+    dy=C4;//电量
+    app_dev.setTest1(dy,zt);
+
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_0,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+////----------------------10->  5  重置
+    zt=FANG;//充放电状态
+    dy=F3;//电量
+    app_dev.setTest1(dy,zt);
+
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+////----------------------5-> 4>> 4   放下降
+    for (int i = 0; i < POWER_SIZE-1; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_0,getPower(app_dev))<<i<<"次";
+    }
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+////----------------------4->  9  重置
+    for (int i = 0; i < POWER_SIZE-5; ++i) {
+        app_dev.power_SelectDian();
+        EXPECT_EQ(P_0,getPower(app_dev))<<i<<"次";
+    }
+
+    zt=CHONG;//充放电状态
+    dy=C1;//电量
+    app_dev.setTest1(dy,zt);
+    app_dev.power_SelectDian();
+    EXPECT_EQ(P_0,getPower(app_dev))<<"计算";
+}
+
+TEST(APP_dev,setTest1_float){
+    APP_dev app_dev;
+    app_dev.setTest1(10.0,9.0);
 }

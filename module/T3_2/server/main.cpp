@@ -9,9 +9,9 @@ void udp(){
     udp.udpStart();
     //2.发送信息
     udp.Information();
-    udp.show();
-    //3.发送数据
-    udp.receiveFile();
+//    udp.show();
+//    //3.发送数据
+//    udp.receiveFile();
 //    udp.TEXT_Receive(1,100);
 }
 int test(int argc, char ** argv){

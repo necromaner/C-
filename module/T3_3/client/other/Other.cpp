@@ -191,6 +191,7 @@ std::set<long long> Other::initialization_Set(long long num) {
 }
 ////------------------FILE--------------------////
 File::File() {
+    fileError=0;
     Initialize();
 }
 File::~File() {
@@ -206,12 +207,19 @@ void File::Initialize() {
     fileMessage = false;
 }
 int File::checkProblem() {
-    if (size <= ZERO || block <= ZERO || send <= ZERO)
+    if (size <= ZERO || block <= ZERO || send <= ZERO){
+        fileError=-1;
         return -1;
-    else if(send>block)
+    }
+    else if (send > block){
+        fileError=-2;
         return -2;
-    else
-        return 0;
+    }
+    else if (block / send != 0){
+        fileError=-3;
+        return -3;
+    }
+    return 0;
 }
 ////-----------------set/get------------------////
 int File::setFile(long long int size, int block, int send) {
@@ -230,10 +238,15 @@ void File::setFileName(const std::string &file1,const std::string &file2) {
     File::file2 = file2;
 }
 long long File::file_Size() {
-    if(!fileName)//判断是否文件名初始化
-        return -1;
+    if(!fileName){//判断是否文件名初始化
+        fileError=-4;
+        return -4;
+    }
     fp = fopen(getFileName().c_str(), "r");
-    if (!fp) return -2;
+    if (!fp){
+        fileError=-5;
+        return -5;
+    }
     fseek(fp, 0L, SEEK_END);
     long size = ftell(fp);
     fclose(fp);
@@ -249,9 +262,8 @@ long long int File::getSend() const {
     return send;
 }
 long long int File::get_Block_Num() {
-    int error = checkProblem();
-    if (error != ZERO)
-        return error;
+    if (fileError != ZERO)
+        return fileError;
     if (size % block == 0)//文件和块成倍数
         return size / block-1;
     else//文件和块不成倍数
@@ -261,8 +273,6 @@ int File::get_Block_Size(long long int blockNum) {
     long long x = get_Block_Num();
     if (x < ZERO)//继承之前的错误
         return (int) x;
-    if (block >= size)//块大小大于文件大小
-        return (int) size;
     if (blockNum > x || blockNum < ZERO)//块序号不在正确块范围内
         return -21;
     if (blockNum != x)//非最后一块
@@ -274,6 +284,14 @@ int File::get_Block_Size(long long int blockNum) {
             return (int) (size % block);
     }
 }
+/*
+ * endblock;//块序号
+ * maxbuf   //最大发送大小
+ * minbuf   //最小发送大小
+ * maxblock //
+ */
+
+
 int File::get_Buf_Num(long long int blockNum) {
     int x=get_Block_Size(blockNum);
     if(x<ZERO)//继承之前的错误
@@ -348,8 +366,12 @@ bool File::addMap(std::map<int, char *> x, std::set<long long> y, char *block, c
 }
 
 char *File::mergeMap(std::map<int, char *> x,long long blockNum) {
-    char* block=new char[20];
-
+    char* block=new char[MAXBLOCK];
+    long long blocksize=get_Block_Num();
+//    for (int i = 0; i < blocksize; ++i) {
+//        block[0]
+//    }
+    sprintf(block,x[0]);
     return block;
 }
 
