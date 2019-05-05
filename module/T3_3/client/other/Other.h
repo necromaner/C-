@@ -20,8 +20,6 @@
 #define         TIME_10      10                         //用于进位
 #define         TIME_HALF    500                        //半秒
 
-
-
 #define         SPEED_B      " B/s"
 #define         SPEED_K      " K/s"
 #define         SPEED_M      " M/s"
@@ -37,7 +35,7 @@ class Other {                                         //其他类
 private:
     std::string speed(long long bs);                  //速度主要方法
 public:
-    int64_t getCurrentTime();                         //获取毫秒级试时间戳
+    int64_t getCurrentTime();                         //获取毫秒级时间戳
     std::string theJetLag(time_t beginTime,time_t endTime);//时间差
     std::string date(time_t unix);                    //日期
     std::string speed(unsigned long long byte,time_t unix);//速度

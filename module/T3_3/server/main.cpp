@@ -15,8 +15,8 @@ void udp(){
     udp.Information();
 
     udp.show();
-    //3.发送数据
-//    udp.receiveFile();
+    //3.接收数据
+    udp.receiveFile();
 //    udp.TEXT_Receive(1,100);
 }
 int main(int argc, char ** argv) {

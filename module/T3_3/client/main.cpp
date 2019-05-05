@@ -13,24 +13,24 @@ void udp(){
     udp.Information();
     udp.show();
 //    //3.发送数据
-//    udp.sendFile();
+    udp.sendFile();
 }
 int main(int argc, char ** argv) {
-    int i=2;
-    while(i--){
-        printf("-\n");
-        if(i==1)
-            break;
-    }
-//    int x = 1;
-//    switch (x) {
-//        case 0:
-//            udp();
-//            break;
-//        case 1:
-//            test(argc, argv);
-//            break;
-//        default:
+//    int i=2;
+//    while(i--){
+//        printf("-\n");
+//        if(i==1)
 //            break;
 //    }
+    int x = 1;
+    switch (x) {
+        case 0:
+            udp();
+            break;
+        case 1:
+            test(argc, argv);
+            break;
+        default:
+            break;
+    }
 }

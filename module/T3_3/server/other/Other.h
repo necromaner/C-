@@ -18,8 +18,6 @@
 #define         TIME_10      10                         //用于进位
 #define         TIME_HALF    500                        //半秒
 
-
-
 #define         SPEED_B      " B/s"
 #define         SPEED_K      " K/s"
 #define         SPEED_M      " M/s"

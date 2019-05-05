@@ -1,0 +1,10 @@
+[Title]
+Author="lowkey2046"
+
+[MySQL]
+Host="128.0.0.1"
+Port=33068
+
+[server]
+    host = "www.example.com"
+    port = 80

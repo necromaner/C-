@@ -75,3 +75,7 @@ void Udp::show() const {
 //        printf("* Read number:%-16lld*\n",this->fl.size/this->fl.block+1);
 //    }
 }
+
+void Udp::sendFile(){
+
+}
