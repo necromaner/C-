@@ -545,6 +545,7 @@ char *File::readFile(long long num) {
 
 bool File::writeFile(char *buf, long long num) {
     long long block_Size=getNowBlockNum(num);
+//        printf("  从坐标:%lld开始写入%lld\n",num * block,block_Size);
     if (block_Size <= 0)
         return false;
     fp = fopen(getFileName().c_str(), "rb+");

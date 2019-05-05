@@ -148,7 +148,7 @@ bool Udp::setRE() {//添加RE
             break;
         }
     }
-    printf("%lld %lld %lld\n",re.num[0],re.num[1],re.num[2]);
+//    printf("%lld %lld %lld\n",re.num[0],re.num[1],re.num[2]);
     return isSet;
 }
 void Udp::sendRE() {
@@ -173,47 +173,49 @@ void Udp::sendRE() {
         }
     }
 }
-void Udp::receiveData(){
+void Udp::receiveData() {
     //1.接收文件
-    while (true){
+    while (true) {
         Message();
         Data data;
         memcpy(&data, buf, sizeof(Data));
-        if(data.flag==blockdata){
+        if (data.flag == blockdata) {
             //2。检查文件
             //3。存入文件
-            bool aaa=true;
+            bool aaa = true;
             for (int i = 0; i < RESIVE; ++i) {
-                if (data.block_Num == re.num[i]) {
-                    re.data[i].erase(data.send_Num);
-                    memcpy(re.maps[i][data.send_Num],data.buf,MAX_SEND);
+                if (data.block_Num == re.num[i]) {//如果找到块序号
+                    re.data[i].erase(data.send_Num);//删除块中序号
+                    memcpy(re.maps[i][data.send_Num], data.buf, MAX_SEND);
                     aaa = false;
                 }
                 tttt++;
             }
-            if(aaa){
-                printf("ERROR3:没有找到块序！ %lld [%lld %lld %lld]\n",data.block_Num,re.num[0],re.num[1],re.num[2]);
+            if (aaa) {
+                printf("ERROR3:没有找到块序！ %lld [%lld %lld %lld]\n", data.block_Num, re.num[0], re.num[1], re.num[2]);
             }
-        } else if(data.flag==fileEnd){
+        } else if (data.flag == fileEnd) {
 //            printf("本次发送结束\n");
             break;
         }
     }
     //4。检查块是否满
     for (int i = 0; i < RESIVE; ++i) {
-        if(re.data[i].empty()&&re.isnum[i]==true){
+        bool isis=false;
+        if (re.data[i].empty() && re.isnum[i] == true) {
             std::map<int, std::set<int>>::iterator maps1;
-            std::map<int,char[MAX_SEND]>::iterator it;
-            int i=0;
-            for(it=re.maps[i].begin ();it!=re.maps[i].end ();it++)
-            {
-//                printf("连接坐标%d\n",it->first);
-//                memcpy(block+i*it->first,it->second,MAX_SEND);
-//                printf("%s",it->second);
+            std::map<int, char[MAX_SEND]>::iterator it;
+            for (it = re.maps[i].begin(); it != re.maps[i].end(); it++) {
+//                printf("连接坐标%d\n", MAX_SEND * it->first);
+                memcpy(block+MAX_SEND*it->first,it->second,MAX_SEND);
             }
-//            printf("\n");
-            printf("块%lld接收完成\n",re.num[i]);
-            re.isnum[i]=false;
+//            printf("块%lld接收完成\n", re.num[i]);
+            re.isnum[i] = false;
+            isis=true;
+        }
+        if(isis){//block添加完成
+//            printf("%s",block);
+            file.writeFile(block,re.num[i]);
         }
     }
 }

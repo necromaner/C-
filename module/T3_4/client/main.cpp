@@ -10,7 +10,7 @@ void udp(){
     //2.启动udp客户端连接服务器
     udp.udpStart();
     //3.发送文件名
-    udp.fileName("2.txt");
+    udp.fileName("2.zip");
     //7.接收文件信息
     if(!udp.File_Information())
         return;

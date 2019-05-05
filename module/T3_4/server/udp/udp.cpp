@@ -82,7 +82,7 @@ void Udp::show() const {
 bool Udp::input_RE(long long block_Num,char *bufs) {//将收到的发送序号添加到接收区
     statusRe=true;
     other.map_Insert(mapRe,block_Num,bufs,CUT2);
-    printf("  接收到:%lld|%s\n",block_Num,bufs);
+//    printf("  接收到:%lld|%s\n",block_Num,bufs);
     statusRe=false;
     return true;
 }
@@ -154,7 +154,7 @@ void Udp::Send_Thread() {//自动把发送区内容发送到客户端
                 //1.读区文件获取数据块
                 long long blockNum1=maps1->first;
                 std::set<int> send_Num1s=maps1->second;
-                printf("7.发送块:%lld\n",blockNum1);
+//                printf("7.发送块:%lld\n",blockNum1);
 //                printf("  发送序号:");
                 block=file.readFile(blockNum1);
                 if(block== nullptr){
