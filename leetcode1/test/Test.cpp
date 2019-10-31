@@ -30,3 +30,19 @@ TEST(ListNode,SetListNode){
     EXPECT_EQ(list, Solution().GetListNode(setList));
 }
 
+TEST(ListNode,SetListNode1){
+    vector<int> list;
+    ListNode *setList;
+    list={1,2,3,4};
+    setList = Solution().SetListNode1(list);
+    EXPECT_EQ(list, Solution().GetListNode1(setList));
+    list.clear();
+
+    list={1};
+    setList = Solution().SetListNode1(list);
+    EXPECT_EQ(list, Solution().GetListNode1(setList));
+
+    list={};
+    setList = Solution().SetListNode1(list);
+    EXPECT_EQ(list, Solution().GetListNode1(setList));
+}

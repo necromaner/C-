@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/necromaner/c++/C++Learn/main.cpp" "/Users/necromaner/c++/C++Learn/cmake-build-debug/CMakeFiles/C__Learn.dir/main.cpp.o"
+  "/Users/necromaner/program/C-/C++Learn/main.cpp" "/Users/necromaner/program/C-/C++Learn/cmake-build-debug/CMakeFiles/C__Learn.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
