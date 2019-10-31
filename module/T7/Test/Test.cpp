@@ -3,6 +3,7 @@
 //
 
 #include "Test.h"
+#include <stdio.h>
 Test::Test() {
     printf("-------------test-begin------------\n");
 }
