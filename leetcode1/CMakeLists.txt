@@ -12,15 +12,15 @@ set(3RD_LIBS gtest pthread)
 add_executable(${PROJECT_NAME}  main.cpp
         test/Test.cpp
         test/Test_1_50.cpp
-#        test/Test_51_100.cpp
-#        test/Test_101_150.cpp
-#        test/Test_151_200.cpp
-#        test/Test_201_250.cpp
-#        test/Test_251_300.cpp
-#        test/Test_301_350.cpp
-#        test/Test_351_400.cpp
-#        test/Test_401_450.cpp
-#        test/Test_451_500.cpp
+        test/Test_51_100.cpp
+        test/Test_101_150.cpp
+        test/Test_151_200.cpp
+        test/Test_201_250.cpp
+        test/Test_251_300.cpp
+        test/Test_301_350.cpp
+        test/Test_351_400.cpp
+        test/Test_401_450.cpp
+        test/Test_451_500.cpp
         leetcode/Leetcode.cpp
         leetcode/Leetcode_1_50.cpp
 #        leetcode/Leetcode_51_100.cpp

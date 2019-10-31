@@ -23,17 +23,33 @@ TEST(leetcode,t1) {
 }
 #define TT2 addTwoNumbers
 TEST(leetcode,t2) {
-    ListNode *l1;
-    ListNode *l2;
-    ListNode *l3;
-    l1=Solution().SetListNode({2,4,3});
-    l2=Solution().SetListNode({5,6,4});
-    l3=Solution().SetListNode({8,0,7});
-    EXPECT_EQ(Solution().GetListNode(Solution().TT2(l1,l2)), Solution().GetListNode(l3)) << "默认";
+//    ListNode *l1;
+//    ListNode *l2;
+//    ListNode *l3;
+//    l1=Solution().SetListNode({2,4,3});
+//    l2=Solution().SetListNode({5,6,4});
+//    l3=Solution().SetListNode({8,0,7});
+//    EXPECT_EQ(Solution().GetListNode(Solution().TT2(l1,l2)), Solution().GetListNode(l3)) << "默认";
 }
 #define TT3 reverse
 TEST(leetcode,t3) {
     EXPECT_EQ(Solution().TT3(123),321) << "默认";
     EXPECT_EQ(Solution().TT3(-123),-321) << "负数";
 }
+#define TT14 longestCommonPrefix
+TEST(leetcode,t14) {
+    vector<string> strs;
+    string answer;
+    strs={"flower","flow","flight"};
+    answer="fl";
+    EXPECT_EQ(Solution().TT14(strs),answer) << "默认";
+    strs={"dog","racecar","car"};
+    answer="";
+    EXPECT_EQ(Solution().TT14(strs),answer) << "无";
+    strs={"",""};
+    answer="";
+    EXPECT_EQ(Solution().TT14(strs),answer) << "无";
+}
+
+
 
