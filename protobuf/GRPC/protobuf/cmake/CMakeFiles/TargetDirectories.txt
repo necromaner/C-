@@ -1,0 +1,3 @@
+/Users/necromaner/program/C-/protobuf/GRPC/protobuf/cmake/CMakeFiles/rebuild_cache.dir
+/Users/necromaner/program/C-/protobuf/GRPC/protobuf/cmake/CMakeFiles/edit_cache.dir
+/Users/necromaner/program/C-/protobuf/GRPC/protobuf/cmake/CMakeFiles/protobuf.dir

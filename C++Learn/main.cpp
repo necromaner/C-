@@ -5,5 +5,8 @@
 int main() {
 //    cout<<1;
 //    stack();
-    runGame();
+//    runGame_auto_ptr();
+//    runGame_unique_ptr();
+//    runGame_weak_ptr();
+    test_uniq_ptr();
 }
