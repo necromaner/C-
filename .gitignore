@@ -2,6 +2,8 @@
 .DS_Store
 out/
 cmake-build-debug/
+gtest-1.7.0/
+CMakeLists.txt
 
 
 # 此为注释 – 将被 Git 忽略

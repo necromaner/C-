@@ -1,8 +1,0 @@
-
-//                char cData[10];
-//                sprintf(cData,"%4.2fV -%4.2fV \n",dValue1,dValue0);
-//                printf("%s",cData);
-
-
-mv YiXin_AGL YX_APP
-tar cvf YiXin_APP.tar YX_APP

@@ -1,3 +1,0 @@
-/Users/necromaner/c++/leetcode/2. Add Two Numbers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/necromaner/c++/leetcode/2. Add Two Numbers/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/necromaner/c++/leetcode/2. Add Two Numbers/cmake-build-debug/CMakeFiles/2__Add_Two_Numbers.dir

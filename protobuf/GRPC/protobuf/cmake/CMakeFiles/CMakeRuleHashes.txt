@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-e70c72edeffeab9018e6abe6e0a1a340 game.pb.h
