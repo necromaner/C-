@@ -1,7 +1,3 @@
-//
-// Created by necromaner on 2020/9/28.
-//
-
 #include "../Test.h"
 TEST(Node,GetNode) {
     Node *tree0 = new Node(0);
@@ -35,4 +31,20 @@ TEST(Node,SetNode){
     a="[0,1,2,null,4,null,null,7,8,9,10]";
     setList = SetNode(a);
     EXPECT_EQ( GetNode(setList),"[0,#,1,2,#,4,#,7,8,#,9,10,#]");
+}
+TEST(ListNode,ListNode1){
+    vector<int> list;
+    ListNode *setList;
+    list={1,2,3,4};
+    setList = SetListNode(list);
+    EXPECT_EQ(list, GetListNode(setList));
+    list.clear();
+
+    list={1};
+    setList = SetListNode(list);
+    EXPECT_EQ(list, GetListNode(setList));
+
+    list={};
+    setList = SetListNode(list);
+    EXPECT_EQ(list, GetListNode(setList));
 }

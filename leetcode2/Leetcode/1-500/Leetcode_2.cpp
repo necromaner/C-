@@ -1,4 +1,155 @@
 #include "../leetcode.h"
+//52. N皇后 II
+/*
+n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+给定一个整数 n，返回 n 皇后不同的解决方案的数量。
+
+示例:
+输入: 4
+输出: 2
+解释: 4 皇后问题存在如下两个不同的解法。
+[
+ [".Q..",  // 解法 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // 解法 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+提示：
+    皇后，是国际象棋中的棋子，意味着国王的妻子。皇后只做一件事，那就是“吃子”。当她遇见可以吃的棋子时，就迅速冲上去吃掉棋子。当然，她横、竖、斜都可走一或 N-1 步，可进可退。（引用自 百度百科 - 皇后 ）
+ */
+int t52_1(vector<vector<bool>> vector1,int size) {
+    int ss = vector1.size();
+    int ans = 0;
+    if (ss == 1) {//最后一行
+        for (int i = 0; i < size; ++i)
+            if (vector1[0][i])
+                ans++;
+        return ans;
+    }
+    for (int j = 0; j < size; ++j) {//横移
+        if (vector1[0][j]) {//在满足情况位置插入数据
+            vector<vector<bool>> aa(vector1.begin() + 1, vector1.end());
+            for (int i = 0; i < ss - 1; ++i) {//竖移
+                aa[i][j] = false;//竖
+                if (j + i + 1 < size)//左->右
+                    aa[i][j + i + 1] = false;//左->右
+                if (j - i - 1 >= 0)//右->左
+                    aa[i][j - i - 1] = false;//右->左
+            }
+            ans += t52_1(aa, size);
+        }
+    }
+    return ans;
+}
+int Leetcode::totalNQueens(int n) {
+//    执行用时：80 ms, 在所有 C++ 提交中击败了6.17% 的用户
+//    内存消耗：13.2 MB, 在所有 C++ 提交中击败了6.13% 的用户
+    return t52_1(vector<vector<bool>>(n, vector<bool>(n, true)), n);
+}
+int t52_2(int n, int row, unordered_set<int>& columns, unordered_set<int>& diagonals1, unordered_set<int>& diagonals2) {
+    if (row == n) {
+        return 1;
+    } else {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (columns.find(i) != columns.end()) {
+                continue;
+            }
+            int diagonal1 = row - i;
+            if (diagonals1.find(diagonal1) != diagonals1.end()) {
+                continue;
+            }
+            int diagonal2 = row + i;
+            if (diagonals2.find(diagonal2) != diagonals2.end()) {
+                continue;
+            }
+            columns.insert(i);
+            diagonals1.insert(diagonal1);
+            diagonals2.insert(diagonal2);
+            count += t52_2(n, row + 1, columns, diagonals1, diagonals2);
+            columns.erase(i);
+            diagonals1.erase(diagonal1);
+            diagonals2.erase(diagonal2);
+        }
+        return count;
+    }
+}
+int t52_3(int n, int row, int columns, int diagonals1, int diagonals2) {
+    if (row == n) {
+        return 1;
+    } else {
+        int count = 0;
+        int availablePositions = ((1 << n) - 1) & (~(columns | diagonals1 | diagonals2));
+        while (availablePositions != 0) {
+            int position = availablePositions & (-availablePositions);
+            availablePositions = availablePositions & (availablePositions - 1);
+            count += t52_3(n, row + 1, columns | position, (diagonals1 | position) << 1, (diagonals2 | position) >> 1);
+        }
+        return count;
+    }
+}
+int totalNQueens(int n) {
+////    执行用时：32 ms, 在所有 C++ 提交中击败了14.76% 的用户
+////    内存消耗：7.6 MB, 在所有 C++ 提交中击败了15.19% 的用户
+////    方法一：基于集合的回溯
+//    unordered_set<int> columns, diagonals1, diagonals2;
+//    return t52_2(n, 0, columns, diagonals1, diagonals2);
+
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：5.8 MB, 在所有 C++ 提交中击败了85.44% 的用户
+//    方法二：基于位运算的回溯
+    return t52_3(n, 0, 0, 0, 0);
+}
+//57. 插入区间
+/*
+给出一个无重叠的 ，按照区间起始端点排序的区间列表。
+在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+
+示例 1：
+输入：intervals = [[1,3],[6,9]], newInterval = [2,5]
+输出：[[1,5],[6,9]]
+示例 2：
+输入：intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+输出：[[1,2],[3,10],[12,16]]
+解释：这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。
+ */
+vector<vector<int>> insert_1(vector<vector<int>>& intervals, vector<int>& newInterval) {//抄
+    int left = newInterval[0];
+    int right = newInterval[1];
+    bool placed = false;
+    vector<vector<int>> ans;
+    for (const auto& interval: intervals) {
+        if (interval[0] > right) {
+            // 在插入区间的右侧且无交集
+            if (!placed) {
+                ans.push_back({left, right});
+                placed = true;
+            }
+            ans.push_back(interval);
+        }
+        else if (interval[1] < left) {
+            // 在插入区间的左侧且无交集
+            ans.push_back(interval);
+        }
+        else {
+            // 与插入区间有交集，计算它们的并集
+            left = min(left, interval[0]);
+            right = max(right, interval[1]);
+        }
+    }
+    if (!placed) {
+        ans.push_back({left, right});
+    }
+    return ans;
+}
+vector<vector<int>> Leetcode::insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+
+}
 //64. 最小路径和
 /*
 给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。

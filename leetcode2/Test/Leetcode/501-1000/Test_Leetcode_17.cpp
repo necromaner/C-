@@ -172,10 +172,15 @@
 //TEST(leetcode,t843) {
 // EXPECT_EQ(,Leetcode().TT843());
 //}
-//#define TT844
-//TEST(leetcode,t844) {
-// EXPECT_EQ(,Leetcode().TT844());
-//}
+#define TT844 backspaceCompare
+TEST(leetcode,t844) {
+    EXPECT_EQ(true,Leetcode().TT844("ab#c","ad#c"));
+    EXPECT_EQ(true,Leetcode().TT844("ab##","c#d#"));
+    EXPECT_EQ(true,Leetcode().TT844("a##c","#a#c"));
+    EXPECT_EQ(false,Leetcode().TT844("a#c","b"));
+    EXPECT_EQ(true,Leetcode().TT844("bxj##tw","bxo#j##tw"));
+    EXPECT_EQ(false,Leetcode().TT844("bxj##tw","bxj###tw"));
+}
 //#define TT845
 //TEST(leetcode,t845) {
 // EXPECT_EQ(,Leetcode().TT845());

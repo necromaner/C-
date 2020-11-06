@@ -118,10 +118,12 @@ TEST(leetcode,t117) {
 //TEST(leetcode,t128) {
 //    EXPECT_EQ(,Leetcode().TT128());
 //}
-//#define TT129
-//TEST(leetcode,t129) {
-//    EXPECT_EQ(,Leetcode().TT129());
-//}
+#define TT129 sumNumbers
+TEST(leetcode,t129) {
+    EXPECT_EQ(25,Leetcode().TT129(SetTreeNode("[1,2,3]")));
+    EXPECT_EQ(1026,Leetcode().TT129(SetTreeNode("[4,9,0,5,1]")));
+    EXPECT_EQ(1388,Leetcode().TT129(SetTreeNode("[4,9,0,5,1,2]")));
+}
 //#define TT130
 //TEST(leetcode,t130) {
 //    EXPECT_EQ(,Leetcode().TT130());
@@ -162,10 +164,22 @@ TEST(leetcode,t117) {
 //TEST(leetcode,t139) {
 //    EXPECT_EQ(,Leetcode().TT139());
 //}
-//#define TT140
-//TEST(leetcode,t140) {
-//    EXPECT_EQ(,Leetcode().TT140());
-//}
+#define TT140 wordBreak
+TEST(leetcode,t140) {
+    vector<string> wordDict,ans;
+    wordDict={"cat", "cats", "and", "sand", "dog"};
+    ans={"cat sand dog","cats and dog"};
+    EXPECT_EQ(ans,Leetcode().TT140("catsanddog",wordDict));
+    wordDict={"apple", "pen", "applepen", "pine", "pineapple"};
+    ans={"pine apple pen apple","pine applepen apple","pineapple pen apple"};
+    EXPECT_EQ(ans,Leetcode().TT140("pineapplepenapple",wordDict));
+    wordDict={"cats", "dog", "sand", "and", "cat"};
+    ans={};
+    EXPECT_EQ(ans,Leetcode().TT140("catsandog",wordDict));
+    wordDict={"cat","cats","and","s"};
+    ans={"cat s and cat s","cat s and cats","cats and cat s","cats and cats"};
+    EXPECT_EQ(ans,Leetcode().TT140("catsandcats",wordDict));
+}
 #define TT141 hasCycle
 TEST(leetcode,t141) {
     ListNode *l1=new ListNode(3);
@@ -202,18 +216,53 @@ TEST(leetcode,t142) {
     EXPECT_EQ(l1,Leetcode().TT142(l1));
     EXPECT_EQ(nullptr,Leetcode().TT142(nullptr));
 }
-//#define TT143
-//TEST(leetcode,t143) {
-//    EXPECT_EQ(,Leetcode().TT143());
-//}
-//#define TT144
-//TEST(leetcode,t144) {
-//    EXPECT_EQ(,Leetcode().TT144());
-//}
-//#define TT145
-//TEST(leetcode,t145) {
-//    EXPECT_EQ(,Leetcode().TT145());
-//}
+#define TT143 reorderList
+TEST(leetcode,t143) {
+    vector<int> ans,head1;
+    ListNode* head;
+    head1={};
+    ans={};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+    head1={1};
+    ans={1};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+    head1={1,2};
+    ans={1,2};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+    head1={1,2,3};
+    ans={1,3,2};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+    head1={1,2,3,4};
+    ans={1,4,2,3};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+    head1={1,2,3,4,5};
+    ans={1,5,2,4,3};
+    head=SetListNode(head1);
+    Leetcode().TT143(head);
+    EXPECT_EQ(ans,GetListNode(head));
+}
+#define TT144 preorderTraversal
+TEST(leetcode,t144) {
+    vector<int> ans;
+    ans={1,2,4,5,3};
+    EXPECT_EQ(ans,Leetcode().TT144(SetTreeNode("[1,2,3,4,5]")));
+}
+#define TT145 postorderTraversal
+TEST(leetcode,t145) {
+    vector<int> ans;
+    ans={4,5,2,3,1};
+    EXPECT_EQ(ans,Leetcode().TT145(SetTreeNode("[1,2,3,4,5]")));
+}
 //#define TT146
 //TEST(leetcode,t146) {
 //    EXPECT_EQ(,Leetcode().TT146());

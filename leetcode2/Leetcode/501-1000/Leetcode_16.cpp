@@ -1,4 +1,116 @@
 #include "../leetcode.h"
+//763. 划分字母区间
+/*
+字符串 S 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一个字母只会出现在其中的一个片段。返回一个表示每个字符串片段的长度的列表。
+
+示例 1：
+输入：S = "ababcbacadefegdehijhklij"
+输出：[9,7,8]
+解释：
+划分结果为 "ababcbaca", "defegde", "hijhklij"。
+每个字母最多出现在一个片段中。
+像 "ababcbacadefegde", "hijhklij" 的划分是错误的，因为划分的片段数较少。
+
+提示：
+    S的长度在[1, 500]之间。
+    S只包含小写字母 'a' 到 'z' 。
+ */
+vector<int> Leetcode::partitionLabels(string S) {//2020-10-22
+////    超出时间限制
+//    int size = S.size(), head = 0, end = 0;
+//    if (size == 0)
+//        return {};
+//    vector<int> ans;
+//    vector<vector<int>> aaa(26, vector<int>(2, -1));
+//    for (int i = 0; i < size; ++i) {
+//        int aa = S[i] - 'a';
+//        if (aaa[aa][0] == -1)
+//            aaa[aa][0] = i;
+//        else
+//            aaa[aa][1] = i;
+//    }
+//    end = aaa[S[0] - 'a'][1];
+//    while (head < size) {
+//        if (end == -1) {
+//            aaa[S[head] - 'a'][0] = -1;
+//            ans.push_back(1);
+//        } else {
+//            bool isOK = true;
+//            for (int i = 0; i < 26; ++i) {
+//                int now = aaa[i][0];
+//                if (now == -1)
+//                    continue;
+//                else if (now <= end) {
+//                    aaa[i][0] = -1;
+//                    int nowEnd = aaa[i][1];
+//                    end = max(end, aaa[i][1]);
+//                    isOK = false;
+//                }
+//            }
+//            if (isOK) {
+//                ans.push_back(end - head + 1);
+//                head = end + 1;
+//                if (head < size)
+//                    end = aaa[S[head] - 'a'][1];
+//            }
+//        }
+//    }
+//    return ans;
+
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：6.8 MB, 在所有 C++ 提交中击败了39.44% 的用户
+//    参考
+    int size = S.size(), head = 0, end = 0;
+    vector<int> ans;
+    int aaa[26];
+    for (int i = 0; i < size; ++i)
+        aaa[S[i] - 'a'] = i;
+    while (head < size) {
+        end = aaa[S[head] - 'a'];
+        for (int i = head + 1; i < end; ++i)
+            end = max(end, aaa[S[i] - 'a']);
+        ans.push_back(end - head + 1);
+        head = end + 1;
+    }
+    return ans;
+}
+vector<int> partitionLabels_1(string S){
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：6.8 MB, 在所有 C++ 提交中击败了33.15% 的用户
+    int last[26];
+    int length = S.size();
+    for (int i = 0; i < length; i++) {
+        last[S[i] - 'a'] = i;
+    }
+    vector<int> partition;
+    int start = 0, end = 0;
+    for (int i = 0; i < length; i++) {
+        end = max(end, last[S[i] - 'a']);
+        if (i == end) {
+            partition.push_back(end - start + 1);
+            start = end + 1;
+        }
+    }
+    return partition;
+
+////    执行用时：8 ms, 在所有 C++ 提交中击败了73.76% 的用户
+////    内存消耗：7 MB, 在所有 C++ 提交中击败了14.76% 的用户
+//    unordered_map<char, int> umap; // key:字符，value：字符出现的最后位置
+//    for (int i = 0; i < S.size(); i++) { // 统计每一个字符最后出现的位置
+//        umap[S[i]] = i;
+//    }
+//    vector<int> result;
+//    int left = 0;
+//    int right = 0;
+//    for (int i = 0; i < S.size(); i++) {
+//        right = max(right, umap[S[i]]); // 找到字符出现的最远边界
+//        if (i == right) {
+//            result.push_back(right - left + 1);
+//            left = i + 1;
+//        }
+//    }
+//    return result;
+}
 //783. 二叉搜索树节点最小距离
 /*
 给定一个二叉搜索树的根节点 root，返回树中任意两节点的差的最小值。

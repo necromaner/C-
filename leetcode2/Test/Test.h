@@ -9,6 +9,7 @@
 #include "../Leetcode/leetcode.h"
 #include "../JianZhiOffer/JianZhiOffer.h"
 #include "../Tencent/Tencent.h"
+#include "../CTCI/CTCI.h"
 #include "../Other/MyStack.h"
 #undef private
 #undef protected

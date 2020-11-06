@@ -96,10 +96,15 @@
 //TEST(leetcode,t924) {
 // EXPECT_EQ(,Leetcode().TT924());
 //}
-//#define TT925
-//TEST(leetcode,t925) {
-// EXPECT_EQ(,Leetcode().TT925());
-//}
+#define TT925 isLongPressedName
+TEST(leetcode,t925) {
+    EXPECT_EQ(true,Leetcode().TT925("alex","aaleex"));
+    EXPECT_EQ(false,Leetcode().TT925("saeed","ssaaedd"));
+    EXPECT_EQ(true,Leetcode().TT925("leelee","lleeelee"));
+    EXPECT_EQ(true,Leetcode().TT925("laiden","laiden"));
+    EXPECT_EQ(false,Leetcode().TT925("L","laiden"));
+    EXPECT_EQ(false,Leetcode().TT925("laiden","l"));
+}
 //#define TT926
 //TEST(leetcode,t926) {
 // EXPECT_EQ(,Leetcode().TT926());
@@ -160,10 +165,18 @@
 //TEST(leetcode,t940) {
 // EXPECT_EQ(,Leetcode().TT940());
 //}
-//#define TT941
-//TEST(leetcode,t941) {
-// EXPECT_EQ(,Leetcode().TT941());
-//}
+#define TT941 validMountainArray
+TEST(leetcode,t941) {
+    vector<int> A;
+    A={2,1};
+    EXPECT_EQ(false, Leetcode().TT941(A));
+    A={3,5,5};
+    EXPECT_EQ(false, Leetcode().TT941(A));
+    A={0,3,2,1};
+    EXPECT_EQ(true, Leetcode().TT941(A));
+    A={0,1,2,3,4,5,6,7,8,9};
+    EXPECT_EQ(false, Leetcode().TT941(A));
+}
 //#define TT942
 //TEST(leetcode,t942) {
 // EXPECT_EQ(,Leetcode().TT942());

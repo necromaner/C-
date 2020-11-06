@@ -4,10 +4,13 @@
 //TEST(leetcode,t51) {
 //    EXPECT_EQ(,Leetcode().TT51());
 //}
-//#define TT52
-//TEST(leetcode,t52) {
-//    EXPECT_EQ(,Leetcode().TT52());
-//}
+#define TT52 totalNQueens
+TEST(leetcode,t52) {
+    EXPECT_EQ(2,Leetcode().TT52(4));
+    EXPECT_EQ(10,Leetcode().TT52(5));
+    EXPECT_EQ(4,Leetcode().TT52(6));
+    EXPECT_EQ(724,Leetcode().TT52(10));
+}
 //#define TT53
 //TEST(leetcode,t53) {
 //    EXPECT_EQ(,Leetcode().TT53());
@@ -24,10 +27,19 @@
 //TEST(leetcode,t56) {
 //    EXPECT_EQ(,Leetcode().TT56());
 //}
-//#define TT57
-//TEST(leetcode,t57) {
-//    EXPECT_EQ(,Leetcode().TT57());
-//}
+#define TT57 insert
+TEST(leetcode,t57) {
+    vector<vector<int>> intervals,ans;
+    vector<int> newInterval;
+    intervals={{1,3},{6,9}};
+    newInterval={2,5};
+    ans={{1,5},{6,9}};
+    EXPECT_EQ(ans,Leetcode().TT57(intervals,newInterval));
+    intervals={{1,2},{3,5},{6,7},{8,10},{12,16}};
+    newInterval={4,8};
+    ans={{1,2},{3,10},{12,16}};
+    EXPECT_EQ(ans,Leetcode().TT57(intervals,newInterval));
+}
 //#define TT58
 //TEST(leetcode,t58) {
 //    EXPECT_EQ(,Leetcode().TT58());

@@ -56,10 +56,19 @@
 //TEST(leetcode,t1364) {
 // EXPECT_EQ(,Leetcode().TT1364());
 //}
-//#define TT1365
-//TEST(leetcode,t1365) {
-// EXPECT_EQ(,Leetcode().TT1365());
-//}
+#define TT1365 smallerNumbersThanCurrent
+TEST(leetcode,t1365) {
+    vector<int> ans, nums;
+    nums = {8, 1, 2, 2, 3};
+    ans = {4, 0, 1, 1, 3};
+    EXPECT_EQ(ans, Leetcode().TT1365(nums));
+    nums = {6, 5, 4, 8};
+    ans = {2, 1, 0, 3};
+    EXPECT_EQ(ans, Leetcode().TT1365(nums));
+    nums = {7, 7, 7, 7};
+    ans = {0, 0, 0, 0};
+    EXPECT_EQ(ans, Leetcode().TT1365(nums));
+}
 //#define TT1366
 //TEST(leetcode,t1366) {
 // EXPECT_EQ(,Leetcode().TT1366());

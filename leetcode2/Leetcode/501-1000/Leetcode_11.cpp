@@ -183,6 +183,7 @@ int Leetcode::getMinimumDifference_1(TreeNode* root) {//抄
             /   \
           20     13
  */
+int T538_num = 0;
 TreeNode* Leetcode::convertBST(TreeNode* root) {//2020-09-21
 //    二叉搜索树 根节点大于左子树 小于右子树 中序遍历 从小到大
 

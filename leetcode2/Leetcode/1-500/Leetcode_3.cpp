@@ -116,7 +116,6 @@ TreeNode* Leetcode::buildTree(vector<int>& inorder, vector<int>& postorder) {//2
    [5,8,4,5]
 ]
  */
-
 vector<vector<int>> Leetcode::pathSum(TreeNode* root, int sum) {//2020-09-27
     if (root == nullptr)
         return {};
@@ -416,6 +415,271 @@ void Leetcode::minimumTotal1(vector<vector<int>> triangle,vector<vector<int>> &x
         xx[i][k + 1] = xx[i - 1][k] + triangle[i][k + 1];//后一个数
     }
 }
+//129. 求根到叶子节点数字之和
+/*
+给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
+例如，从根到叶子节点路径 1->2->3 代表数字 123。
+计算从根到叶子节点生成的所有数字之和。
+说明: 叶子节点是指没有子节点的节点。
+
+示例 1:
+输入: [1,2,3]
+    1
+   / \
+  2   3
+输出: 25
+解释:
+从根到叶子节点路径 1->2 代表数字 12.
+从根到叶子节点路径 1->3 代表数字 13.
+因此，数字总和 = 12 + 13 = 25.
+
+示例 2:
+输入: [4,9,0,5,1]
+    4
+   / \
+  9   0
+ / \
+5   1
+输出: 1026
+解释:
+从根到叶子节点路径 4->9->5 代表数字 495.
+从根到叶子节点路径 4->9->1 代表数字 491.
+从根到叶子节点路径 4->0 代表数字 40.
+因此，数字总和 = 495 + 491 + 40 = 1026.
+ */
+int t129_1(int num,TreeNode* root) {//2020-10-29
+////    执行用时：4 ms, 在所有 C++ 提交中击败了81.75% 的用户
+////    内存消耗：12.4 MB, 在所有 C++ 提交中击败了24.59% 的用户
+//    if (!root) {
+//        return 0;
+//    }
+//    int num1 = 0;
+//    if (root->left)
+//        num1 += t129_1(num * 10 + root->val, root->left);
+//    if (root->right)
+//        num1 += t129_1(num * 10 + root->val, root->right);
+//    if (!root->left && !root->right) {
+//        return num * 10 + root->val;
+//    }
+//    return num1;
+
+//    执行用时：8 ms, 在所有 C++ 提交中击败了35.09% 的用户
+//    内存消耗：12.4 MB, 在所有 C++ 提交中击败了27.42% 的用户
+//    参考
+    if (!root)return 0;
+    int num1 = num * 10 + root->val;
+    if (!root->left && !root->right)return num1;
+    return t129_1(num1, root->left)+t129_1(num1, root->right);
+}
+int Leetcode::sumNumbers(TreeNode* root) {//2020-10-30
+//    递归
+//    return t129_1(0,root);
+
+////    执行用时：4 ms, 在所有 C++ 提交中击败了81.70% 的用户
+////    内存消耗：12.7 MB, 在所有 C++ 提交中击败了13.51% 的用户
+////    迭代 参考
+//    if (!root)return 0;
+//    stack<TreeNode *> st;
+//    stack<int> num;
+//    int sum = 0;
+//    st.push(root);
+//    num.push(root->val);
+//    while (!st.empty()) {
+//        TreeNode *node = st.top();
+//        int num1 = num.top();
+//        st.pop();
+//        num.pop();
+//        TreeNode *left = node->left;
+//        TreeNode *right = node->right;
+//        if (!left && !right) {
+//            sum += num1;
+//        } else {
+//            if (left) {
+//                st.push(left);
+//                num.push(num1 * 10 + left->val);
+//            }
+//            if (right) {
+//                st.push(right);
+//                num.push(num1 * 10 + right->val);
+//            }
+//        }
+//    }
+//    return sum;
+
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：12.6 MB, 在所有 C++ 提交中击败了17.02% 的用户
+//    迭代减少变量
+    if (!root)return 0;
+    stack<TreeNode *> st;
+    int sum = 0;
+    st.push(root);
+    while (!st.empty()) {
+        TreeNode *node = st.top();
+        st.pop();
+        TreeNode *left = node->left;
+        TreeNode *right = node->right;
+        if (!left && !right)
+            sum += node->val;
+        else {
+            if (left) {
+                left->val = node->val * 10 + left->val;
+                st.push(left);
+            }
+            if (right) {
+                right->val = node->val * 10 + right->val;
+                st.push(right);
+            }
+        }
+    }
+    return sum;
+}
+int sumNumbers_1(TreeNode* root) {//抄
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：13 MB, 在所有 C++ 提交中击败了10.10% 的用户
+    if (root == nullptr) {
+        return 0;
+    }
+    int sum = 0;
+    queue<TreeNode*> nodeQueue;
+    queue<int> numQueue;
+    nodeQueue.push(root);
+    numQueue.push(root->val);
+    while (!nodeQueue.empty()) {
+        TreeNode* node = nodeQueue.front();
+        int num = numQueue.front();
+        nodeQueue.pop();
+        numQueue.pop();
+        TreeNode* left = node->left;
+        TreeNode* right = node->right;
+        if (left == nullptr && right == nullptr) {
+            sum += num;
+        } else {
+            if (left != nullptr) {
+                nodeQueue.push(left);
+                numQueue.push(num * 10 + left->val);
+            }
+            if (right != nullptr) {
+                nodeQueue.push(right);
+                numQueue.push(num * 10 + right->val);
+            }
+        }
+    }
+    return sum;
+}
+//140. 单词拆分 II
+/*
+给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，在字符串中增加空格来构建一个句子，使得句子中所有的单词都在词典中。返回所有这些可能的句子。
+
+说明：
+
+    分隔时可以重复使用字典中的单词。
+    你可以假设字典中没有重复的单词。
+
+示例 1：
+
+输入:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+输出:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+
+示例 2：
+
+输入:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+输出:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+解释: 注意你可以重复使用字典中的单词。
+
+示例 3：
+
+输入:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+输出:
+[]
+ */
+void t140_1(const string& s, int index,vector<string> &ans,vector<string> add,unordered_set<string> wordSet){
+    int size=s.size();
+    if(index>=size){
+        string ans1;
+        for(auto ss:add){
+            ans1+=ss+" ";
+        }
+        ans1.pop_back();
+        ans.push_back(ans1);
+        return;
+    }
+    for (int i = 1; i < size-index+1; ++i) {
+        string word = s.substr(index, i);
+        if(wordSet.find(word)!=wordSet.end()){
+            add.push_back(word);
+            t140_1(s,index+i,ans,add,wordSet);
+            add.pop_back();
+        }
+    }
+}
+vector<string> Leetcode::wordBreak(string s, vector<string>& wordDict) {//2020-11-01
+    //超时
+    vector<string> ans,add;
+    unordered_set<string> wordSet = unordered_set(wordDict.begin(), wordDict.end());
+    t140_1(s,0,ans,add,wordSet);
+    return ans;
+}
+vector<string> t140_3(unordered_map<string,vector<string> >& m,vector<string>& wordDict,string s){
+    if(m.count(s)) return m[s];
+    if(s.empty()) return {""};
+    vector<string> res;
+    for(auto word:wordDict){
+        if(s.substr(0,word.size())!=word) continue;
+        vector<string> tmp=t140_3(m,wordDict,s.substr(word.size()));
+        for(auto itm:tmp){
+            res.push_back(word+(itm.empty()?"":" "+itm));
+        }
+    }
+    m[s]=res;
+    return res;
+}
+unordered_map<int, vector<string>> t140_2_2;
+unordered_set<string> t140_2_1;
+void t140_2(const string& s, int index) {
+    if (!t140_2_2.count(index)) {
+        if (index == s.size()) {
+            t140_2_2[index] = {""};
+            return;
+        }
+        t140_2_2[index] = {};
+        for (int i = index + 1; i <= s.size(); ++i) {
+            string word = s.substr(index, i - index);
+            if (t140_2_1.count(word)) {
+                t140_2(s, i);
+                for (const string& succ: t140_2_2[i]) {
+                    t140_2_2[index].push_back(succ.empty() ? word : word + " " + succ);
+                }
+            }
+        }
+    }
+}
+vector<string> wordBreak_1(string s, vector<string>& wordDict) {//抄
+//    执行用时：16 ms, 在所有 C++ 提交中击败了80.46% 的用户
+//    内存消耗：12.9 MB, 在所有 C++ 提交中击败了27.48% 的用户
+    t140_2_1 = unordered_set(wordDict.begin(), wordDict.end());
+    t140_2(s, 0);
+    return t140_2_2[0];
+
+//    执行用时：28 ms, 在所有 C++ 提交中击败了60.15% 的用户
+//    内存消耗：10.3 MB, 在所有 C++ 提交中击败了52.16% 的用户
+    unordered_map<string,vector<string> > m;
+    return t140_3(m,wordDict,s);
+}
 //141. 环形链表
 /*
 给定一个链表，判断链表中是否有环。
@@ -606,6 +870,188 @@ ListNode *Leetcode::detectCycle_1(ListNode *head){//抄
         }
     }
     return nullptr;
+}
+//143. 重排链表
+/*
+给定一个单链表 L：L0→L1→…→Ln-1→Ln ，
+将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+
+示例 1:
+给定链表 1->2->3->4, 重新排列为 1->4->2->3.
+
+示例 2:
+给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
+ */
+void Leetcode::reorderList(ListNode* head) {//2020-10-20
+////    执行用时：64 ms, 在所有 C++ 提交中击败了34.59% 的用户
+////    内存消耗：18.5 MB, 在所有 C++ 提交中击败了7.11% 的用户
+//        if (!head)
+//            return;
+//        stack<ListNode *> stack1;
+//        ListNode *head1 = head;
+//        while (head1) {
+//            stack1.push(head1);
+//            head1 = head1->next;
+//        }
+//        int size = stack1.size();
+//        for (int i = 0; i < size / 2; ++i) {
+//            head1 = head->next;
+//            head->next = stack1.top();
+//            head->next->next = head1;
+//            head = head->next->next;
+//            stack1.pop();
+//        }
+//        head->next = nullptr;
+
+    if (!head)
+        return;
+    stack<ListNode *> stack1;
+    ListNode *head1 = head;
+    ListNode *head2 = head->next;
+    while (head2) {
+        stack1.push(head1);
+        head1 = head1->next;
+    }
+    int size = stack1.size();
+    for (int i = 0; i < size / 2; ++i) {
+        head1 = head->next;
+        head->next = stack1.top();
+        head->next->next = head1;
+        head = head->next->next;
+        stack1.pop();
+    }
+    head->next = nullptr;
+}
+void reorderList_1(ListNode* head) {//抄
+////    执行用时：72 ms, 在所有 C++ 提交中击败了27.00% 的用户
+////    内存消耗：18.9 MB, 在所有 C++ 提交中击败了5.05% 的用户
+////    方法一：线性表
+//    if (head == nullptr) {
+//        return;
+//    }
+//    vector<ListNode *> vec;
+//    ListNode *node = head;
+//    while (node != nullptr) {
+//        vec.emplace_back(node);
+//        node = node->next;
+//    }
+//    int i = 0, j = vec.size() - 1;
+//    while (i < j) {
+//        vec[i]->next = vec[j];
+//        i++;
+//        if (i == j) {
+//            break;
+//        }
+//        vec[j]->next = vec[i];
+//        j--;
+//    }
+//    vec[i]->next = nullptr;
+
+////    执行用时：800 ms, 在所有 C++ 提交中击败了5.08% 的用户
+////    内存消耗：17.9 MB, 在所有 C++ 提交中击败了10.77% 的用户
+////    递归
+//    if (head == nullptr || head->next == nullptr || head->next->next == nullptr)return;
+//    ListNode *temp = head;
+//    while (temp->next->next != nullptr)
+//        temp = temp->next;
+//    temp->next->next = head->next;
+//    head->next = temp->next;
+//    temp->next = nullptr;
+//    reorderList_1(head->next->next);
+
+//    执行用时：72 ms, 在所有 C++ 提交中击败了27.00% 的用户
+//    内存消耗：17.7 MB, 在所有 C++ 提交中击败了12.76% 的用户
+    ListNode* p=head,*q=head,*r,*s=head;
+    if(!head)            //head为空，则直接退出
+        return ;
+    //1.快慢指针获取中间节点 p慢指针 q快指针 最终p为前半链表末尾 q为后半链表开始
+    while(q->next){      //寻找中间结点
+        q=q->next;       //p走一步
+        p=p->next;
+        if(q->next)
+            q=q->next;     //q走两步
+    }
+    q=p->next;           //p所指结点为中间结点，q为后半段链表的首结点
+    p->next=nullptr;     //p为前半段链表
+
+    //2.链表逆序 r为暂时存放q的下一个值
+    while(q){            //将链表后半段逆置
+        r=q->next;
+        q->next=p->next;
+        p->next=q;
+        q=r;
+    }
+    q=p->next;            //q指向后半段的第一个数据结点
+    p->next=nullptr;
+    //插入
+    while(q){             //将链表后半段的结点插入到指定位置
+        r=q->next;        //r指向后半段的下一个结点
+        q->next=s->next;  //将q所指结点插入到s所指结点（head结点）之后
+        s->next=q;
+        s=q->next;        //s指向前半段的下一个插入点
+        q=r;
+    }
+}
+//144. 二叉树的前序遍历
+/*
+给定一个二叉树，返回它的 前序 遍历。
+ 示例:
+输入: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+输出: [1,2,3]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+ */
+void TreeNode_DLR(TreeNode* root,vector<int>& ans){
+    if (root == nullptr)
+        return;
+    ans.push_back(root->val);
+    TreeNode_DLR(root->left,ans);
+    TreeNode_DLR(root->right,ans);
+}
+vector<int> Leetcode::preorderTraversal(TreeNode* root) {//2020-10-27
+////    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+////    内存消耗：8.6 MB, 在所有 C++ 提交中击败了17.23% 的用户
+////    递归
+//    vector<int> ans;
+//    TreeNode_DLR(root,ans);
+//    return ans;
+
+////    执行用时：4 ms, 在所有 C++ 提交中击败了48.52% 的用户
+////    内存消耗：10.2 MB, 在所有 C++ 提交中击败了6.56% 的用户
+////    递归
+//    if (root == nullptr)
+//        return {};
+//    vector<int> ans, left, right;
+//    ans.push_back(root->val);
+//    left = preorderTraversal(root->left);
+//    ans.insert(ans.end(),left.begin(),left.end());
+//    right = preorderTraversal(root->right);
+//    ans.insert(ans.end(),right.begin(),right.end());
+//    return ans;
+
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：8.4 MB, 在所有 C++ 提交中击败了46.67% 的用户
+//    迭代
+    if (root == nullptr)
+        return {};
+    vector<int> ans;
+    stack<TreeNode *> stack1;
+    stack1.push(root);
+    while (!stack1.empty()) {
+        TreeNode *tree = stack1.top();
+        stack1.pop();
+        ans.push_back(tree->val);
+        if (tree->right)
+            stack1.push(tree->right);
+        if (tree->left)
+            stack1.push(tree->left);
+    }
+    return ans;
 }
 //145. 二叉树的后序遍历
 /*

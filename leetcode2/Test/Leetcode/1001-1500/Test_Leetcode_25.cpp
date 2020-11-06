@@ -24,10 +24,16 @@
 //TEST(leetcode,t1206) {
 // EXPECT_EQ(,Leetcode().TT1206());
 //}
-//#define TT1207
-//TEST(leetcode,t1207) {
-// EXPECT_EQ(,Leetcode().TT1207());
-//}
+#define TT1207 uniqueOccurrences
+TEST(leetcode,t1207) {
+    vector<int> arr;
+    arr={1,2,2,1,1,3};
+    EXPECT_EQ(true,Leetcode().TT1207(arr));
+    arr={1,2,2,1,1,3,4};
+    EXPECT_EQ(false,Leetcode().TT1207(arr));
+    arr={-3,0,1,-3,1,1,1,-3,10,0};
+    EXPECT_EQ(true,Leetcode().TT1207(arr));
+}
 //#define TT1208
 //TEST(leetcode,t1208) {
 // EXPECT_EQ(,Leetcode().TT1208());

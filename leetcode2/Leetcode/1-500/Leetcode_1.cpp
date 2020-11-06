@@ -26,7 +26,7 @@ vector<int> Leetcode::twoSum(vector<int> &nums, int target){//2020-09-21
         }
         return {};
 }
-vector<int> Leetcode::twoSum_2(vector<int> &nums, int target) {//旧
+vector<int> twoSum_2(vector<int> &nums, int target) {//旧
 //    执行用时：204 ms, 在所有 C++ 提交中击败了44.71% 的用户
 //    内存消耗：7.2 MB, 在所有 C++ 提交中击败了100.00% 的用户
         int size = nums.size();
@@ -39,7 +39,7 @@ vector<int> Leetcode::twoSum_2(vector<int> &nums, int target) {//旧
         }
         return {};
 }
-vector<int> Leetcode::twoSum_1(vector<int> &nums, int target) {//抄
+vector<int> twoSum_1(vector<int> &nums, int target) {//抄
 // 映射 	                底层实现 	是否有序 	数值是否可以重复 	能否更改数值 	查询效率 	增删效率
 //std::map 	            红黑树 	    key有序 	    key不可重复 	    key不可修改 	O(logn) 	O(logn)
 //std::multimap 	    红黑树 	    key有序   	key可重复 	    key不可修改 	O(logn) 	O(logn)
@@ -169,7 +169,7 @@ ListNode *Leetcode::addTwoNumbers(ListNode *l1, ListNode *l2){//2020-09-21
         }
         return l3;
 }
-ListNode *Leetcode::addTwoNumbers_1(ListNode *l1, ListNode *l2) {//旧
+ListNode *addTwoNumbers_1(ListNode *l1, ListNode *l2) {//旧
 //    执行用时：32 ms, 在所有 C++ 提交中击败了80.78% 的用户
 //    内存消耗：9.4 MB, 在所有 C++ 提交中击败了100.00% 的用户
     int carry = 0;
@@ -220,7 +220,7 @@ ListNode *Leetcode::addTwoNumbers_1(ListNode *l1, ListNode *l2) {//旧
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
  */
-int Leetcode::T3_aaa(string s,set<char> *aa,int p){
+int T3_aaa(string s,set<char> *aa,int p){
     if(s.size()<=p)
         return aa->size();
     auto bb=aa->find(s[p]);
@@ -266,7 +266,7 @@ int Leetcode::lengthOfLongestSubstring(string s) {//2020-09-21
 //        }
 //        return max;
 }
-int Leetcode::lengthOfLongestSubstring_1(string s){//抄
+int lengthOfLongestSubstring_1(string s){//抄
 //    执行用时：8 ms, 在所有 C++ 提交中击败了98.09% 的用户
 //    内存消耗：7.5 MB, 在所有 C++ 提交中击败了72.68% 的用户
 /*
@@ -301,7 +301,7 @@ nums1 = [1, 2]
 nums2 = [3, 4]
 则中位数是 (2 + 3)/2 = 2.5
  */
-int Leetcode::T4_aaa(vector<int>& nums1, vector<int>& nums2,int num) {
+int T4_aaa(vector<int>& nums1, vector<int>& nums2,int num) {
         //找两个数组中第num小的数
         int s1 = nums1.size();
         int s2 = nums2.size();
@@ -669,7 +669,7 @@ string Leetcode::convert(string s, int numRows) {//2020-09-24 参考
 注意:
 假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。
  */
-int Leetcode::reverse1(int x) {//旧
+int reverse1(int x) {//旧
 //    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 //    内存消耗：5.9 MB, 在所有 C++ 提交中击败了100.00% 的用户
     if (x / 10 == 0) return x; //绝对值小于10，直接返回
@@ -697,7 +697,7 @@ int Leetcode::reverse(int x) {//2020-09-28
     }
     return (int) aaa;
 }
-int Leetcode::reverse2(int x) {//抄
+int reverse2(int x) {//抄
 //    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 //    内存消耗：5.7 MB, 在所有 C++ 提交中击败了94.37% 的用户
         int max = 0x7fffffff, min = 0x80000000;//int的最大值最小值
@@ -879,7 +879,7 @@ int myAtoi_1(string str) {//抄
 //执行用时 :12 ms, 在所有 cpp 提交中击败了88.65% 的用户
 //内存消耗 :8.1 MB, 在所有 cpp 提交中击败了82.64%的用户
 */
-bool Leetcode::isPalindrome_1(int x) {//旧
+bool isPalindrome_1(int x) {//旧
 //    执行用时：12 ms, 在所有 C++ 提交中击败了83.14% 的用户
 //    内存消耗：5.7 MB, 在所有 C++ 提交中击败了66.99% 的用户
         int x1 = x;
@@ -979,7 +979,7 @@ s = "mississippi"
 p = "mis*is*p*."
 输出: false
  */
-bool Leetcode::isMatch_1(string s, string p) {
+bool isMatch_1(string s, string p) {
     cout<<"题目"<<s<<" "<<p<<endl;
     int pNow = 0;
     int size_p = p.size();
@@ -1119,10 +1119,7 @@ M             1000
 输出: "MCMXCIV"
 解释: M = 1000, CM = 900, XC = 90, IV = 4.校准
  */
-string Leetcode::intToRoman(int num) {//2020-09-30
-    return intToRoman_1(num);
-}
-string Leetcode::intToRoman_1(int num) {//抄
+string intToRoman_1(int num) {//抄
 ////    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 ////    内存消耗：6.2 MB, 在所有 C++ 提交中击败了54.75% 的用户
 ////    暴力匹配
@@ -1213,6 +1210,9 @@ string Leetcode::intToRoman_1(int num) {//抄
     }
     return (ret + i + 1);
 }
+string Leetcode::intToRoman(int num) {//2020-09-30
+    return intToRoman_1(num);
+}
 //13. 罗马数字转整数
 /*
 罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
@@ -1286,7 +1286,7 @@ int Leetcode::romanToInt(string s) {
         }
         return ans[3] * 1000 + ans[2] * 100 + ans[1] * 10 + ans[0];
 }
-int Leetcode::romanToInt_1(string s) {//旧
+int romanToInt_1(string s) {//旧
 //    执行用时 :8 ms, 在所有 cpp 提交中击败了98.32% 的用户
 //    内存消耗 :8.3 MB, 在所有 cpp 提交中击败了94.54%的用户
     int answer = 0;
@@ -1372,7 +1372,7 @@ string Leetcode::longestCommonPrefix(vector<string> &strs) {//2020-09-30
         end++;
     }
 }
-string Leetcode::longestCommonPrefix_1(vector<string> &strs) {//旧
+string longestCommonPrefix_1(vector<string> &strs) {//旧
     //执行用时 :8 ms, 在所有 cpp 提交中击败了71.48% 的用户
     //内存消耗 :8.8 MB, 在所有 cpp 提交中击败了78.58%的用户
     if (strs.empty())
@@ -1435,39 +1435,38 @@ vector<vector<int>> Leetcode::threeSum(vector<int> &nums) {//2020-10-09
 //    }
 //    return ans;
 
-////    执行用时：84 ms, 在所有 C++ 提交中击败了96.50% 的用户
-////    内存消耗：19.6 MB, 在所有 C++ 提交中击败了51.90% 的用户
-////    参考
-//    vector<vector<int>> ans;
-//    int numsS = nums.size();
-//    if (numsS < 3)
-//        return ans;
-//    sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
-//    for (int i = 0; i < numsS - 2; ++i) {
-//        if (nums[i] > 0)//第一位数必须小于等于0
-//            break;
-//        if (i > 0 && nums[i] == nums[i - 1]) {//跳过重复项
-//            continue;
-//        }
-//        int target = -nums[i];
-//        int k = numsS - 1;//最大数指针，
-//        for (int j = i + 1; j < numsS - 1; ++j) {
-//            if (j > i + 1 && nums[j] == nums[j - 1]) {//跳过重复项
-//                continue;
-//            }
-//            while (k > j && (long)nums[j] + (long)nums[k] > (long)target)
-//                k--;
-//            if (k <= j)
-//                break;
-//            if (nums[j] + nums[k] == target) {
-//                ans.push_back({-target, nums[j], nums[k]});
-//            }
-//        }
-//    }
-//    return ans;
-    return threeSum_2(nums);
+//    执行用时：84 ms, 在所有 C++ 提交中击败了96.50% 的用户
+//    内存消耗：19.6 MB, 在所有 C++ 提交中击败了51.90% 的用户
+//    参考
+    vector<vector<int>> ans;
+    int numsS = nums.size();
+    if (numsS < 3)
+        return ans;
+    sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
+    for (int i = 0; i < numsS - 2; ++i) {
+        if (nums[i] > 0)//第一位数必须小于等于0
+            break;
+        if (i > 0 && nums[i] == nums[i - 1]) {//跳过重复项
+            continue;
+        }
+        int target = -nums[i];
+        int k = numsS - 1;//最大数指针，
+        for (int j = i + 1; j < numsS - 1; ++j) {
+            if (j > i + 1 && nums[j] == nums[j - 1]) {//跳过重复项
+                continue;
+            }
+            while (k > j && (long)nums[j] + (long)nums[k] > (long)target)
+                k--;
+            if (k <= j)
+                break;
+            if (nums[j] + nums[k] == target) {
+                ans.push_back({-target, nums[j], nums[k]});
+            }
+        }
+    }
+    return ans;
 }
-vector<vector<int>> Leetcode::threeSum_2(vector<int> &nums){//抄
+vector<vector<int>> threeSum_2(vector<int> &nums){//抄
 ////    执行用时：84 ms, 在所有 C++ 提交中击败了96.50% 的用户
 ////    内存消耗：19.7 MB, 在所有 C++ 提交中击败了42.24% 的用户
 //    int n = nums.size();
@@ -1553,7 +1552,7 @@ vector<vector<int>> Leetcode::threeSum_2(vector<int> &nums){//抄
     }
     return res;
 }
-vector<vector<int>> Leetcode::threeSum_1(vector<int> &nums) {//旧
+vector<vector<int>> threeSum_1(vector<int> &nums) {//旧
     sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
     vector<vector<int>> answer;
     vector<int> answer1;
@@ -1599,7 +1598,7 @@ vector<vector<int>> Leetcode::threeSum_1(vector<int> &nums) {//旧
     }
     return answer;
 }
-void Leetcode::threeSum1(vector<int> &nums, vector<vector<int>> &answer, vector<int> &answer1, int i, int j, int k) {
+void threeSum1(vector<int> &nums, vector<vector<int>> &answer, vector<int> &answer1, int i, int j, int k) {
     for (int m = 0; m < nums.size() - 3; m++) {
         while (j != k) {
             if (nums[j] == nums[i] + nums[k]) {
@@ -1682,7 +1681,7 @@ int Leetcode::threeSumClosest(vector<int>& nums, int target) {//2020-10-09
     }
     return ans;
 }
-int Leetcode::threeSumClosest_1(vector<int>& nums, int target) {//抄
+int threeSumClosest_1(vector<int>& nums, int target) {//抄
     sort(nums.begin(), nums.end());
     int n = nums.size();
     int best = 1e7;
@@ -1803,7 +1802,7 @@ void backtrack(vector<string>& combinations, const unordered_map<char, string>& 
         }
     }
 }
-vector<string> Leetcode::letterCombinations_1(string digits) {//抄
+vector<string> letterCombinations_1(string digits) {//抄
 //    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 //    内存消耗：6.7 MB, 在所有 C++ 提交中击败了32.00% 的用户
     vector<string> combinations;
@@ -1896,7 +1895,7 @@ vector<vector<int>> Leetcode::fourSum(vector<int>& nums, int target) {//2020-10-
     }
     return ans;
 }
-vector<vector<int>> Leetcode::fourSum_1(vector<int>& nums, int target) {//抄
+vector<vector<int>> fourSum_1(vector<int>& nums, int target) {//抄
 //    执行用时：12 ms, 在所有 C++ 提交中击败了95.81% 的用户
 //    内存消耗：12.7 MB, 在所有 C++ 提交中击败了41.07% 的用户
 //    双指针
@@ -1961,20 +1960,18 @@ void T19_1(ListNode* head,int n,int &now,int &size) {
         head->next=head->next->next;
 }
 ListNode* Leetcode::removeNthFromEnd(ListNode* head, int n) {//2020-10-13
-////    执行用时：4 ms, 在所有 C++ 提交中击败了94.50% 的用户
-////    内存消耗：10.9 MB, 在所有 C++ 提交中击败了5.07%
-//    if (!head->next)
-//        return head->next;
-//    int now = -1;
-//    int size = 1;
-//    ListNode *newhead = new ListNode(0,head);
-//    T19_1(newhead, n, now, size);
-//    return newhead->next;
-return removeNthFromEnd_1(head,n);
+//    执行用时：4 ms, 在所有 C++ 提交中击败了94.50% 的用户
+//    内存消耗：10.9 MB, 在所有 C++ 提交中击败了5.07%
+    if (!head->next)
+        return head->next;
+    int now = -1;
+    int size = 1;
+    ListNode *newhead = new ListNode(0,head);
+    T19_1(newhead, n, now, size);
+    return newhead->next;
 }
-
 int cnt_19 = 0;
-ListNode* Leetcode::removeNthFromEnd_1(ListNode* head, int n) {
+ListNode* removeNthFromEnd_1(ListNode* head, int n) {
 ////    执行用时：4 ms, 在所有 C++ 提交中击败了94.50% 的用户
 ////    内存消耗：10.9 MB, 在所有 C++ 提交中击败了5.07%
 ////    快慢指针
@@ -2022,7 +2019,7 @@ ListNode* Leetcode::removeNthFromEnd_1(ListNode* head, int n) {
 //    内存消耗：10.9 MB, 在所有 C++ 提交中击败了5.07% 的用户
 //    递归
     if(!head) return nullptr;
-    head->next = removeNthFromEnd(head->next, n);
+    head->next = removeNthFromEnd_1(head->next, n);
     cnt_19 ++;
     if(cnt_19 == n) return head->next;
     return head;
@@ -2254,38 +2251,40 @@ ListNode* mergeTwoLists_1(ListNode* l1, ListNode* l2) {//抄
 ]
  */
 void T22_1(vector<string> &ans,string answer,int left,int right) {
-    if (left == 0 && right == 0) {
-        ans.push_back(answer);
-        answer.clear();
-        return;
-    }
-    for (int i = 0; i < left; ++i) {
-        answer += "(";
-        T22_1(ans, answer, --left, ++right);
-        while (right > 0) {
-            answer += ")";
-            T22_1(ans, answer, left, --right);
+        if (left == 0 && right == 0) {
+            ans.push_back(answer);
+            answer.clear();
+            return;
         }
-    }
+        if (left >= 0) {
+            answer += "(";
+            T22_1(ans, answer, --left, ++right);
+            while (right > 0) {
+                answer += ")";
+                T22_1(ans, answer, left, --right);
+            }
+        }
 }
-vector<string> Leetcode::generateParenthesis(int n){
+vector<string> Leetcode::generateParenthesis(int n){//2020-10-20
+//    执行用时：16 ms, 在所有 C++ 提交中击败了14.55% 的用户
+//    内存消耗：12.7 MB, 在所有 C++ 提交中击败了61.10% 的用户
     vector<string> ans;
     T22_1(ans,"",n,0);
     return ans;
 }
-void dfs(vector<string> &answer, string &answer1, int n, int digit, int leftparenthesis) {
+void t22_2(vector<string> &answer, string &answer1, int n, int digit, int leftparenthesis) {
     if (digit == n * 2) {
         answer.push_back(answer1);
         return;
     }
     if (leftparenthesis < n) {
         answer1.push_back('(');
-        dfs(answer, answer1, n, digit + 1, leftparenthesis + 1);
+        t22_2(answer, answer1, n, digit + 1, leftparenthesis + 1);
         answer1.pop_back();
     }
     if (leftparenthesis * 2 > digit) {
         answer1.push_back(')');
-        dfs(answer, answer1, n, digit + 1, leftparenthesis);
+        t22_2(answer, answer1, n, digit + 1, leftparenthesis);
         answer1.pop_back();
     }
 }
@@ -2293,12 +2292,121 @@ vector<string> generateParenthesis_1(int n) {//旧
     //执行用时 :0 ms, 在所有 cpp 提交中击败了100.00% 的用户
     //内存消耗 :13.8 MB, 在所有 cpp 提交中击败了90.93%的用户
     vector<string> answer;
-    string answer1 = "";
+    string answer1;
     if (n == 0)
         return answer;
-    dfs(answer, answer1, n, 0, 0);
+    t22_2(answer, answer1, n, 0, 0);
     return answer;
 }
+//23. 合并K个升序链表
+/*
+给你一个链表数组，每个链表都已经按升序排列。
+请你将所有链表合并到一个升序链表中，返回合并后的链表。
+
+示例 1：
+输入：lists = [[1,4,5],[1,3,4],[2,6]]
+输出：[1,1,2,3,4,4,5,6]
+解释：链表数组如下：
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+将它们合并到一个有序链表中得到。
+1->1->2->3->4->4->5->6
+
+示例 2：
+输入：lists = []
+输出：[]
+
+示例 3：
+输入：lists = [[]]
+输出：[]
+
+提示：
+    k == lists.length
+    0 <= k <= 10^4
+    0 <= lists[i].length <= 500
+    -10^4 <= lists[i][j] <= 10^4
+    lists[i] 按 升序 排列
+    lists[i].length 的总和不超过 10^4
+ */
+ListNode* t23_1(ListNode *a, ListNode *b) {//合并两个链表
+    if ((!a) || (!b)) return a ? a : b;//两个为空
+    ListNode *head = new ListNode(0);
+    ListNode *tail = head, *aPtr = a, *bPtr = b;
+    while (aPtr && bPtr) {
+        if (aPtr->val < bPtr->val) {
+            tail->next = aPtr;
+            aPtr = aPtr->next;
+        } else {
+            tail->next = bPtr;
+            bPtr = bPtr->next;
+        }
+        tail = tail->next;
+    }
+    tail->next = (aPtr ? aPtr : bPtr);
+    return head->next;
+}
+ListNode* Leetcode::mergeKLists(vector<ListNode*>& lists) {
+//    执行用时：172 ms, 在所有 C++ 提交中击败了23.75% 的用户
+//    内存消耗：13.1 MB, 在所有 C++ 提交中击败了31.36% 的用户
+    ListNode* ans= nullptr;
+    for (int i = 0; i < lists.size(); ++i) {
+        ans=t23_1(ans,lists[i]);
+    }
+    return ans;
+}
+ListNode* t23_2(vector <ListNode*> &lists, int l, int r) {
+    if (l == r) return lists[l];
+    if (l > r) return nullptr;
+    int mid = (l + r) >> 1;
+    return t23_1(t23_2(lists, l, mid), t23_2(lists, mid + 1, r));
+}
+struct Status {
+    int val;
+    ListNode *ptr;
+    bool operator < (const Status &rhs) const {
+        return val > rhs.val;
+    }
+};
+
+ListNode* mergeKLists_1(vector<ListNode*>& lists) {//抄
+////    执行用时：32 ms, 在所有 C++ 提交中击败了89.08% 的用户
+////    内存消耗：13 MB, 在所有 C++ 提交中击败了31.86% 的用户
+////    方法二：分治合并
+///*
+//    思路
+//    考虑优化方法一，用分治的方法进行合并。
+//
+//    将 kkk 个链表配对并将同一对中的链表合并；
+//    第一轮合并以后， k 个链表被合并成了 k/2 个链表，平均长度为 2n/k，然后是 k/4​ 个链表， k/8 个链表等等；
+//    重复这一过程，直到我们得到了最终的有序链表。
+//*/
+//    return t23_2(lists, 0, lists.size() - 1);
+
+//    执行用时：56 ms, 在所有 C++ 提交中击败了43.14% 的用户
+//    内存消耗：13.6 MB, 在所有 C++ 提交中击败了22.86% 的用户
+//    方法三：使用优先队列合并
+/*
+    思路
+    这个方法和前两种方法的思路有所不同，我们需要维护当前每个链表没有被合并的元素的最前面一个，kkk 个链表就最多有 kkk 个满足这样条件的元素，每次在这些元素里面选取 val 属性最小的元素合并到答案中。在选取最小元素的时候，我们可以用优先队列来优化这个过程。
+*/
+    priority_queue <Status> q;
+    for (auto node: lists) {//将列表存入队列中
+        if (node) q.push({node->val, node});
+    }
+    ListNode head = ListNode(0);
+    ListNode *tail = &head;
+    while (!q.empty()) {
+        auto f = q.top(); q.pop();
+        tail->next = f.ptr;
+        tail = tail->next;
+        if (f.ptr->next) q.push({f.ptr->next->val, f.ptr->next});
+    }
+    return head.next;
+}
+
 //24. 两两交换链表中的节点
 /*
 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
@@ -2318,7 +2426,7 @@ vector<string> generateParenthesis_1(int n) {//旧
     链表中节点的数目在范围 [0, 100] 内
     0 <= Node.val <= 100
  */
-ListNode* Leetcode::swapPairs(ListNode* head) {
+ListNode* Leetcode::swapPairs(ListNode* head) {//2020-10-13
 //    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 //    内存消耗：7.6 MB, 在所有 C++ 提交中击败了5.30% 的用户
     if (!head || !head->next)
@@ -2341,11 +2449,8 @@ ListNode* Leetcode::swapPairs(ListNode* head) {
         newhead = l1;
     }
     return ans->next;
-
-
-
 }
-ListNode* Leetcode::swapPairs_1(ListNode* head){
+ListNode* swapPairs_1(ListNode* head){
 ////    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 ////    内存消耗：7.6 MB, 在所有 C++ 提交中击败了5.30% 的用户
 ////    递归
@@ -2377,6 +2482,122 @@ ListNode* Leetcode::swapPairs_1(ListNode* head){
  2-1-3-4
  head=0;
  */
+//25. K 个一组翻转链表
+/*
+给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+k 是一个正整数，它的值小于或等于链表的长度。
+如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+
+示例：
+给你这个链表：1->2->3->4->5
+当 k = 2 时，应当返回: 2->1->4->3->5
+当 k = 3 时，应当返回: 3->2->1->4->5
+
+说明：
+    你的算法只能使用常数的额外空间。
+    你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。
+ */
+ListNode* Leetcode::reverseKGroup(ListNode* head, int k) {//2020-10-21
+//    执行用时：24 ms, 在所有 C++ 提交中击败了88.50% 的用户
+//    内存消耗：11.9 MB, 在所有 C++ 提交中击败了5.03% 的用户
+/*
+ * 思路：
+ * 1.将k个链表节点存储在栈中
+ * 2.将栈中元素添加到ans中
+ * 3.末尾不够时ans结尾添加栈中最低节点
+ */
+        if (k <= 1)
+            return head;
+        ListNode ans = ListNode(0);
+        ListNode *aa = &ans;
+        stack<ListNode *> stack1;
+        aa->next = head;
+        while (head) {
+            for (int i = 0; i < k; ++i) {
+                if (!head) {//末尾数量不够
+                    while (stack1.size() > 1) {//找到栈的第一个
+                        stack1.pop();
+                    }
+                    aa->next = stack1.top();
+                    return ans.next;
+                }
+                stack1.push(head);
+                head = head->next;
+            }
+            while (!stack1.empty()) {//逆序
+                aa->next = stack1.top();
+                stack1.pop();
+                aa = aa->next;
+                aa->next = nullptr;
+            }
+        }
+        return ans.next;
+}
+// 翻转一个子链表，并且返回新的头与尾
+pair<ListNode*, ListNode*> t25_1(ListNode* head, ListNode* tail) {
+    ListNode* prev = tail->next;
+    ListNode* p = head;
+    while (prev != tail) {
+        ListNode* nex = p->next;
+        p->next = prev;
+        prev = p;
+        p = nex;
+    }
+    return {tail, head};
+}
+
+ListNode* reverseKGroup_1(ListNode* head, int k) {//抄
+//    执行用时：32 ms, 在所有 C++ 提交中击败了25.19% 的用户
+//    内存消耗：11.5 MB, 在所有 C++ 提交中击败了5.42% 的用户
+    ListNode* hair = new ListNode(0);
+    hair->next = head;
+    ListNode* pre = hair;
+
+    while (head) {
+        ListNode* tail = pre;
+        for (int i = 0; i < k; ++i) {// 查看剩余部分长度是否大于等于 k
+            tail = tail->next;
+            if (!tail) {
+                return hair->next;
+            }
+        }
+        ListNode* nex = tail->next;
+        // 这里是 C++17 的写法，也可以写成
+        // pair<ListNode*, ListNode*> result = myReverse(head, tail);
+        // head = result.first;
+        // tail = result.second;
+        tie(head, tail) = t25_1(head, tail);
+        // 把子链表重新接回原链表
+        pre->next = head;
+        tail->next = nex;
+        pre = tail;
+        head = tail->next;
+    }
+
+    return hair->next;
+////    执行用时：32 ms, 在所有 C++ 提交中击败了25.19% 的用户
+////    内存消耗：11.7 MB, 在所有 C++ 提交中击败了5.03% 的用户
+//    //递归
+//    ListNode prev(0);
+//    prev.next = head;
+//    ListNode *last = &prev, *cur = &prev;
+//    int count = 0;
+//    while (cur) {
+//        ++count;    // 负责记录是否达到反转点
+//        cur = cur->next;
+//        if (count == k && cur) {
+//            ListNode *bak = last->next;
+//            while (--count) {   // 每次将last->next插入到cur->next，且last->next指向last->next->next
+//                ListNode *tmp = last->next;
+//                last->next = tmp->next;
+//                tmp->next = cur->next;
+//                cur->next = tmp;
+//            }
+//            last = cur = bak;
+//        }
+//    }
+//    return prev.next;
+}
 //26. 删除排序数组中的重复项
 /*
 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
@@ -2404,9 +2625,53 @@ for (int i = 0; i < len; i++) {
 print(nums[i]);
 }
 */
-//执行用时 :48 ms, 在所有 cpp 提交中击败了35.79% 的用户
-//内存消耗 :10 MB, 在所有 cpp 提交中击败了76.56%的用户
-int Leetcode::removeDuplicates(vector<int> &nums) {
+int Leetcode::removeDuplicates(vector<int> &nums) {//2020-10-22
+////    执行用时：188 ms, 在所有 C++ 提交中击败了8.50% 的用户
+////    内存消耗：13.7 MB, 在所有 C++ 提交中击败了5.07% 的用户
+////    删除重复元素
+//        if (nums.empty())
+//            return {};
+//        int val = nums[0];
+//        for (vector<int>::iterator ite = nums.begin() + 1; ite != nums.end();) {
+//            if (*ite == val)
+//                ite = nums.erase(ite);
+//            else{
+//                val=*ite;
+//                ++ite;
+//
+//            }
+//        }
+//        return nums.size();
+
+//    执行用时：28 ms, 在所有 C++ 提交中击败了20.67% 的用户
+//    内存消耗：13.6 MB, 在所有 C++ 提交中击败了8.43% 的用户
+    //参考 不重复元素排前
+    if (nums.empty())
+        return {};
+    int size = nums.size(), clear = 0;
+    for (int i = 1; i < size; ++i) {
+        if(nums[i]==nums[i-1])
+            clear++;
+        else
+            nums[i-clear]=nums[i];
+    }
+//    nums.erase(nums.end()-clear,nums.end());
+    return size - clear;
+}
+int removeDuplicates_2(vector<int> &nums) {//抄
+//    执行用时：20 ms, 在所有 C++ 提交中击败了60.48% 的用户
+//    内存消耗：13.6 MB, 在所有 C++ 提交中击败了8.43% 的用户
+    int i=0,  n=nums.size();
+    if (n==0)
+        return 0;
+    for (int j=1; j<n; ++j)
+        if(nums[i]!=nums[j])
+            nums[++i]=nums[j];
+    return i+1;
+}
+int removeDuplicates_1(vector<int> &nums) {//旧
+//    执行用时 :48 ms, 在所有 cpp 提交中击败了35.79% 的用户
+//    内存消耗 :10 MB, 在所有 cpp 提交中击败了76.56%的用户
     int bb = 0;                     //重复出现的个数
     sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
     for (int i = 1; i < nums.size(); i++) {
@@ -2448,9 +2713,21 @@ for (int i = 0; i < len; i++) {
     print(nums[i]);
 }
  */
+int Leetcode::removeElement(vector<int> &nums, int val) {
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：8.7 MB, 在所有 C++ 提交中击败了5.16% 的用户
+        int aa = 0, size = nums.size();
+        for (int i = 0; i < size; ++i)
+            if (nums[i] == val)
+                aa++;
+            else
+                nums[i - aa] = nums[i];
+        return size - aa;
+}
+int removeElement_1(vector<int> &nums, int val) {//旧
+
 //执行用时 :4 ms, 在所有 cpp 提交中击败了90.08% 的用户
 //内存消耗 :8.6 MB, 在所有 cpp 提交中击败了78.36%的用户
-int Leetcode::removeElement(vector<int> &nums, int val) {
     int bb = 0;
     sort(nums.begin(), nums.end());//排序（头，尾，排序方式）
     for (int i = 0; i < nums.size(); i++) {
@@ -2463,7 +2740,469 @@ int Leetcode::removeElement(vector<int> &nums, int val) {
     nums.erase(nums.end() - bb, nums.end());  //删除后面 重复出现的个数
     return nums.size();
 }
+//28. 实现 strStr()
+/*
+ 实现 strStr() 函数。
+给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
 
+示例 1:
+输入: haystack = "hello", needle = "ll"
+输出: 2
+
+示例 2:
+输入: haystack = "aaaaa", needle = "bba"
+输出: -1
+
+说明:
+当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
+ */
+int Leetcode::strStr(string haystack, string needle) {//2020-10-23
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：6.8 MB, 在所有 C++ 提交中击败了62.29% 的用户
+    if (needle.empty())
+        return 0;
+    int size1 = haystack.size(), size2 = needle.size();
+    for (int i = 0; i <= size1 - size2; ++i) {
+        int left = 0;
+//        while (haystack[i + left] == needle[left]) {
+//            left++;
+//            if (left == size2)
+//                return i;
+//        }
+        if (haystack.substr(i, size2) == needle) {//抄
+            return i;
+        }
+    }
+    return -1;
+}
+//29. 两数相除
+/*
+给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+返回被除数 dividend 除以除数 divisor 得到的商。
+整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2
+
+示例 1:
+输入: dividend = 10, divisor = 3
+输出: 3
+解释: 10/3 = truncate(3.33333..) = truncate(3) = 3
+
+示例 2:
+输入: dividend = 7, divisor = -3
+输出: -2
+解释: 7/-3 = truncate(-2.33333..) = -2
+
+提示：
+    被除数和除数均为 32 位有符号整数。
+    除数不为 0。
+    假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+ */
+int t29_2(int a, int b) {
+    if (a < b)
+        return 0;
+    long bS = b ;
+    int num = 1;
+    while (bS+bS <= a) {
+        num += num;
+        bS += bS;
+    }
+    return num + t29_2(a - bS, b);
+}
+int Leetcode::divide(int dividend, int divisor) {//2020-10-22
+//    超时
+    if (dividend == INT_MIN && divisor == -1)
+        return INT_MAX;
+    if (dividend == 0 || divisor == 0)
+        return 0;
+    bool minus = (dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0);
+    dividend = dividend>0?dividend:-dividend;
+    divisor = divisor>0?divisor:-divisor;
+    if(divisor==1)
+        return minus ? -dividend : dividend;
+    int ans = 0;
+    dividend -= divisor;
+    while (dividend >= 0) {
+        dividend -= divisor;
+        ans++;
+    }
+    return minus ? -ans : ans;
+
+}
+
+int t29_1(long a, long b){  // 似乎精髓和难点就在于下面这几句
+    if(a<b) return 0;
+    long count = 1;
+    long tb = b; // 在后面的代码中不更新b
+    while((tb+tb)<=a){
+        count = count + count; // 最小解翻倍
+        tb = tb+tb; // 当前测试的值也翻倍
+    }
+    return count + t29_1(a-tb,b);
+}
+int divide_1(int dividend, int divisor) {//抄
+//    执行用时：4 ms, 在所有 C++ 提交中击败了59.26% 的用户
+//    内存消耗：6.3 MB, 在所有 C++ 提交中击败了5.06% 的用户
+    if(dividend == 0) return 0;
+    if(divisor == 1) return dividend;
+    if(divisor == -1){
+        if(dividend>INT_MIN) return -dividend;// 只要不是最小的那个整数，都是直接返回相反数就好啦
+        return INT_MAX;// 是最小的那个，那就返回最大的整数啦
+    }
+    long a = dividend;//如果为INT_MIN那么变成正数超出int范围，所以使用long
+    long b = divisor;//如果为INT_MIN那么变成正数超出int范围，所以使用long
+    int sign = 1;
+    if((a>0&&b<0) || (a<0&&b>0)){
+        sign = -1;
+    }
+    a = a>0?a:-a;
+    b = b>0?b:-b;
+    long res = t29_1(a,b);
+    if(sign>0)return res>INT_MAX?INT_MAX:res;
+    return -res;
+}
+//30. 串联所有单词的子串
+/*
+给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+
+示例 1：
+输入：
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+输出：[0,9]
+解释：
+从索引 0 和 9 开始的子串分别是 "barfoo" 和 "foobar" 。
+输出的顺序不重要, [9,0] 也是有效答案。
+
+示例 2：
+输入：
+  s = "wordgoodgoodgoodbestword",
+  words = ["word","good","best","word"]
+输出：[]
+ */
+vector<int> findSubstring_1(string s, vector<string>& words) {//抄
+//    执行用时：44 ms, 在所有 C++ 提交中击败了97.21% 的用户
+//    内存消耗：14.4 MB, 在所有 C++ 提交中击败了77.47% 的用户
+    if (words.size() == 0) return {};
+    unordered_map<string, int> wordcnt;//存放单词及出现次数
+    for (auto &w : words) {
+        wordcnt[w]++;
+    }
+    int len = words[0].size();
+
+    vector<int> ans;
+    for (int i = 0; i < len; i++) {
+        int left = i;
+        int right = left;
+        int cnt = 0;
+
+        unordered_map<string, int> window;
+        while (left + words.size() * len <= s.size()) {
+            string temp = "";
+            while (cnt < words.size()) {
+                temp = s.substr(right, len);
+                if (wordcnt.find(temp) == wordcnt.end() || window[temp] >= wordcnt[temp]) break;
+                window[temp]++;
+                cnt++;
+                right += len;
+            }
+
+            if (window == wordcnt) {
+                ans.push_back(left);
+            }
+
+            if (wordcnt.find(temp) != wordcnt.end()) {
+                window[s.substr(left, len)]--;
+                cnt--;
+                left += len;
+            } else {
+                right += len;
+                left = right;
+                cnt = 0;
+                window.clear();
+            }
+        }
+    }
+    return ans;
+}
+
+vector<int> Leetcode::findSubstring(string s, vector<string>& words) {
+    return findSubstring_1(s,words);
+}
+//31. 下一个排列
+/*
+实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+必须原地修改，只允许使用额外常数空间。
+以下是一些例子，输入位于左侧列，其相应输出位于右侧列。
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+ */
+void nextPermutation_1(vector<int>& nums) {//抄
+//    执行用时：8 ms, 在所有 C++ 提交中击败了65.67% 的用户
+//    内存消耗：12.1 MB, 在所有 C++ 提交中击败了27.91% 的用户
+    /*
+    解题思路
+
+    本题重要的是题目的理解与思路转换。
+    思路：
+    从最末位寻找第一个破坏升序的数nums[pos - 1], 然后在遍历过的数里寻找比该数大的最小的一个数。
+    如遍历过的数为[7,6,4,3], nums[pos - 1]为5, 则5需要与6进行交换, 在将[7,5,4,3]改为升序(这里使用reverse)。
+
+    遍历过的数从后往前一定是升序, 故改为从前往后升序只需要反转该部分即可。
+    寻找第一个比nums[pos - 1]大的数, 只需改为从前往后升序之后, 从升序的第一个数开始遍历比较大小即可。
+    */
+    int pos = nums.size() - 1;
+    while (pos > 0 && nums[pos] <= nums[pos - 1])
+        pos--;
+    reverse(nums.begin() + pos, nums.end());  //逆序
+    if (pos > 0){
+        int start = pos;
+        for (; start < nums.size(); start++){ //寻找第一个大于nums[pos - 1]的数
+            if (nums[start] > nums[pos - 1]){
+                swap(nums[start], nums[pos - 1]); //交换
+                break;
+            }
+        }
+    }
+}
+void Leetcode::nextPermutation(vector<int>& nums) {//2020-11-02
+//    执行用时：8 ms, 在所有 C++ 提交中击败了65.67% 的用户
+//    内存消耗：12.1 MB, 在所有 C++ 提交中击败了22.05% 的用户
+//    抄
+    /*
+     * 1.寻找一个最先破坏升序的数字
+     * 2.将该数字之后的所有逆序
+     * 3.在逆序中找到一个比破坏的要大的数交换
+     */
+    int size = nums.size(), pos = size - 1;
+    while (pos > 0 && nums[pos] <= nums[pos - 1])
+        pos--;
+    ::reverse(nums.begin() + pos, nums.end());
+    if (pos > 0) {//非最大数
+        int aa = nums[pos - 1];
+        for (int i = pos; i < size; ++i)
+            if (aa < nums[i]) {
+                swap(nums[i], nums[pos - 1]); //交换
+                return;
+            }
+    }
+}
+//32. 最长有效括号
+/*
+给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+
+示例 1:
+
+输入: "(()"
+输出: 2
+解释: 最长有效括号子串为 "()"
+
+示例 2:
+
+输入: ")()())"
+输出: 4
+解释: 最长有效括号子串为 "()()"
+ */
+int Leetcode::longestValidParentheses(string s) {//2020-11-03
+//    执行用时：1100 ms, 在所有 C++ 提交中击败了5.44% 的用户
+//    内存消耗：6.9 MB, 在所有 C++ 提交中击败了85.72% 的用户
+    int ans = 0, size = s.size();
+    for (int left = 0; left < size - 1; ++left) {
+        int aa = 0, right = left;
+        for (; right < size; ++right) {
+            if (s[right] == '(')
+                aa++;
+            else if (aa > 0 && s[right] == ')')
+                aa--;
+            else
+                break;
+            if (aa == 0)
+                ans = max(ans, right - left+1);
+        }
+    }
+    return ans;
+}
+int longestValidParentheses_1(string s) {//抄
+////    执行用时：4 ms, 在所有 C++ 提交中击败了94.58% 的用户
+////    内存消耗：7.7 MB, 在所有 C++ 提交中击败了6.26% 的用户
+////    方法一：动态规划
+//    int maxans = 0, n = s.length();
+//    vector<int> dp(n, 0);
+//    for (int i = 1; i < n; i++) {
+//        if (s[i] == ')') {
+//            if (s[i - 1] == '(') {
+//                dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
+//            } else if (i - dp[i - 1] > 0 && s[i - dp[i - 1] - 1] == '(') {
+//                dp[i] = dp[i - 1] + ((i - dp[i - 1]) >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
+//            }
+//            maxans = max(maxans, dp[i]);
+//        }
+//    }
+//    return maxans;
+
+////    执行用时：8 ms, 在所有 C++ 提交中击败了56.94% 的用户
+////    内存消耗：7.6 MB, 在所有 C++ 提交中击败了9.58% 的用户
+////    方法二：栈
+//    int maxans = 0;
+//    stack<int> stk;
+//    stk.push(-1);
+//    for (int i = 0; i < s.length(); i++) {
+//        if (s[i] == '(') {
+//            stk.push(i);
+//        } else {
+//            stk.pop();
+//            if (stk.empty()) {
+//                stk.push(i);
+//            } else {
+//                maxans = max(maxans, i - stk.top());
+//            }
+//        }
+//    }
+//    return maxans;
+
+//    执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+//    内存消耗：7.1 MB, 在所有 C++ 提交中击败了77.47% 的用户
+//    方法三：不需要额外的空间
+/*
+思路和算法
+
+在此方法中，我们利用两个计数器 left\textit{left}left 和 right\textit{right}right 。首先，我们从左到右遍历字符串，对于遇到的每个 ‘(’\text{‘(’}‘(’，我们增加 left\textit{left}left 计数器，对于遇到的每个 ‘)’\text{‘)’}‘)’ ，我们增加 right\textit{right}right 计数器。每当 left\textit{left}left 计数器与 right\textit{right}right 计数器相等时，我们计算当前有效字符串的长度，并且记录目前为止找到的最长子字符串。当 right\textit{right}right 计数器比 left\textit{left}left 计数器大时，我们将 left\textit{left}left 和 right\textit{right}right 计数器同时变回 000。
+这样的做法贪心地考虑了以当前字符下标结尾的有效括号长度，每次当右括号数量多于左括号数量的时候之前的字符我们都扔掉不再考虑，重新从下一个字符开始计算，但这样会漏掉一种情况，就是遍历的时候左括号的数量始终大于右括号的数量，即 (() ，这种时候最长有效括号是求不出来的。
+解决的方法也很简单，我们只需要从右往左遍历用类似的方法计算即可，只是这个时候判断条件反了过来：
+    当 left\textit{left}left 计数器比 right\textit{right}right 计数器大时，我们将 left\textit{left}left 和 right\textit{right}right 计数器同时变回 000
+    当 left\textit{left}left 计数器与 right\textit{right}right 计数器相等时，我们计算当前有效字符串的长度，并且记录目前为止找到的最长子字符串
+这样我们就能涵盖所有情况从而求解出答案。
+ */
+    int left = 0, right = 0, maxlength = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == '(') {
+            left++;
+        } else {
+            right++;
+        }
+        if (left == right) {
+            maxlength = max(maxlength, 2 * right);
+        } else if (right > left) {
+            left = right = 0;
+        }
+    }
+    left = right = 0;
+    for (int i = (int)s.length() - 1; i >= 0; i--) {
+        if (s[i] == '(') {
+            left++;
+        } else {
+            right++;
+        }
+        if (left == right) {
+            maxlength = max(maxlength, 2 * left);
+        } else if (left > right) {
+            left = right = 0;
+        }
+    }
+    return maxlength;
+
+}
+//33. 搜索旋转排序数组
+/*
+给你一个升序排列的整数数组 nums ，和一个整数 target 。
+假设按照升序排序的数组在预先未知的某个点上进行了旋转。（例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] ）。
+请你在数组中搜索 target ，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+
+示例 1：
+输入：nums = [4,5,6,7,0,1,2], target = 0
+输出：4
+
+示例 2：
+输入：nums = [4,5,6,7,0,1,2], target = 3
+输出：-1
+
+示例 3：
+输入：nums = [1], target = 0
+输出：-1
+
+提示：
+    1 <= nums.length <= 5000
+    -10^4 <= nums[i] <= 10^4
+    nums 中的每个值都 独一无二
+    nums 肯定会在某个点上旋转
+    -10^4 <= target <= 10^4
+ */
+int Leetcode::search(vector<int>& nums, int target) {//2020-11-03
+//    执行用时：8 ms, 在所有 C++ 提交中击败了54.18% 的用户
+//    内存消耗：11.3 MB, 在所有 C++ 提交中击败了5.74% 的用户
+    int size = nums.size(), left = 0, right = size - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target)
+            return mid;
+        if (nums[left] > nums[mid]) {//一半的右边连续 必须先判断右边 防止剩2位第二位小于第一位
+            if (nums[mid] < target && target <= nums[right])//在连续范围内
+                left = mid + 1;
+            else
+                right = mid - 1;
+        } else {//一半的左边连续
+            if (nums[left] <= target && target < nums[mid])//在连续范围内
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+    }
+    return -1;
+
+////    执行用时：8 ms, 在所有 C++ 提交中击败了54.18% 的用户
+////    内存消耗：11.4 MB, 在所有 C++ 提交中击败了5.33% 的用户
+//    int size=nums.size();
+//    for (int i = 0; i < size; ++i) {
+//        if(nums[i]==target)
+//            return i;
+//    }
+//    return -1;
+}
+int search_1(vector<int>& nums, int target) {
+//    执行用时：12 ms, 在所有 C++ 提交中击败了20.78% 的用户
+//    内存消耗：11.4 MB, 在所有 C++ 提交中击败了5.33% 的用户
+//    方法一：二分搜索
+    int n = (int) nums.size();
+    if (!n) {
+        return -1;
+    }
+    if (n == 1) {
+        return nums[0] == target ? 0 : -1;
+    }
+    int l = 0, r = n - 1;
+    while (l <= r) {
+        int mid = (l + r) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[0] <= nums[mid]) {
+            if (nums[0] <= target && target < nums[mid]) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        } else {
+            if (nums[mid] < target && target <= nums[n - 1]) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+    }
+    return -1;
+
+//    执行用时：12 ms, 在所有 C++ 提交中击败了20.78% 的用户
+//    内存消耗：11.4 MB, 在所有 C++ 提交中击败了5.33% 的用户
+    int lo = 0, hi = nums.size() - 1;
+    while (lo < hi) {
+        int mid = (lo + hi) / 2;
+        if ((nums[0] > target) ^ (nums[0] > nums[mid]) ^ (target > nums[mid]))
+            lo = mid + 1;
+        else
+            hi = mid;
+    }
+    return lo == hi && nums[lo] == target ? lo : -1;
+}
 //34. 在排序数组中查找元素的第一个和最后一个位置
 /*
 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
@@ -2478,9 +3217,27 @@ int Leetcode::removeElement(vector<int> &nums, int val) {
 输入: nums = [5,7,7,8,8,10], target = 6
 输出: [-1,-1]
  */
-//执行用时 :12 ms, 在所有 cpp 提交中击败了66.92% 的用户
-//内存消耗 :10.2 MB, 在所有 cpp 提交中击败了92.34%的用户
 vector<int> Leetcode::searchRange(vector<int> &nums, int target) {
+    int size = nums.size(), left = 0,right = size - 1;
+    while (left<=right){
+        int mid=(left+right)/2;
+        if(nums[mid]==target){
+            left=right=mid;
+            while (left>0&&nums[left-1]==target)
+                left--;
+            while (right<size-1&&nums[right+1]==target)
+                right++;
+            return {left,right};
+        } else if (nums[mid]>target)
+            right=mid;
+        else
+            left=mid;
+    }
+    return {-1,-1};
+}
+vector<int> searchRange_1(vector<int> &nums, int target) {//旧
+//    执行用时：36 ms, 在所有 C++ 提交中击败了7.43% 的用户
+//    内存消耗：13.7 MB, 在所有 C++ 提交中击败了12.01% 的用户
     vector<int> answer;
     int d = 0;
     vector<int> error{-1, -1};
@@ -2539,7 +3296,7 @@ int Leetcode::searchInsert(vector<int> &nums, int target) {//二分查找
     return answer;
 }
 
-int Leetcode::searchInsert_1(vector<int> &nums, int target) {
+int searchInsert_1(vector<int> &nums, int target) {
     int n = nums.size();
     if (n == 0) return 0;
     int left = 0, right = n - 1;
@@ -2567,7 +3324,12 @@ Note:
     给定数独永远是 9x9 形式的。
 
  */
-void Leetcode::T37_dfs(vector<vector<char>>& board, int pos) {//抄//pos:数组位置
+bool T37_line[9][9];//存储每行存在数字
+bool T37_column[9][9];//存储每列存在数字
+bool T37_block[3][3][9];//存储每个小方块存在数字
+bool T37_valid;//结束标识符
+vector<pair<int, int>> T37_spaces;//存储没有数据坐标
+void T37_dfs(vector<vector<char>>& board, int pos) {//抄//pos:数组位置
     if (pos == T37_spaces.size()) {//遍历到最后
         T37_valid = true;
         return;
@@ -2624,18 +3386,8 @@ void Leetcode::solveSudoku(vector<vector<char>>& board) {//抄
  */
 //执行用时 :32 ms, 在所有 cpp 提交中击败了6.12% 的用户
 //内存消耗 :59 MB, 在所有 cpp 提交中击败了11.10%的用户
-string Leetcode::countAndSay(int n) {
-    string answer = "1";
-    if (n <= 1) {
-        return answer;
-    }
-    for (int i = 1; i < n; i++) {
-        countAndSay1(answer);
-    }
-    return answer;
-}
 
-void Leetcode::countAndSay1(string &answer) {
+void countAndSay1(string &answer) {
     string answer1 = "";
     char count = '1';
     for (int i = 0; i < answer.size(); i++) {
@@ -2647,4 +3399,14 @@ void Leetcode::countAndSay1(string &answer) {
         }
     }
     answer = answer1;
+}
+string Leetcode::countAndSay(int n) {
+    string answer = "1";
+    if (n <= 1) {
+        return answer;
+    }
+    for (int i = 1; i < n; i++) {
+        countAndSay1(answer);
+    }
+    return answer;
 }

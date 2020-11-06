@@ -192,10 +192,18 @@
 //TEST(leetcode,t348) {
 // EXPECT_EQ(,Leetcode().TT348());
 //}
-//#define TT349
-//TEST(leetcode,t349) {
-// EXPECT_EQ(,Leetcode().TT349());
-//}
+#define TT349 intersection
+TEST(leetcode,t349) {
+    vector<int> nums1,nums2,ans;
+    nums1={1,2,2,1};
+    nums2={2,2};
+    ans={2};
+    EXPECT_EQ(ans,Leetcode().TT349(nums1,nums2));
+    nums1={4,9,5};
+    nums2={9,4,9,8,4};
+    ans={4,9};
+    EXPECT_EQ(ans,Leetcode().TT349(nums1,nums2));
+}
 //#define TT350
 //TEST(leetcode,t350) {
 // EXPECT_EQ(,Leetcode().TT350());

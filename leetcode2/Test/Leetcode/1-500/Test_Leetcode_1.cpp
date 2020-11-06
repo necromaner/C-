@@ -273,11 +273,35 @@ TEST(leetcode,t22) {
          "()(())",
          "()()()"};
     EXPECT_EQ(ans,Leetcode().TT22(3));
+//    ans={"(((())))",
+//         "((()()))",
+//         "((())())",
+//         "((()))()",
+//         "(()(()))",
+//         "(()()())",
+//         "(()())()",
+//         "(())(())",
+//         "(())()()",
+//         "()((()))",
+//         "()(()())",
+//         "()(())()",
+//         "()()(())",
+//         "()()()()"};
+//    EXPECT_EQ(ans,Leetcode().TT22(4));
+
 }
-//#define TT23
-//TEST(leetcode,t23) {
-//    EXPECT_EQ(,Leetcode().TT23());
-//}
+#define TT23 mergeKLists
+TEST(leetcode,t23) {
+    vector<ListNode *> lists;
+    vector<int> ans;
+    lists = {
+            SetListNode({1, 4, 5}),
+            SetListNode({1, 3, 4}),
+            SetListNode({2, 6}),
+    };
+    ans={1,1,2,3,4,4,5,6};
+    EXPECT_EQ(ans, GetListNode(Leetcode().TT23(lists)));
+}
 #define TT24 swapPairs
 TEST(leetcode,t24) {
     ListNode *head;
@@ -295,46 +319,117 @@ TEST(leetcode,t24) {
     ans = SetListNode({2,1,3});
     EXPECT_EQ(GetListNode(ans), GetListNode(Leetcode().TT24(head)));
 }
-//#define TT25
-//TEST(leetcode,t25) {
-//    EXPECT_EQ(,Leetcode().TT25());
-//}
-//#define TT26
-//TEST(leetcode,t26) {
-//    EXPECT_EQ(,Leetcode().TT26());
-//}
-//#define TT27
-//TEST(leetcode,t27) {
-//    EXPECT_EQ(,Leetcode().TT27());
-//}
-//#define TT28
-//TEST(leetcode,t28) {
-//    EXPECT_EQ(,Leetcode().TT28());
-//}
-//#define TT29
-//TEST(leetcode,t29) {
-//    EXPECT_EQ(,Leetcode().TT29());
-//}
-//#define TT30
-//TEST(leetcode,t30) {
-//    EXPECT_EQ(,Leetcode().TT30());
-//}
-//#define TT31
-//TEST(leetcode,t31) {
-//    EXPECT_EQ(,Leetcode().TT31());
-//}
-//#define TT32
-//TEST(leetcode,t32) {
-//    EXPECT_EQ(,Leetcode().TT32());
-//}
-//#define TT33
-//TEST(leetcode,t33) {
-//    EXPECT_EQ(,Leetcode().TT33());
-//}
-//#define TT34
-//TEST(leetcode,t34) {
-//    EXPECT_EQ(,Leetcode().TT34());
-//}
+#define TT25 reverseKGroup
+TEST(leetcode,t25) {
+    vector<int> head, ans;
+    head = {1, 2, 3, 4, 5};
+    ans = {2, 1, 4, 3, 5};
+    EXPECT_EQ(ans, GetListNode(Leetcode().TT25(SetListNode(head), 2)));
+    ans = {3, 2, 1, 4, 5};
+    EXPECT_EQ(ans, GetListNode(Leetcode().TT25(SetListNode(head), 3)));
+}
+#define TT26 removeDuplicates
+TEST(leetcode,t26) {
+    vector<int> nums, ans;
+    nums = {1, 1, 2};
+    ans = {1, 2};
+    EXPECT_EQ(2, Leetcode().TT26(nums));
+    EXPECT_EQ(ans, nums);
+    nums = {0,0,1,1,1,2,2,3,3,4};
+    ans = {0, 1, 2, 3, 4};
+    EXPECT_EQ(5, Leetcode().TT26(nums));
+    EXPECT_EQ(ans, nums);
+}
+#define TT27 removeElement
+TEST(leetcode,t27) {
+    vector<int> nums;
+    nums={3,2,2,3};
+    EXPECT_EQ(2,Leetcode().TT27(nums,3));
+    nums={0,1,2,2,3,0,4,2};
+    EXPECT_EQ(5,Leetcode().TT27(nums,2));
+}
+#define TT28 strStr
+TEST(leetcode,t28) {
+    EXPECT_EQ(2, Leetcode().TT28("abc", "c"));
+    EXPECT_EQ(2, Leetcode().TT28("hello", "ll"));
+    EXPECT_EQ(0, Leetcode().TT28("hello", ""));
+    EXPECT_EQ(0, Leetcode().TT28("", ""));
+    EXPECT_EQ(-1, Leetcode().TT28("aaaa", "bba"));
+}
+#define TT29 divide
+TEST(leetcode,t29) {
+    EXPECT_EQ(3, Leetcode().TT29(10, 3));
+    EXPECT_EQ(-2, Leetcode().TT29(7, -3));
+    EXPECT_EQ(1, Leetcode().TT29(1, 1));
+    EXPECT_EQ(INT_MAX, Leetcode().TT29(INT_MIN, -1));
+    EXPECT_EQ(-1073741824, Leetcode().TT29(-2147483648, 2));
+}
+#define TT30 findSubstring
+TEST(leetcode,t30) {
+    vector<string> words;
+    vector<int> ans;
+    words = {"foo", "bar"};
+    ans = {0, 9};
+    EXPECT_EQ(ans, Leetcode().TT30("barfoothefoobarman", words));
+    words = {"word", "good", "best", "word"};
+    ans = {};
+    EXPECT_EQ(ans, Leetcode().TT30("wordgoodgoodgoodbestword", words));
+}
+#define TT31 nextPermutation
+TEST(leetcode,t31) {
+    vector<int> nums, ans;
+    nums = {1, 2, 3};
+    ans = {1, 3, 2};
+    Leetcode().TT31(nums);
+    EXPECT_EQ(ans, nums);
+    nums = {1, 3, 2};
+    ans = {2, 1, 3};
+    Leetcode().TT31(nums);
+    EXPECT_EQ(ans, nums);
+    nums = {3, 2, 1};
+    ans = {1, 2, 3};
+    Leetcode().TT31(nums);
+    EXPECT_EQ(ans, nums);
+    nums = {1, 1, 5};
+    ans = {1, 5, 1};
+    Leetcode().TT31(nums);
+    EXPECT_EQ(ans, nums);
+    nums = {1, 5, 8, 4, 7, 6, 5, 3, 1};
+    ans =  {1, 5, 8, 5, 1, 3, 4, 6, 7};
+    Leetcode().TT31(nums);
+    EXPECT_EQ(ans, nums);
+}
+#define TT32 longestValidParentheses
+TEST(leetcode,t32) {
+    EXPECT_EQ(2,Leetcode().TT32("(()"));
+    EXPECT_EQ(4,Leetcode().TT32(")()())"));
+    EXPECT_EQ(0,Leetcode().TT32(""));;
+    EXPECT_EQ(4,Leetcode().TT32("(())("));
+}
+#define TT33 search
+TEST(leetcode,t33) {
+    vector<int> nums;
+    nums={4,5,6,7,0,1,2};
+    EXPECT_EQ(4,Leetcode().TT33(nums,0));
+    nums={4,5,6,7,0,1,2};
+    EXPECT_EQ(-1,Leetcode().TT33(nums,3));
+    nums={1};
+    EXPECT_EQ(-1,Leetcode().TT33(nums,0));
+    nums={1,3};
+    EXPECT_EQ(1,Leetcode().TT33(nums,3));
+    nums={3,1};
+    EXPECT_EQ(1,Leetcode().TT33(nums,1));
+}
+#define TT34 searchRange
+TEST(leetcode,t34) {
+    vector<int> nums,ans;
+    nums={5,7,7,8,8,10};
+    ans={3,4};
+    EXPECT_EQ(ans,Leetcode().TT34(nums,8));
+    nums={5,7,7,8,8,10};
+    ans={-1,-1};
+    EXPECT_EQ(ans,Leetcode().TT34(nums,6));
+}
 #define TT35 searchInsert
 TEST(leetcode,t35) {
     vector<int> nums;

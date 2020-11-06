@@ -28,21 +28,10 @@
 //TEST(leetcode,t757) {
 //    EXPECT_EQ(, Leetcode().TT757());
 //}
-#define TT758 isBipartite
-TEST(leetcode,t758) {
-    vector<vector<int>> nums;
-    nums={{1,3},{0,2},{1,3},{0,2}};
-    EXPECT_EQ(Leetcode().TT758(nums), true) << "true";
-
-    nums={{1,2,3},{0,2},{0,1,3},{0,2}};
-    EXPECT_EQ(Leetcode().TT758(nums), false) << "false";
-
-    nums={{3},{2,4},{1},{0,4},{1,3}};
-    EXPECT_EQ(Leetcode().TT758(nums), true) << "一个";
-
-    nums={{1,5,8},{0,2,4},{1,4,6,9},{4},{1,2,3,8},{0},{2,7},{6},{0,4},{2}};
-    EXPECT_EQ(Leetcode().TT758(nums), false) << "一个";
-}
+//#define TT758
+//TEST(leetcode,t758) {
+//    EXPECT_EQ(,Leetcode().TT758());
+//}
 //#define TT759
 //TEST(leetcode,t759) {
 // EXPECT_EQ(,Leetcode().TT759());
@@ -59,10 +48,12 @@ TEST(leetcode,t758) {
 //TEST(leetcode,t762) {
 // EXPECT_EQ(,Leetcode().TT762());
 //}
-//#define TT763
-//TEST(leetcode,t763) {
-// EXPECT_EQ(,Leetcode().TT763());
-//}
+#define TT763 partitionLabels
+TEST(leetcode,t763) {
+    vector<int> ans;
+    ans = {9, 7, 8};
+    EXPECT_EQ(ans, Leetcode().TT763("ababcbacadefegdehijhklij"));
+}
 //#define TT764
 //TEST(leetcode,t764) {
 // EXPECT_EQ(,Leetcode().TT764());
@@ -147,10 +138,22 @@ TEST(leetcode,t783) {
 //TEST(leetcode,t784) {
 // EXPECT_EQ(,Leetcode().TT784());
 //}
-//#define TT785
-//TEST(leetcode,t785) {
-// EXPECT_EQ(,Leetcode().TT785());
-//}
+#define TT785 isBipartite
+TEST(leetcode,t785) {
+
+    vector<vector<int>> nums;
+    nums={{1,3},{0,2},{1,3},{0,2}};
+    EXPECT_EQ(Leetcode().TT785(nums), true) << "true";
+
+    nums={{1,2,3},{0,2},{0,1,3},{0,2}};
+    EXPECT_EQ(Leetcode().TT785(nums), false) << "false";
+
+    nums={{3},{2,4},{1},{0,4},{1,3}};
+    EXPECT_EQ(Leetcode().TT785(nums), true) << "一个";
+
+    nums={{1,5,8},{0,2,4},{1,4,6,9},{4},{1,2,3,8},{0},{2,7},{6},{0,4},{2}};
+    EXPECT_EQ(Leetcode().TT785(nums), false) << "一个";
+}
 //#define TT786
 //TEST(leetcode,t786) {
 // EXPECT_EQ(,Leetcode().TT786());

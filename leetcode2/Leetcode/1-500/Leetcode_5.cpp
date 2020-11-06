@@ -13,9 +13,52 @@
     你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。
     你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。
  */
+//234. 回文链表
+/*
+请判断一个链表是否为回文链表。
 
+示例 1:
 
+输入: 1->2
+输出: false
 
+示例 2:
+
+输入: 1->2->2->1
+输出: true
+
+进阶：
+你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+ */
+ListNode* l234;
+bool t234_1(ListNode* head) {
+    if (head) {
+        if (!t234_1(head->next))
+            return false;
+        if (l234->val != head->val)
+            return false;
+        l234 = l234->next;
+    }
+    return true;
+}
+bool Leetcode::isPalindrome(ListNode* head) {//2020-10-23
+////    执行用时：32 ms, 在所有 C++ 提交中击败了73.09% 的用户
+////    内存消耗：14.5 MB, 在所有 C++ 提交中击败了18.74%
+//    vector<int> aa;
+//    while (head) {
+//        aa.push_back(head->val);
+//        head = head->next;
+//    }
+//    int size = aa.size();
+//    for (int i = 0; i < size / 2; ++i) {
+//        if (aa[i] != aa[size - 1 - i])
+//            return false;
+//    }
+//    return true;
+
+    l234=head;//正序
+    return t234_1(head);
+}
 //235. 二叉搜索树的最近公共祖先
 /*
 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。

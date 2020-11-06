@@ -143,10 +143,20 @@ TEST(leetcode,t225) {
 //TEST(leetcode,t233) {
 //    EXPECT_EQ(,Leetcode().TT233());
 //}
-//#define TT234
-//TEST(leetcode,t234) {
-//    EXPECT_EQ(,Leetcode().TT234());
-//}
+#define TT234 isPalindrome
+TEST(leetcode,t234) {
+    vector<int> head;
+    head={};
+    EXPECT_EQ(true,Leetcode().TT234(SetListNode(head)));
+    head={1,2};
+    EXPECT_EQ(false,Leetcode().TT234(SetListNode(head)));
+    head={1,2,3,2,1};
+    EXPECT_EQ(false,Leetcode().TT234(SetListNode(head)));
+    head={1,2,3,3,1};
+    EXPECT_EQ(false,Leetcode().TT234(SetListNode(head)));
+    head={1,2,2,1};
+    EXPECT_EQ(true,Leetcode().TT234(SetListNode(head)));
+}
 #define TT235 lowestCommonAncestor
 TEST(leetcode,t235) {
     EXPECT_EQ("[6]",GetTreeNode(Leetcode().TT235(SetTreeNode("[6,2,8,0,4,7,9,null,null,3,5]"),SetTreeNode("2"),SetTreeNode("8"))));
