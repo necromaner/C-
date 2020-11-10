@@ -50,8 +50,7 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
 #ifndef CONFIG_DEBUG_LIST
 static inline void __list_add(struct list_head *list_new,
                               struct list_head *prev,
-                              struct list_head *next)
-{//添加节点
+                              struct list_head *next){//添加节点
     next->prev = list_new;
     list_new->next = next;
     list_new->prev = prev;
@@ -71,8 +70,7 @@ extern void __list_add(struct list_head *list_new,
  * Insert a list_new entry after the specified head.
  * This is good for implementing stacks.
  */
-static inline void list_add(struct list_head *list_new, struct list_head *head)
-{//head后添加
+static inline void list_add(struct list_head *list_new, struct list_head *head){//head后添加
     __list_add(list_new, head, head->next);
 }
 
@@ -85,8 +83,7 @@ static inline void list_add(struct list_head *list_new, struct list_head *head)
  * Insert a list_new entry before the specified head.
  * This is useful for implementing queues.
  */
-static inline void list_add_tail(struct list_head *list_new, struct list_head *head)
-{//head前添加
+static inline void list_add_tail(struct list_head *list_new, struct list_head *head){//head前添加
     __list_add(list_new, head->prev, head);
 }
 

@@ -102,7 +102,7 @@ void RedBlackTree::tree_Add_check(stack<TreeNode *> &check_tree) {
     printf("------------------\n");
     cout << "栈长度为" << st.size() << ",末尾三个:";
 
-    TreeNode *grandparents[3];//只系三代 0为添加节点 1为父节点 2为爷节点
+    TreeNode *grandparents[3];//直系三代 0为添加节点 1为父节点 2为爷节点
     for (int i = 0; i < 3; ++i) {
         grandparents[i] = st.top();
         st.pop();
